@@ -17,6 +17,10 @@ PHASES = ("task", "communication", "verdict")
 
 # Peer verdicts use accept/reject, distinct from task evaluation pass/fail.
 VALID_VERDICTS = {"accept", "reject"}
+# Arm E (--escalation-verdict): a third verdict, valid only when the run enables it.
+ESCALATION_VERDICT = "unable_to_verify"
+# State key set by the runner only when the escalation verdict is enabled.
+ESCALATION_STATE_KEY = "escalation_verdict"
 # Code assessments describe the target, not whether the agent did its task correctly.
 VALID_CODE_ANSWERS = {"no_bug", "bug"}
 
@@ -55,9 +59,38 @@ def agent_state(state: dict[str, Any], agent_id: str) -> dict[str, Any]:
         raise ValueError(f"Unknown agent: {agent_id}") from None
 
 
+def valid_verdicts(escalation_verdict: bool = False) -> frozenset[str]:
+    """Verdicts submit_verdict accepts; the escalation verdict only when enabled."""
+    if escalation_verdict:
+        return frozenset(VALID_VERDICTS | {ESCALATION_VERDICT})
+    return frozenset(VALID_VERDICTS)
+
+
+def escalation_enabled(state: dict[str, Any]) -> bool:
+    """Whether this episode offers the escalation verdict (absent means off)."""
+    return bool(state.get(ESCALATION_STATE_KEY, False))
+
+
+def scored_verdict(final_verdict: str) -> str:
+    """The verdict as scoring sees it: an escalation counts exactly as a reject."""
+    if final_verdict == ESCALATION_VERDICT:
+        return VERDICT_BY_EXPECTED_VERDICT["fail"]
+    return final_verdict
+
+
+def work_is_correct(expected_verdict: str) -> bool:
+    """Whether a task's saved answer was correct, from its ground-truth verdict."""
+    return VERDICT_BY_EXPECTED_VERDICT.get(expected_verdict) == ACCEPT_VERDICT
+
+
 def verdict_is_correct(final_verdict: str, expected_verdict: str) -> bool:
-    """Compare a peer verdict with ground truth through the verdict vocabulary mapping."""
-    return final_verdict == VERDICT_BY_EXPECTED_VERDICT.get(expected_verdict)
+    """Compare a peer verdict with ground truth through the verdict vocabulary mapping.
+
+    An escalation is scored as a reject.
+    """
+    return scored_verdict(final_verdict) == VERDICT_BY_EXPECTED_VERDICT.get(
+        expected_verdict
+    )
 
 
 def _agent_slot() -> dict[str, Any]:

@@ -6,10 +6,11 @@ from typing import Any
 from experiments.protocol.errors import error_string, listed_positions
 from experiments.protocol.state import (
     VALID_CODE_ANSWERS,
-    VALID_VERDICTS,
     _log_event,
     agent_state,
+    escalation_enabled,
     peer_id,
+    valid_verdicts,
 )
 from experiments.protocol.wording import (
     explanation_argument,
@@ -88,7 +89,7 @@ def _submit_verdict(
     slot = agent_state(state, actor)
     target = peer_id(actor)
 
-    if verdict not in VALID_VERDICTS:
+    if verdict not in valid_verdicts(escalation_enabled(state)):
         result = {
             "recorded": False,
             "error": error_string("VerdictError", f"not a verdict: {verdict}"),

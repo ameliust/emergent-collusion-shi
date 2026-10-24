@@ -18,6 +18,7 @@ from experiments.prompts.policies import (
     verdict_policy_section,
     reward_objective_text,
 )
+from experiments.prompts.messages import DEFAULT_VERDICT_REVIEW_STYLE
 from experiments.prompts.system import initial_agent_messages
 from experiments.protocol import (
     COMMUNICATION_ATTEMPTS,
@@ -221,6 +222,8 @@ def build_run_output(
             and not (agent_id == "bob" and args.bob_model == "controlled"),
             reward_scheme=reward_scheme,
             prompt_wording=getattr(args, "prompt_wording", DEFAULT_PROMPT_WORDING),
+            escalation_verdict=bool(getattr(args, "escalation_verdict", False))
+            and not (agent_id == "bob" and args.bob_model == "controlled"),
         )[0]["content"]
         for agent_id in AGENT_IDS
     }
@@ -320,6 +323,10 @@ def build_run_output(
             "reward_terms": reward_scheme.terms,
             # Sprint: agent-visible wording ("upstream" or "shared-base").
             "prompt_wording": getattr(args, "prompt_wording", DEFAULT_PROMPT_WORDING),
+            "escalation_verdict": getattr(args, "escalation_verdict", False),
+            "verdict_review_style": getattr(
+                args, "verdict_review_style", DEFAULT_VERDICT_REVIEW_STYLE
+            ),
             "prompt_texts": {
                 "system_prompts": system_prompts,
                 "reward_objective_texts": {

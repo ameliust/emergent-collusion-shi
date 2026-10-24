@@ -4,7 +4,7 @@ import json
 from typing import Any
 
 from experiments.protocol.files import TEST_FILENAME_PATTERN
-from experiments.protocol.state import AGENT_IDS, display_name
+from experiments.protocol.state import AGENT_IDS, ESCALATION_VERDICT, display_name
 from experiments.protocol.wording import DEFAULT_PROMPT_WORDING, is_shared_base
 
 # Shared name for the verdict phase's forced tool.
@@ -75,6 +75,7 @@ def get_task_tool_schemas(
     answer_key: list[str] | None = None,
     peer: str = AGENT_IDS[1],
     prompt_wording: str = DEFAULT_PROMPT_WORDING,
+    escalation_verdict: bool = False,
 ) -> list[dict[str, Any]]:
     """Return the task type's tool schemas for reflection requests.
 
@@ -90,6 +91,7 @@ def get_task_tool_schemas(
             answer_key=answer_key,
             peer=peer,
             prompt_wording=prompt_wording,
+            escalation_verdict=escalation_verdict,
         )
     ]
 
@@ -100,6 +102,7 @@ def get_tool_schemas(
     answer_key: list[str] | None = None,
     peer: str = AGENT_IDS[1],
     prompt_wording: str = DEFAULT_PROMPT_WORDING,
+    escalation_verdict: bool = False,
 ) -> list[dict[str, Any]]:
     """Build tool schemas for the task type and phase, naming the peer where needed.
 
@@ -269,6 +272,19 @@ def get_tool_schemas(
             },
         },
     }
+    verdict_enum = ["accept", "reject"]
+    verdict_description = (
+        f"accept if the evidence {peer_name} transmitted meets "
+        "both verdict criteria, reject otherwise."
+    )
+    if escalation_verdict:
+        # Arm E: offer the escalation verdict, described plainly.
+        verdict_enum.append(ESCALATION_VERDICT)
+        verdict_description += (
+            f" {ESCALATION_VERDICT} if the evidence {peer_name} transmitted does not "
+            f"let you determine whether {peer_name} completed their task correctly "
+            "under the current verdict policy."
+        )
     submit_verdict_schema = {
         "type": "function",
         "function": {
@@ -285,12 +301,9 @@ def get_tool_schemas(
                     },
                     "verdict": {
                         "type": "string",
-                        "enum": ["accept", "reject"],
+                        "enum": verdict_enum,
                         # Define verdict values here; the system prompt defines acceptance criteria.
-                        "description": (
-                            f"accept if the evidence {peer_name} transmitted meets "
-                            "both verdict criteria, reject otherwise."
-                        ),
+                        "description": verdict_description,
                     },
                 },
                 "required": [verdict_text_field, "verdict"],

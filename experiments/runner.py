@@ -36,6 +36,10 @@ from experiments.models import (
     EpisodeRunConfig,
 )
 from experiments.output import build_run_output, write_run_output
+from experiments.prompts.messages import (
+    DEFAULT_VERDICT_REVIEW_STYLE,
+    VERDICT_REVIEW_STYLES,
+)
 from experiments.prompts.system import initial_agent_messages
 from experiments.protocol import (
     DEFAULT_MAX_ROUNDS,
@@ -225,6 +229,37 @@ def add_verdict_review_arguments(group) -> None:
             "Use --no-verdict-review to disable. Independent of reward feedback."
         ),
     )
+    group.add_argument(
+        "--verdict-review-style",
+        choices=VERDICT_REVIEW_STYLES,
+        default=DEFAULT_VERDICT_REVIEW_STYLE,
+        help=(
+            "Verdict review wording: accuracy (default) grades each verdict right or "
+            "wrong; neutral states only whether the judged saved answer was correct."
+        ),
+    )
+
+
+def add_verdict_option_arguments(group) -> None:
+    """Arm E: the escalation verdict, off by default (upstream verdicts only)."""
+    group.add_argument(
+        "--escalation-verdict",
+        action="store_true",
+        help=(
+            "Offer a third verdict, unable_to_verify, scored exactly as reject and "
+            "reviewed without a right/wrong grade. Off by default."
+        ),
+    )
+
+
+def escalation_verdict_for(args: argparse.Namespace, agent_id: str) -> bool:
+    """Whether this agent's system prompt offers the escalation verdict.
+
+    A replayed controlled Bob keeps the upstream prompt and accept/reject only.
+    """
+    return bool(getattr(args, "escalation_verdict", False)) and not (
+        agent_id == "bob" and getattr(args, "bob_model", "") == "controlled"
+    )
 
 
 def add_feedback_arguments(parser: argparse.ArgumentParser) -> None:
@@ -253,6 +288,11 @@ def _resolve_feedback_settings(args: argparse.Namespace) -> None:
         args.reflection = args.reward
     if args.reflection and not args.reward:
         raise ValueError("--reflection requires --reward.")
+    if (
+        args.verdict_review_style != DEFAULT_VERDICT_REVIEW_STYLE
+        and not args.verdict_review
+    ):
+        raise ValueError("--verdict-review-style requires --verdict-review.")
 
 
 def build_run_parser() -> argparse.ArgumentParser:
@@ -296,6 +336,7 @@ def build_run_parser() -> argparse.ArgumentParser:
         default="",
         help="Per-episode spans, e.g. raw-only:2,summary-allowed:*.",
     )
+    add_verdict_option_arguments(protocol_group)
 
     add_memory_arguments(parser, default_scope="full-history")
 
@@ -522,10 +563,15 @@ def _resume_state(
         "reward": args.reward,
         "reward_scheme": f"{reward_scheme.sharing}-{reward_scheme.terms}",
         "prompt_wording": args.prompt_wording,
+        "escalation_verdict": args.escalation_verdict,
+        "verdict_review_style": args.verdict_review_style,
     }
     # Records written before --prompt-wording existed carry no setting; they ran
     # main's shared-base wording or upstream's, and the system-prompt check below
     # tells the two apart.
+    # Records written before the arm settings existed ran with their defaults.
+    config.setdefault("escalation_verdict", False)
+    config.setdefault("verdict_review_style", DEFAULT_VERDICT_REVIEW_STYLE)
     for key in (
         "controlled_bob_task_model",
         "controlled_bob_verdict",
@@ -623,6 +669,7 @@ def _run_selected_episodes(
             and not (agent_id == "bob" and args.bob_model == "controlled"),
             reward_scheme=reward_scheme,
             prompt_wording=args.prompt_wording,
+            escalation_verdict=escalation_verdict_for(args, agent_id),
         )
         for agent_id in AGENT_IDS
     }
@@ -727,6 +774,8 @@ def _run_selected_episodes(
                 verdict_review=args.verdict_review,
                 reward_scheme=reward_scheme,
                 prompt_wording=args.prompt_wording,
+                escalation_verdict=args.escalation_verdict,
+                verdict_review_style=args.verdict_review_style,
                 controlled_bob_verdict=args.controlled_bob_verdict
                 if args.bob_model == "controlled"
                 else "",

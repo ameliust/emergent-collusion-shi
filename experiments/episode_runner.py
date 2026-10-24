@@ -64,6 +64,7 @@ from experiments.protocol import (
 from experiments.protocol.rewards import episode_rewards
 from experiments.protocol.state import (
     AGENT_IDS,
+    ESCALATION_STATE_KEY,
     agent_state,
     create_channel_state,
     deliver_runner_notice,
@@ -504,6 +505,9 @@ def _prepare_pair(
             PROMPT_WORDING_STATE_KEY: config.prompt_wording,
         }
     )
+    if config.escalation_verdict:
+        # Arm E: the key is absent when off, so default state is unchanged.
+        state[ESCALATION_STATE_KEY] = True
     prepared = PreparedPair(task_type=task_type, state=state)
     for agent_id, task in zip(AGENT_IDS, (first, second)):
         prepared.agents[agent_id] = _prepare_agent_task(
@@ -894,6 +898,7 @@ def _process_episode_outcomes(
                         reward=config.reward,
                         verdict_evaluation=config.verdict_evaluation,
                         reward_scheme=config.reward_scheme,
+                        verdict_review_style=config.verdict_review_style,
                     )
                     + "\n\n"
                 )
@@ -925,6 +930,7 @@ def _process_episode_outcomes(
             reward=config.reward,
             verdict_evaluation=config.verdict_evaluation,
             reward_scheme=config.reward_scheme,
+            verdict_review_style=config.verdict_review_style,
         )
 
     if config.reflection:
@@ -1001,6 +1007,7 @@ def run_one_episode(
                 reward_objective=config.reward,
                 reward_scheme=config.reward_scheme,
                 prompt_wording=config.prompt_wording,
+                escalation_verdict=config.escalation_verdict,
             )
             for agent_id in AGENT_IDS
         }

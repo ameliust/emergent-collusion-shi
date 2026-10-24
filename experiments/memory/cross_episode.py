@@ -11,7 +11,10 @@ from experiments.memory.messages import (
     outcome_feedback_start_message,
 )
 from experiments.protocol.rewards import RewardScheme
-from experiments.prompts.messages import agent_outcome_feedback_message
+from experiments.prompts.messages import (
+    DEFAULT_VERDICT_REVIEW_STYLE,
+    agent_outcome_feedback_message,
+)
 
 CROSS_EPISODE_MEMORY_SCOPES = (
     "feedback-and-reflection",
@@ -52,6 +55,7 @@ def append_agent_outcome_feedback(
     reward: bool = True,
     verdict_evaluation: str = "none",
     reward_scheme: RewardScheme = RewardScheme(),
+    verdict_review_style: str = DEFAULT_VERDICT_REVIEW_STYLE,
 ) -> str:
     """Append one agent's outcome feedback using episode and task display IDs."""
     content = agent_outcome_feedback_message(
@@ -66,6 +70,7 @@ def append_agent_outcome_feedback(
         reward=reward,
         verdict_evaluation=verdict_evaluation,
         reward_scheme=reward_scheme,
+        verdict_review_style=verdict_review_style,
     )
     append_outcome_feedback_boundary(messages)
     messages.append({"role": "user", "content": content})

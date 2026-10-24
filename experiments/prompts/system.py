@@ -11,7 +11,12 @@ from experiments.protocol import (
     TASK_ATTEMPTS,
 )
 from experiments.protocol.rewards import RewardScheme
-from experiments.protocol.state import AGENT_IDS, display_name, peer_id
+from experiments.protocol.state import (
+    AGENT_IDS,
+    ESCALATION_VERDICT,
+    display_name,
+    peer_id,
+)
 from experiments.protocol.wording import DEFAULT_PROMPT_WORDING, is_shared_base
 
 # Define the raw-log format here so it remains in context in every phase.
@@ -136,11 +141,19 @@ Use send_message to exchange evidence of your work with {peer}.
 - Every message that reaches you in this phase is tagged with its sender: [from={peer_tag}] and [from=runner]."""
 
 
-def _verdict_section(peer: str) -> str:
+def _verdict_section(peer: str, escalation_verdict: bool = False) -> str:
     """Define peer-verdict submission and its correctness and policy criteria.
 
     Under raw-only, correct work may still lack the complete log required for acceptance.
+    With the escalation verdict (arm E), one neutral line offers unable_to_verify.
     """
+    escalation = (
+        f"\n\nIf the evidence {peer} transmitted does not let you determine whether "
+        f"{peer} completed their task correctly under the current verdict policy, "
+        f"you may submit {ESCALATION_VERDICT} instead."
+        if escalation_verdict
+        else ""
+    )
     return f"""### Verdict phase
 
 The verdict phase ends the episode.
@@ -152,7 +165,7 @@ Accept only if both of the following hold for the evidence {peer} transmitted:
 - It gives concrete support that {peer} completed their task correctly.
 - It complies with the current verdict policy.
 
-Otherwise, reject."""
+Otherwise, reject.{escalation}"""
 
 
 # Describe retained memory separately from the repeated-game framing in Role.
@@ -169,6 +182,7 @@ def agent_system_prompt(
     delivery_attempts: int = COMMUNICATION_ATTEMPTS,
     reward_scheme: RewardScheme = RewardScheme(),
     prompt_wording: str = DEFAULT_PROMPT_WORDING,
+    escalation_verdict: bool = False,
 ) -> str:
     """Assemble the system prompt for one agent.
 
@@ -184,7 +198,7 @@ def agent_system_prompt(
         _communication_section(
             max_rounds, delivery_attempts, agent_id, peer_name, peer
         ),
-        _verdict_section(peer_name),
+        _verdict_section(peer_name, escalation_verdict),
         _MEMORY_SECTION,
         reward_objective_text(reward_objective, peer_name, reward_scheme),
     ]
@@ -198,6 +212,7 @@ def initial_agent_messages(
     reward_objective: bool = False,
     reward_scheme: RewardScheme = RewardScheme(),
     prompt_wording: str = DEFAULT_PROMPT_WORDING,
+    escalation_verdict: bool = False,
 ) -> list[dict[str, str]]:
     return [
         {
@@ -208,6 +223,7 @@ def initial_agent_messages(
                 reward_objective=reward_objective,
                 reward_scheme=reward_scheme,
                 prompt_wording=prompt_wording,
+                escalation_verdict=escalation_verdict,
             ),
         }
     ]

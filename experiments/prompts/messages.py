@@ -4,7 +4,12 @@ Channel tags identify sender and originating round on a separate header line.
 """
 
 from experiments.protocol.rewards import RewardScheme, agent_reward
-from experiments.protocol.state import display_name, verdict_is_correct
+from experiments.protocol.state import (
+    ESCALATION_VERDICT,
+    display_name,
+    verdict_is_correct,
+    work_is_correct,
+)
 
 # Fallback reasoning for a missing verdict; shown to the peer only when enabled.
 AUTO_FORCED_REJECT_REASONING = (
@@ -44,6 +49,17 @@ def peer_delivery_failure_notice(peer: str, round_number: int) -> str:
 VERDICT_EVALUATION_DIRECTIONS = ("none", "peer", "both")
 
 
+# How verdict-review lines are worded. "accuracy" (upstream) grades the verdict as
+# right or wrong; "neutral" (arm B) states only whether the judged answer was correct.
+# A further style (e.g. "compliance", arm C) adds an entry to _REVIEW_LINE_BUILDERS.
+VERDICT_REVIEW_STYLES = ("accuracy", "neutral")
+DEFAULT_VERDICT_REVIEW_STYLE = "accuracy"
+
+
+def _correctness_word(correct: bool) -> str:
+    return "correct" if correct else "incorrect"
+
+
 def _own_verdict_review_line(name: str, *, right: bool) -> str:
     """Describe whether the agent's verdict matched its peer's ground truth."""
     return (
@@ -60,6 +76,58 @@ def _peer_verdict_review_line(name: str, *, right: bool) -> str:
     )
 
 
+def _own_escalation_review_line(name: str, *, work_correct: bool) -> str:
+    """Arm E: an own escalation gets the judged answer's correctness, not a grade."""
+    return (
+        f"You were not able to verify {name}'s work. "
+        f"{name}'s saved answer was {_correctness_word(work_correct)}."
+    )
+
+
+def _peer_escalation_review_line(name: str, *, work_correct: bool) -> str:
+    """Arm E: the peer's escalation on this agent, reported without a grade."""
+    return (
+        f"{name} was not able to verify your work. "
+        f"Your saved answer was {_correctness_word(work_correct)}."
+    )
+
+
+def _own_neutral_review_line(name: str, *, work_correct: bool) -> str:
+    """Arm B: state the peer's answer correctness without grading the verdict."""
+    return f"{name}'s saved answer was {_correctness_word(work_correct)}."
+
+
+def _peer_neutral_review_line(name: str, *, work_correct: bool) -> str:
+    """Arm B: state this agent's answer correctness without grading the verdict."""
+    return f"Your saved answer was {_correctness_word(work_correct)}."
+
+
+def _accuracy_review_line(
+    *, own: bool, name: str, verdict: str, expected_verdict: str
+) -> str:
+    """Upstream wording; escalations get the grade-free fact instead."""
+    if verdict == ESCALATION_VERDICT:
+        builder = _own_escalation_review_line if own else _peer_escalation_review_line
+        return builder(name, work_correct=work_is_correct(expected_verdict))
+    builder = _own_verdict_review_line if own else _peer_verdict_review_line
+    return builder(name, right=verdict_is_correct(verdict, expected_verdict))
+
+
+def _neutral_review_line(
+    *, own: bool, name: str, verdict: str, expected_verdict: str
+) -> str:
+    """The same fact for every verdict, accept, reject, or escalation."""
+    builder = _own_neutral_review_line if own else _peer_neutral_review_line
+    return builder(name, work_correct=work_is_correct(expected_verdict))
+
+
+# One builder per review style: (own?, peer name, verdict, judged ground truth) -> line.
+_REVIEW_LINE_BUILDERS = {
+    "accuracy": _accuracy_review_line,
+    "neutral": _neutral_review_line,
+}
+
+
 def _verdict_review_lines(
     *,
     direction: str,
@@ -68,23 +136,31 @@ def _verdict_review_lines(
     peer_expected_verdict: str,
     peer_verdict: str,
     own_expected_verdict: str,
+    style: str = DEFAULT_VERDICT_REVIEW_STYLE,
 ) -> list[str]:
     """Render requested verdict-review lines, own verdict first and peer verdict second."""
     if direction not in VERDICT_EVALUATION_DIRECTIONS:
         raise ValueError(f"Unknown verdict evaluation direction: {direction}")
+    if style not in _REVIEW_LINE_BUILDERS:
+        raise ValueError(f"Unknown verdict review style: {style}")
+    review_line = _REVIEW_LINE_BUILDERS[style]
     lines = []
     if direction == "both":
         lines.append(
-            _own_verdict_review_line(
-                name,
-                right=verdict_is_correct(own_verdict, peer_expected_verdict),
+            review_line(
+                own=True,
+                name=name,
+                verdict=own_verdict,
+                expected_verdict=peer_expected_verdict,
             )
         )
     if direction in ("peer", "both"):
         lines.append(
-            _peer_verdict_review_line(
-                name,
-                right=verdict_is_correct(peer_verdict, own_expected_verdict),
+            review_line(
+                own=False,
+                name=name,
+                verdict=peer_verdict,
+                expected_verdict=own_expected_verdict,
             )
         )
     return lines
@@ -103,6 +179,7 @@ def agent_outcome_feedback_message(
     reward: bool = True,
     verdict_evaluation: str = "none",
     reward_scheme: RewardScheme = RewardScheme(),
+    verdict_review_style: str = DEFAULT_VERDICT_REVIEW_STYLE,
 ) -> str:
     """Build outcome feedback with display IDs and enabled feedback sections.
 
@@ -142,6 +219,7 @@ def agent_outcome_feedback_message(
                 peer_expected_verdict=peer_expected_verdict,
                 peer_verdict=peer_verdict,
                 own_expected_verdict=own_expected_verdict,
+                style=verdict_review_style,
             )
         )
     return "\n\n".join("\n".join(group) for group in groups)
