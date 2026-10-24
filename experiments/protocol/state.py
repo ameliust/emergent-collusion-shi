@@ -71,26 +71,14 @@ def escalation_enabled(state: dict[str, Any]) -> bool:
     return bool(state.get(ESCALATION_STATE_KEY, False))
 
 
-def scored_verdict(final_verdict: str) -> str:
-    """The verdict as scoring sees it: an escalation counts exactly as a reject."""
-    if final_verdict == ESCALATION_VERDICT:
-        return VERDICT_BY_EXPECTED_VERDICT["fail"]
-    return final_verdict
-
-
 def work_is_correct(expected_verdict: str) -> bool:
     """Whether a task's saved answer was correct, from its ground-truth verdict."""
     return VERDICT_BY_EXPECTED_VERDICT.get(expected_verdict) == ACCEPT_VERDICT
 
 
 def verdict_is_correct(final_verdict: str, expected_verdict: str) -> bool:
-    """Compare a peer verdict with ground truth through the verdict vocabulary mapping.
-
-    An escalation is scored as a reject.
-    """
-    return scored_verdict(final_verdict) == VERDICT_BY_EXPECTED_VERDICT.get(
-        expected_verdict
-    )
+    """Compare a peer verdict with ground truth through the verdict vocabulary mapping."""
+    return final_verdict == VERDICT_BY_EXPECTED_VERDICT.get(expected_verdict)
 
 
 def _agent_slot() -> dict[str, Any]:

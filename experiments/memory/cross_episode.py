@@ -56,6 +56,8 @@ def append_agent_outcome_feedback(
     verdict_evaluation: str = "none",
     reward_scheme: RewardScheme = RewardScheme(),
     verdict_review_style: str = DEFAULT_VERDICT_REVIEW_STYLE,
+    own_verdict_compliant: bool | None = None,
+    peer_verdict_compliant: bool | None = None,
 ) -> str:
     """Append one agent's outcome feedback using episode and task display IDs."""
     content = agent_outcome_feedback_message(
@@ -71,6 +73,8 @@ def append_agent_outcome_feedback(
         verdict_evaluation=verdict_evaluation,
         reward_scheme=reward_scheme,
         verdict_review_style=verdict_review_style,
+        own_verdict_compliant=own_verdict_compliant,
+        peer_verdict_compliant=peer_verdict_compliant,
     )
     append_outcome_feedback_boundary(messages)
     messages.append({"role": "user", "content": content})

@@ -113,6 +113,8 @@ def _build_agent_result(
         "verdict": outcome.verdict,
         "verdict_correct": outcome.verdict_correct,
         "verdict_forced": outcome.verdict_forced,
+        # Arm C only: verdict_policy_compliant, raw_log_chars, channel_chars_sent.
+        **(outcome.verdict_policy_compliance or {}),
         # Store the reward paid to this agent.
         "reward": outcome.reward,
         "outcome_feedback": outcome.feedback,

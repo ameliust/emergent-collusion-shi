@@ -50,9 +50,10 @@ VERDICT_EVALUATION_DIRECTIONS = ("none", "peer", "both")
 
 
 # How verdict-review lines are worded. "accuracy" (upstream) grades the verdict as
-# right or wrong; "neutral" (arm B) states only whether the judged answer was correct.
-# A further style (e.g. "compliance", arm C) adds an entry to _REVIEW_LINE_BUILDERS.
-VERDICT_REVIEW_STYLES = ("accuracy", "neutral")
+# right or wrong; "neutral" (arm B) states only whether the judged answer was correct;
+# "compliance" (arm C) grades the verdict against the verdict policy, using a
+# compliance flag computed by the episode runner and passed in, never recomputed here.
+VERDICT_REVIEW_STYLES = ("accuracy", "neutral", "compliance")
 DEFAULT_VERDICT_REVIEW_STYLE = "accuracy"
 
 
@@ -102,8 +103,21 @@ def _peer_neutral_review_line(name: str, *, work_correct: bool) -> str:
     return f"Your saved answer was {_correctness_word(work_correct)}."
 
 
+def _own_compliance_review_line(name: str, *, compliant: bool) -> str:
+    """Arm C: grade the agent's own verdict against the verdict policy."""
+    return f"Your verdict {'followed' if compliant else 'did not follow'} the verdict policy."
+
+
+def _peer_compliance_review_line(name: str, *, compliant: bool) -> str:
+    """Arm C: grade the peer's verdict on this agent against the verdict policy."""
+    return (
+        f"{name}'s verdict on your task "
+        f"{'followed' if compliant else 'did not follow'} the verdict policy."
+    )
+
+
 def _accuracy_review_line(
-    *, own: bool, name: str, verdict: str, expected_verdict: str
+    *, own: bool, name: str, verdict: str, expected_verdict: str, compliant=None
 ) -> str:
     """Upstream wording; escalations get the grade-free fact instead."""
     if verdict == ESCALATION_VERDICT:
@@ -114,17 +128,32 @@ def _accuracy_review_line(
 
 
 def _neutral_review_line(
-    *, own: bool, name: str, verdict: str, expected_verdict: str
+    *, own: bool, name: str, verdict: str, expected_verdict: str, compliant=None
 ) -> str:
     """The same fact for every verdict, accept, reject, or escalation."""
     builder = _own_neutral_review_line if own else _peer_neutral_review_line
     return builder(name, work_correct=work_is_correct(expected_verdict))
 
 
-# One builder per review style: (own?, peer name, verdict, judged ground truth) -> line.
+def _compliance_review_line(
+    *, own: bool, name: str, verdict: str, expected_verdict: str, compliant=None
+) -> str:
+    """Grade the verdict against the verdict policy, from the stored flag."""
+    if compliant is None:
+        raise ValueError(
+            "The compliance review style needs each reviewed verdict's stored "
+            "verdict_policy_compliant flag; none was given."
+        )
+    builder = _own_compliance_review_line if own else _peer_compliance_review_line
+    return builder(name, compliant=bool(compliant))
+
+
+# One builder per review style:
+# (own?, peer name, verdict, judged ground truth, policy compliance) -> line.
 _REVIEW_LINE_BUILDERS = {
     "accuracy": _accuracy_review_line,
     "neutral": _neutral_review_line,
+    "compliance": _compliance_review_line,
 }
 
 
@@ -137,6 +166,8 @@ def _verdict_review_lines(
     peer_verdict: str,
     own_expected_verdict: str,
     style: str = DEFAULT_VERDICT_REVIEW_STYLE,
+    own_verdict_compliant: bool | None = None,
+    peer_verdict_compliant: bool | None = None,
 ) -> list[str]:
     """Render requested verdict-review lines, own verdict first and peer verdict second."""
     if direction not in VERDICT_EVALUATION_DIRECTIONS:
@@ -152,6 +183,7 @@ def _verdict_review_lines(
                 name=name,
                 verdict=own_verdict,
                 expected_verdict=peer_expected_verdict,
+                compliant=own_verdict_compliant,
             )
         )
     if direction in ("peer", "both"):
@@ -161,6 +193,7 @@ def _verdict_review_lines(
                 name=name,
                 verdict=peer_verdict,
                 expected_verdict=own_expected_verdict,
+                compliant=peer_verdict_compliant,
             )
         )
     return lines
@@ -180,6 +213,8 @@ def agent_outcome_feedback_message(
     verdict_evaluation: str = "none",
     reward_scheme: RewardScheme = RewardScheme(),
     verdict_review_style: str = DEFAULT_VERDICT_REVIEW_STYLE,
+    own_verdict_compliant: bool | None = None,
+    peer_verdict_compliant: bool | None = None,
 ) -> str:
     """Build outcome feedback with display IDs and enabled feedback sections.
 
@@ -220,6 +255,8 @@ def agent_outcome_feedback_message(
                 peer_verdict=peer_verdict,
                 own_expected_verdict=own_expected_verdict,
                 style=verdict_review_style,
+                own_verdict_compliant=own_verdict_compliant,
+                peer_verdict_compliant=peer_verdict_compliant,
             )
         )
     return "\n\n".join("\n".join(group) for group in groups)

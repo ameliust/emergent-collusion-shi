@@ -118,6 +118,9 @@ class AgentOutcome:
     feedback: str | None = None
     reflection: str | None = None
     reflection_prompt: str | None = None
+    # Arm C (compliance review): whether this verdict followed the verdict policy,
+    # with the lengths used to audit it. None when the style is not compliance.
+    verdict_policy_compliance: dict[str, Any] | None = None
 
 
 @dataclass

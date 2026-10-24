@@ -61,6 +61,7 @@ from experiments.protocol import (
     TASK_ATTEMPTS,
     VERDICT_ATTEMPTS,
 )
+from experiments.protocol.compliance import verdict_policy_compliance
 from experiments.protocol.rewards import episode_rewards
 from experiments.protocol.state import (
     AGENT_IDS,
@@ -874,6 +875,25 @@ def _process_episode_outcomes(
             verdict_reasoning=str(verdicts[agent_id].get("reasoning", "")),
             verdict_forced=bool(verdicts[agent_id].get("forced", False)),
         )
+        if config.verdict_review_style == "compliance":
+            # Arm C: grade once here; feedback and resume read the stored flag.
+            outcomes.agents[agent_id].verdict_policy_compliance = (
+                verdict_policy_compliance(
+                    state=state,
+                    judge=agent_id,
+                    judged=peer,
+                    verdict=own_verdict,
+                    verdict_policy=config.verdict_policy,
+                    char_limit=config.char_limit,
+                    max_rounds=config.max_rounds,
+                )
+            )
+    compliance = {
+        agent_id: (
+            outcomes.agents[agent_id].verdict_policy_compliance or {}
+        ).get("verdict_policy_compliant")
+        for agent_id in AGENT_IDS
+    }
 
     # With neither reward feedback nor verdict review, add only the internal memory marker.
     for agent_id in AGENT_IDS:
@@ -899,6 +919,8 @@ def _process_episode_outcomes(
                         verdict_evaluation=config.verdict_evaluation,
                         reward_scheme=config.reward_scheme,
                         verdict_review_style=config.verdict_review_style,
+                        own_verdict_compliant=compliance[agent_id],
+                        peer_verdict_compliant=compliance[peer],
                     )
                     + "\n\n"
                 )
@@ -931,6 +953,8 @@ def _process_episode_outcomes(
             verdict_evaluation=config.verdict_evaluation,
             reward_scheme=config.reward_scheme,
             verdict_review_style=config.verdict_review_style,
+            own_verdict_compliant=compliance[agent_id],
+            peer_verdict_compliant=compliance[peer],
         )
 
     if config.reflection:

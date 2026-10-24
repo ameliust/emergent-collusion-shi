@@ -235,7 +235,8 @@ def add_verdict_review_arguments(group) -> None:
         default=DEFAULT_VERDICT_REVIEW_STYLE,
         help=(
             "Verdict review wording: accuracy (default) grades each verdict right or "
-            "wrong; neutral states only whether the judged saved answer was correct."
+            "wrong; neutral states only whether the judged saved answer was correct; "
+            "compliance grades each verdict against the verdict policy."
         ),
     )
 
@@ -246,8 +247,8 @@ def add_verdict_option_arguments(group) -> None:
         "--escalation-verdict",
         action="store_true",
         help=(
-            "Offer a third verdict, unable_to_verify, scored exactly as reject and "
-            "reviewed without a right/wrong grade. Off by default."
+            "Offer a third verdict, unable_to_verify, which earns 0 under every "
+            "reward term and is reviewed without a right/wrong grade. Off by default."
         ),
     )
 
@@ -614,6 +615,21 @@ def _resume_state(
             f"Cannot resume from {resume_from}, it was written under a different "
             "configuration:\n  " + "\n  ".join(mismatched)
         )
+
+    if args.verdict_review_style == "compliance":
+        # Arm C feedback is rendered from a flag stored per verdict; never guess it.
+        missing = [
+            f"{episode.get('episode_id') or '(unknown)'}/{agent_id}"
+            for episode in results
+            for agent_id in AGENT_IDS
+            if "verdict_policy_compliant" not in ((episode.get("agents") or {}).get(agent_id) or {})
+        ]
+        if missing:
+            raise ValueError(
+                f"Cannot resume from {resume_from} under --verdict-review-style "
+                "compliance: these verdicts have no stored verdict_policy_compliant: "
+                + ", ".join(missing)
+            )
 
     agent_messages: dict[str, list[dict[str, Any]]] = {}
     for agent_id in AGENT_IDS:
