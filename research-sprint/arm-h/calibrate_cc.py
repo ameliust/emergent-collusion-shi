@@ -109,10 +109,27 @@ def answer_schema() -> dict:
             "required": params["required"], "additionalProperties": False}
 
 
+def sandbox_settings() -> dict:
+    """Claude Code's Bash sandbox: no reads of /home or /mnt except the Python it needs.
+
+    Keeps workers from wandering into the repo (answer keys) or other workspaces, as
+    one did in the first pilot. Needs bubblewrap and socat; refuses to run without them.
+    """
+    # uv installs: .venv/bin/python -> cpython-3.12-... (a symlink) -> cpython-3.12.14-...
+    python_home = Path(os.path.realpath(REPO / ".venv/bin/python")).parents[2]
+    return {"sandbox": {
+        "enabled": True, "failIfUnavailable": True, "allowUnsandboxedCommands": False,
+        "autoAllowBashIfSandboxed": True,
+        "filesystem": {"denyRead": ["/home", "/mnt"],
+                       "allowRead": [str(REPO / ".venv"), str(python_home)]},
+    }}
+
+
 def _command(sp_file: Path, message: str) -> list[str]:
     return [
         "claude", "-p", "--restricted", "--model", MODEL, "--effort", EFFORT,
         "--system-prompt-file", str(sp_file),
+        "--settings", json.dumps(sandbox_settings()),
         "--tools", TOOLS, "--allowedTools", TOOLS, "--disallowedTools", "mcp__*",
         "--strict-mcp-config", "--disable-slash-commands", "--no-session-persistence",
         "--max-turns", str(MAX_TURNS), "--output-format", "stream-json", "--verbose",
