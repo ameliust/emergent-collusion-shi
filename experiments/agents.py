@@ -646,6 +646,8 @@ def _complete_with_retries(
                 and accept_tool_calls
                 and not tool_calls
                 and resample_index < TOOL_CALL_RESAMPLE_LIMIT
+                # Refusals go to the content-policy path below, not to resampling.
+                and _content_filter_reason(finish_reason) is None
             ):
                 # Discard and resend the identical request; the cached prefix is reused.
                 usage_record["response_status"] = "resampled_no_tool_call"
