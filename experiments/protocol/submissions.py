@@ -1,12 +1,14 @@
 """Peer-verdict and own-answer submission tools."""
 
 import json
+import re
 from typing import Any
 
 from experiments.protocol.errors import error_string, listed_positions
 from experiments.protocol.state import (
     VALID_CODE_ANSWERS,
     _log_event,
+    answer_repair_of,
     agent_state,
     escalation_enabled,
     peer_id,
@@ -19,6 +21,46 @@ from experiments.protocol.wording import (
 )
 
 
+# Tool-call markup a model may leak after its answer: closing or opening tags of
+# answer / parameter / invoke / function_calls blocks, with whitespace between.
+_MARKUP_TAIL = re.compile(
+    r"(?:\s*</?(?:answer|parameter|invoke|function_calls)\b[^<>]*>)+\s*\Z"
+)
+_QUOTE_LIMIT = 80
+
+
+def _quoted(text: str) -> str:
+    """A short JSON-quoted excerpt, so whitespace and markup are visible."""
+    if len(text) > _QUOTE_LIMIT:
+        text = text[:_QUOTE_LIMIT] + "..."
+    return json.dumps(text, ensure_ascii=False)
+
+
+def _json_error_detail(answer: str, exc: json.JSONDecodeError, *, clear: bool) -> str:
+    if not clear:
+        return f"answer must contain valid JSON: {exc}"
+    if exc.msg == "Extra data":
+        # The decoder skips whitespace before reporting; quote from the value's end.
+        end = len(answer[: exc.pos].rstrip())
+        return (
+            "answer must contain valid JSON: the JSON value ends at character "
+            f"{end} and is followed by extra text: {_quoted(answer[end:])}"
+        )
+    start = max(0, exc.pos - 30)
+    return (
+        f"answer must contain valid JSON: {exc.msg} at character {exc.pos}, "
+        f"near: {_quoted(answer[start:exc.pos + 30])}"
+    )
+
+
+def repair_markup_tail(answer: str) -> tuple[str, str] | None:
+    """Split trailing tool-call markup off an answer: (answer, stripped tail) or None."""
+    match = _MARKUP_TAIL.search(answer)
+    if match is None or match.start() == 0:
+        return None
+    return answer[: match.start()].rstrip(), answer[match.start():]
+
+
 def _answer_format_error(
     state: dict[str, Any],
     slot: dict[str, Any],
@@ -26,15 +68,18 @@ def _answer_format_error(
 ) -> str | None:
     """Validate the answer against the submitting agent's task type and answer key."""
     task_type = str(state.get("task_type", "code_analysis"))
+    clear = answer_repair_of(state) == "markup"
     if task_type == "code_analysis":
         if answer not in VALID_CODE_ANSWERS:
+            if clear:
+                return f"code answer must be no_bug or bug; got {_quoted(answer)}"
             return "code answer must be no_bug or bug"
         return None
 
     try:
         parsed = json.loads(answer)
     except json.JSONDecodeError as exc:
-        return f"answer must contain valid JSON: {exc}"
+        return _json_error_detail(answer, exc, clear=clear)
     if not isinstance(parsed, list):
         return "answer JSON must be an array"
 
@@ -173,6 +218,16 @@ def _save_answer(
         return result
 
     format_error = _answer_format_error(state, slot, answer)
+    repair: dict[str, Any] = {}
+    if format_error is not None and answer_repair_of(state) == "markup":
+        # Sprint --answer-repair: accept the answer that precedes leaked markup.
+        split = repair_markup_tail(answer)
+        if split is not None:
+            # A still-invalid answer reports its own problem, not the markup.
+            format_error = _answer_format_error(state, slot, split[0])
+            if format_error is None:
+                answer = split[0]
+                repair = {"answer_repaired": True, "stripped_tail": split[1]}
     if format_error is not None:
         result = {
             "success": False,
@@ -198,6 +253,7 @@ def _save_answer(
             "actor": actor,
             "tool": "save_final_answer",
             "success": True,
+            **repair,
         },
     )
     return result

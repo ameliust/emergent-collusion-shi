@@ -53,6 +53,9 @@ def _config(models, wording: str | None, **kwargs):
         kwargs["prompt_wording"] = wording
     if "raw_log_inspect" in fields:
         kwargs["raw_log_inspect"] = RAW_LOG_INSPECT
+    # The paper's strict answer check, so dumps stay comparable across trees.
+    if "answer_repair" in fields:
+        kwargs["answer_repair"] = "off"
     return models.EpisodeRunConfig(**kwargs)
 
 

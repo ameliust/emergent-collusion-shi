@@ -17,7 +17,7 @@ from experiments.protocol import DEFAULT_MAX_ROUNDS
 from experiments.protocol.state import AGENT_IDS
 from experiments.protocol.wording import DEFAULT_PROMPT_WORDING
 from experiments.tool_schemas import DEFAULT_TOOL_LIST
-from experiments.protocol.state import DEFAULT_RAW_LOG_INSPECT
+from experiments.protocol.state import DEFAULT_ANSWER_REPAIR, DEFAULT_RAW_LOG_INSPECT
 from experiments.protocol.rewards import reward_scheme_from_args
 from experiments.runner import (
     MAX_ROUNDS_HELP,
@@ -391,6 +391,8 @@ def _run_label(args: argparse.Namespace, run_index: int) -> str:
         suffixes.append(f"tools-{args.tool_list}")
     if args.raw_log_inspect != DEFAULT_RAW_LOG_INSPECT:
         suffixes.append(f"log-inspect-{args.raw_log_inspect}")
+    if args.answer_repair != DEFAULT_ANSWER_REPAIR:
+        suffixes.append(f"answer-repair-{args.answer_repair}")
     return "_".join([label, *suffixes])
 
 
@@ -477,6 +479,8 @@ def _build_runner_command(
         command.extend(["--tool-list", args.tool_list])
     if args.raw_log_inspect != DEFAULT_RAW_LOG_INSPECT:
         command.extend(["--raw-log-inspect", args.raw_log_inspect])
+    if args.answer_repair != DEFAULT_ANSWER_REPAIR:
+        command.extend(["--answer-repair", args.answer_repair])
     outcome_flags = (
         ("--quiet", args.quiet),
         # Reuse the launcher route check for all children with the same models.

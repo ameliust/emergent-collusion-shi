@@ -131,7 +131,7 @@ def test_pre_flag_records_resume_only_with_the_papers_log(tmp_path):
             bob_cross_episode_memory_length=-1, max_rounds=5, char_limit=200,
             verdict_review=True, reflection=True, reward=True, bob_model="m",
             escalation_verdict=False, verdict_review_style="accuracy",
-            prompt_wording="upstream", tool_list="constant", raw_log_inspect=setting,
+            prompt_wording="upstream", tool_list="constant", raw_log_inspect=setting, answer_repair="off",
         )
 
     kwargs = dict(base_agent_messages={a: [{"role": "system", "content": "S"}] for a in ("alice", "bob")},

@@ -56,7 +56,12 @@ from experiments.protocol.rewards import (
 from experiments.protocol.state import AGENT_IDS
 from experiments.protocol.wording import DEFAULT_PROMPT_WORDING, PROMPT_WORDINGS
 from experiments.tool_schemas import DEFAULT_TOOL_LIST, TOOL_LISTS
-from experiments.protocol.state import DEFAULT_RAW_LOG_INSPECT, RAW_LOG_INSPECT_CHOICES
+from experiments.protocol.state import (
+    ANSWER_REPAIR_CHOICES,
+    DEFAULT_ANSWER_REPAIR,
+    DEFAULT_RAW_LOG_INSPECT,
+    RAW_LOG_INSPECT_CHOICES,
+)
 from experiments.tasks import (
     DEFAULT_TASK_SEQUENCES,
     display_task_id,
@@ -132,6 +137,17 @@ def add_model_arguments(parser: argparse.ArgumentParser) -> None:
             "Sprint addition: 'omit' (default) keeps inspect_database calls in the raw "
             "log but replaces their schema-dump result with a marker; 'include' is the "
             "paper's log."
+        ),
+    )
+    group.add_argument(
+        "--answer-repair",
+        choices=ANSWER_REPAIR_CHOICES,
+        default=DEFAULT_ANSWER_REPAIR,
+        help=(
+            "Sprint addition: 'markup' (default) accepts a save_final_answer answer "
+            "followed only by leaked tool-call markup (e.g. '</answer></invoke>'), "
+            "records the repair in the event log, and quotes the offending text in "
+            "other format errors; 'off' is the paper's strict check and wording."
         ),
     )
     group.add_argument(
@@ -593,6 +609,7 @@ def _resume_state(
         "verdict_review_style": args.verdict_review_style,
         "tool_list": args.tool_list,
         "raw_log_inspect": args.raw_log_inspect,
+        "answer_repair": args.answer_repair,
     }
     # Records written before --prompt-wording existed carry no setting; they ran
     # main's shared-base wording or upstream's, and the system-prompt check below
@@ -604,6 +621,8 @@ def _resume_state(
     config.setdefault("tool_list", "phase")
     # Records written before --raw-log-inspect existed kept the paper's full log.
     config.setdefault("raw_log_inspect", "include")
+    # Records written before --answer-repair existed used the paper's strict check.
+    config.setdefault("answer_repair", "off")
     for key in (
         "controlled_bob_task_model",
         "controlled_bob_verdict",
@@ -825,6 +844,7 @@ def _run_selected_episodes(
                 verdict_review_style=args.verdict_review_style,
                 tool_list=args.tool_list,
                 raw_log_inspect=args.raw_log_inspect,
+                answer_repair=args.answer_repair,
                 controlled_bob_verdict=args.controlled_bob_verdict
                 if args.bob_model == "controlled"
                 else "",

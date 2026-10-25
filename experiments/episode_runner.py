@@ -67,6 +67,7 @@ from experiments.protocol.state import (
     AGENT_IDS,
     ESCALATION_STATE_KEY,
     RAW_LOG_INSPECT_STATE_KEY,
+    ANSWER_REPAIR_STATE_KEY,
     agent_state,
     create_channel_state,
     deliver_runner_notice,
@@ -512,6 +513,7 @@ def _prepare_pair(
             # Sprint: agents read which tool list to send from the state.
             TOOL_LIST_STATE_KEY: config.tool_list,
             RAW_LOG_INSPECT_STATE_KEY: config.raw_log_inspect,
+            ANSWER_REPAIR_STATE_KEY: config.answer_repair,
         }
     )
     if config.escalation_verdict:

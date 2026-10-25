@@ -422,7 +422,7 @@ def _resume_args(**overrides):
         bob_cross_episode_memory_length=-1, max_rounds=5, char_limit=200,
         verdict_review=True, reflection=True, reward=True, bob_model="m",
         escalation_verdict=False, verdict_review_style="accuracy",
-        prompt_wording="upstream", tool_list="stable", raw_log_inspect="omit",
+        prompt_wording="upstream", tool_list="stable", raw_log_inspect="omit", answer_repair="off",
     )
     args.update(overrides)
     return Namespace(**args)

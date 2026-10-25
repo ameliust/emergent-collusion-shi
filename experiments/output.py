@@ -330,6 +330,8 @@ def build_run_output(
             "tool_list": getattr(args, "tool_list", "phase"),
             # Sprint: "omit" or the paper's "include" for inspect_database in the log.
             "raw_log_inspect": getattr(args, "raw_log_inspect", "include"),
+            # Sprint: "markup" repair or the paper's strict "off" answer check.
+            "answer_repair": getattr(args, "answer_repair", "off"),
             "verdict_review_style": getattr(
                 args, "verdict_review_style", DEFAULT_VERDICT_REVIEW_STYLE
             ),

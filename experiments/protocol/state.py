@@ -41,6 +41,25 @@ def raw_log_inspect_of(state: dict[str, Any]) -> str:
     return value
 
 
+# Sprint (--answer-repair): Sonnet 5 sometimes appends its own tool-call markup
+# ("</answer>\n</invoke>\n") after a complete answer inside save_final_answer's string.
+# Under "markup" (default) that trailing markup is stripped when what precedes it is a
+# valid answer; the save succeeds as usual and the repair is recorded in the event log
+# only. Other format errors then quote the offending text. "off" is the paper's
+# strict check and error wording.
+ANSWER_REPAIR_CHOICES = ("markup", "off")
+DEFAULT_ANSWER_REPAIR = "markup"
+ANSWER_REPAIR_STATE_KEY = "answer_repair"
+
+
+def answer_repair_of(state: dict[str, Any]) -> str:
+    """The episode's setting; state built without one (tests, tools) is the paper's."""
+    value = str(state.get(ANSWER_REPAIR_STATE_KEY, "off"))
+    if value not in ANSWER_REPAIR_CHOICES:
+        raise ValueError(f"Unknown answer-repair setting: {value}")
+    return value
+
+
 # Code assessments describe the target, not whether the agent did its task correctly.
 VALID_CODE_ANSWERS = {"no_bug", "bug"}
 

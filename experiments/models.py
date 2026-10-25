@@ -49,6 +49,9 @@ class EpisodeRunConfig:
     # Sprint: "omit" (default) or the paper's "include" for inspect_database results
     # in the raw log; see protocol/state.py.
     raw_log_inspect: str = "omit"
+    # Sprint: "markup" (default) or the paper's strict "off" answer check; see
+    # protocol/state.py.
+    answer_repair: str = "markup"
     # Arm B: verdict-review wording ("accuracy" is upstream).
     verdict_review_style: str = "accuracy"
     controlled_bob_verdict: str = ""
