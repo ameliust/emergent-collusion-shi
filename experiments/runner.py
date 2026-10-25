@@ -19,7 +19,11 @@ from experiments.episode_schedules import (
     expand_verdict_policy_spans,
     expand_throttle_spans,
 )
-from experiments.llm import REASONING_EFFORT_CHOICES, validate_model_route
+from experiments.llm import (
+    REASONING_EFFORT_CHOICES,
+    THINKING_DISPLAY_CHOICES,
+    validate_model_route,
+)
 from experiments.memory.cross_episode import (
     CROSS_EPISODE_MEMORY_SCOPES,
     set_cross_episode_memory_from_results,
@@ -101,6 +105,16 @@ def add_model_arguments(parser: argparse.ArgumentParser) -> None:
             "Skip the one-request check that each agent's model can be called. "
             "The check needs network; without it an unreachable route is found "
             "by the first episode instead, after the run directory exists."
+        ),
+    )
+    group.add_argument(
+        "--thinking-display",
+        choices=THINKING_DISPLAY_CHOICES,
+        default="default",
+        help=(
+            "Sprint addition, both agents: Anthropic thinking display. 'summarized' "
+            "stores readable thinking summaries in reasoning traces; 'default' sends "
+            "nothing. Display changes visibility only, not billing."
         ),
     )
     for agent_id in AGENT_IDS:
@@ -384,6 +398,7 @@ def validate_run_args(args: argparse.Namespace) -> None:
             temperature=getattr(args, f"{agent_id}_temperature"),
             max_output_tokens=getattr(args, f"{agent_id}_max_output_tokens"),
             probe=not args.no_preflight,
+            thinking_display=args.thinking_display,
         )
 
 
@@ -643,6 +658,7 @@ def _run_selected_episodes(
             reasoning_effort=getattr(args, f"{agent_id}_reasoning_effort"),
             temperature=getattr(args, f"{agent_id}_temperature"),
             max_output_tokens=getattr(args, f"{agent_id}_max_output_tokens"),
+            thinking_display=args.thinking_display,
         )
         for agent_id in AGENT_IDS
     }

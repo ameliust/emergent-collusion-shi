@@ -86,6 +86,9 @@ def _params_the_provider_cannot_map(
     return [param for param in requested if param not in supported]
 
 
+# Thinking display options; "default" sends nothing and keeps the provider default.
+THINKING_DISPLAY_CHOICES = ("default", "omitted", "summarized")
+
 # Explicit budgets corresponding to LiteLLM's standard low/medium/high levels.
 _THINKING_BUDGET_BY_EFFORT = {"low": 1024, "medium": 2048, "high": 4096}
 
@@ -103,6 +106,12 @@ def _thinking_instead_of_effort(
     """
     budget = _THINKING_BUDGET_BY_EFFORT.get(reasoning_effort)
     if budget is None:
+        return None
+    # Sprint compat: the direct Anthropic API rejects ``thinking.type.enabled`` on
+    # current Claude models (400 on claude-sonnet-5-5, verified 2026-10-24), and
+    # LiteLLM already maps the effort to adaptive thinking + output_config.effort.
+    # Keep the explicit budget only for Bedrock, the route this workaround serves.
+    if provider != "bedrock":
         return None
     try:
         from litellm.llms.anthropic.chat.transformation import AnthropicConfig
@@ -130,6 +139,7 @@ def get_litellm_completion_kwargs(
     model: str,
     reasoning_effort: str,
     passthrough_params: Iterable[str] = (),
+    thinking_display: str = "default",
 ) -> dict[str, Any]:
     """Build reasoning kwargs and passthrough overrides for ``litellm.completion``.
 
@@ -159,6 +169,20 @@ def get_litellm_completion_kwargs(
             else:
                 kwargs["thinking"] = thinking
                 requested_params.append("thinking")
+
+    display = (thinking_display or "default").strip().lower()
+    if (
+        display != "default"
+        and normalized_reasoning_effort != "none"
+        and _speaks_anthropic_wire_format(model_name, provider)
+    ):
+        # Sprint addition: request readable thinking summaries (or explicit omission).
+        # Display changes visibility only; thinking is billed the same either way.
+        if "thinking" in kwargs:
+            kwargs["thinking"] = {**kwargs["thinking"], "display": display}
+        else:
+            kwargs["thinking"] = {"type": "adaptive", "display": display}
+            requested_params.append("thinking")
 
     forced_params.extend(
         _params_the_provider_cannot_map(
@@ -426,6 +450,7 @@ def validate_model_route(
     temperature: float = DEFAULT_LLM_TEMPERATURE,
     max_output_tokens: int = DEFAULT_LLM_MAX_OUTPUT_TOKENS,
     probe: bool = True,
+    thinking_display: str = "default",
 ) -> None:
     """Probe a model with a small request before starting the run."""
     if not probe:
@@ -439,7 +464,9 @@ def validate_model_route(
             # LiteLLM maps this output ceiling to max_completion_tokens,
             # max_output_tokens, or maxTokens for the selected provider.
             max_tokens=max_output_tokens,
-            **get_litellm_completion_kwargs(model, reasoning_effort),
+            **get_litellm_completion_kwargs(
+                model, reasoning_effort, thinking_display=thinking_display
+            ),
         )
     except REACHABLE_DESPITE_ERRORS:
         return

@@ -22,6 +22,7 @@ class AgentConfig:
     reasoning_effort: str = "default"
     temperature: float = DEFAULT_LLM_TEMPERATURE
     max_output_tokens: int = DEFAULT_LLM_MAX_OUTPUT_TOKENS
+    thinking_display: str = "default"
 
 
 @dataclass(frozen=True)

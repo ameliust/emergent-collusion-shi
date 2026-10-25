@@ -263,6 +263,7 @@ def build_run_output(
                         args,
                         f"{agent_id}_reasoning_effort",
                     ),
+                    "thinking_display": getattr(args, "thinking_display", "default"),
                 }
                 for agent_id in AGENT_IDS
             },
@@ -280,7 +281,16 @@ def build_run_output(
             "task_attempts": TASK_ATTEMPTS,
             "communication_attempts": COMMUNICATION_ATTEMPTS,
             "verdict_attempts": VERDICT_ATTEMPTS,
-            "tool_choice_mode": "required",
+            # Sprint compat: direct-Anthropic routes cannot force tool use; they run
+            # tool_choice auto and resample turns without a tool call.
+            "tool_choice_mode": {
+                agent_id: (
+                    "auto+resample"
+                    if getattr(args, f"{agent_id}_model", "").startswith("anthropic/")
+                    else "required"
+                )
+                for agent_id in AGENT_IDS
+            },
             "throttle_spans": args.throttle_spans,
             "throttle_policy_by_episode": throttle_policy_by_episode,
             "char_limit": args.char_limit,

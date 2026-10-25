@@ -44,6 +44,9 @@ from experiments.tool_schemas import get_task_tool_schemas, get_tool_schemas
 from experiments.usage import _get_attr, _jsonable, normalize_llm_usage
 
 LLM_MAX_RETRIES = 20
+# Sprint compat: immediate resamples of a tool-phase response that called no tool,
+# on routes that cannot force tool use. Separate from the phase attempt budget.
+TOOL_CALL_RESAMPLE_LIMIT = 5
 LLM_RETRY_BASE_WAIT_SECONDS = 5
 LLM_RETRY_MAX_WAIT_SECONDS = 60
 LLM_RETRY_MAX_TOTAL_WAIT_SECONDS = 20 * 60
@@ -540,10 +543,26 @@ def _needs_auto_tool_choice_fallback(
     """Identify routes that reject forced tool choices.
 
     Thinking DeepSeek requests require an unforced choice, including at the default
-    effort.
+    effort. Sprint compat: the direct Anthropic API rejects forced tool choice with
+    thinking on, and current Claude models reject it outright (400 on
+    claude-sonnet-5-5, verified 2026-10-24); thinking is on by default there.
     """
     reasoning_effort = reasoning_effort.strip().lower()
-    return resolve_provider(model)[1] == "deepseek" and reasoning_effort != "none"
+    provider = resolve_provider(model)[1]
+    if provider == "anthropic":
+        return True
+    return provider == "deepseek" and reasoning_effort != "none"
+
+
+def _resamples_missing_tool_calls(model: str) -> bool:
+    """Routes where a tool-phase turn without a tool call is resampled, not kept.
+
+    Current Claude models also reject assistant prefill, so a prose-only turn left
+    at the end of history would make the next request fail. Discarding and
+    resampling it keeps the transcript append-only and the cached prefix intact:
+    the resample sends the byte-identical request.
+    """
+    return resolve_provider(model)[1] == "anthropic"
 
 
 def _complete_with_retries(
@@ -555,9 +574,11 @@ def _complete_with_retries(
     max_output_tokens: int,
     accept_tool_calls: bool,
     usage_recorder: UsageRecorder | None,
+    resample_without_tool_call: bool = False,
 ) -> tuple[Any, Any, str, list[dict[str, Any]]]:
     retry_index = 0
     retry_waited_seconds = 0.0
+    resample_index = 0
     while True:
         try:
             # Apply provider-specific history transformations only to the outgoing request.
@@ -619,8 +640,29 @@ def _complete_with_retries(
             )
             usage_record["visible_content_chars"] = len(content)
             usage_record["tool_call_count"] = len(tool_calls)
+            usage_record["tool_call_resample_index"] = resample_index
+            if (
+                resample_without_tool_call
+                and accept_tool_calls
+                and not tool_calls
+                and resample_index < TOOL_CALL_RESAMPLE_LIMIT
+            ):
+                # Discard and resend the identical request; the cached prefix is reused.
+                usage_record["response_status"] = "resampled_no_tool_call"
+                _record_usage(usage_record, usage_recorder)
+                resample_index += 1
+                print(
+                    f"    [no tool call, resample {resample_index}/"
+                    f"{TOOL_CALL_RESAMPLE_LIMIT}]",
+                    flush=True,
+                )
+                continue
             if content.strip() or tool_calls:
-                usage_record["response_status"] = "accepted"
+                usage_record["response_status"] = (
+                    "accepted_no_tool_call_after_resamples"
+                    if resample_without_tool_call and accept_tool_calls and not tool_calls
+                    else "accepted"
+                )
                 _record_usage(usage_record, usage_recorder)
                 return response, choice_message, content, tool_calls
 
@@ -740,6 +782,7 @@ def run_agent_turn(
     temperature: float = DEFAULT_LLM_TEMPERATURE,
     max_output_tokens: int = DEFAULT_LLM_MAX_OUTPUT_TOKENS,
     usage_recorder: UsageRecorder | None = None,
+    thinking_display: str = "default",
 ) -> dict[str, Any]:
     # answer_key belongs to the agent task; task_type and phase are shared.
     slot = agent_state(state, actor)
@@ -753,7 +796,9 @@ def run_agent_turn(
         model,
         reasoning_effort,
         passthrough_params=("tool_choice",),
+        thinking_display=thinking_display,
     )
+    resample = _resamples_missing_tool_calls(model)
     tools, effective_tool_choice = _select_tools_and_choice(
         tools=tools,
         tool_choice=tool_choice,
@@ -772,9 +817,25 @@ def run_agent_turn(
         max_output_tokens=max_output_tokens,
         accept_tool_calls=True,
         usage_recorder=usage_recorder,
+        resample_without_tool_call=resample,
     )
 
     reasoning_trace = _extract_reasoning_trace(choice_message)
+
+    if resample and not tool_calls:
+        # Resamples exhausted: spend the attempt but keep the turn out of history,
+        # because a trailing assistant message is a prefill these models reject.
+        return {
+            "tool_calls": [],
+            "dropped_no_tool_call_turn": True,
+            "raw_response_model": _get_attr(response, "model", model),
+            "reasoning_trace": reasoning_trace,
+            "reasoning_trace_chars": len(
+                json.dumps(reasoning_trace, ensure_ascii=False)
+            )
+            if reasoning_trace
+            else 0,
+        }
 
     assistant_msg: dict[str, Any] = {
         "role": "assistant",
@@ -812,6 +873,7 @@ def run_reflection_turn(
     temperature: float = DEFAULT_LLM_TEMPERATURE,
     max_output_tokens: int = DEFAULT_LLM_MAX_OUTPUT_TOKENS,
     usage_recorder: UsageRecorder | None = None,
+    thinking_display: str = "default",
 ) -> dict[str, Any]:
     """Generate a prose reflection from the agent history without executing tools.
 
@@ -824,7 +886,9 @@ def run_reflection_turn(
         answer_key=[str(column) for column in slot.get("answer_key", [])],
         peer=peer_id(actor),
     )
-    extra = get_litellm_completion_kwargs(model, reasoning_effort)
+    extra = get_litellm_completion_kwargs(
+        model, reasoning_effort, thinking_display=thinking_display
+    )
     response, choice_message, content, _ = _complete_with_retries(
         model=model,
         messages=messages,

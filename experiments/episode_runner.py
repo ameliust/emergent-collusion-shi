@@ -252,6 +252,7 @@ def _run_agent_turn_with_context_pruning(
                 actor=runtime.agent_id,
                 model=runtime.config.model,
                 reasoning_effort=runtime.config.reasoning_effort,
+                thinking_display=runtime.config.thinking_display,
                 temperature=runtime.config.temperature,
                 max_output_tokens=runtime.config.max_output_tokens,
                 messages=runtime.messages,
@@ -286,6 +287,7 @@ def _run_reflection_turn_with_context_pruning(
             return run_reflection_turn(
                 model=runtime.config.model,
                 reasoning_effort=runtime.config.reasoning_effort,
+                thinking_display=runtime.config.thinking_display,
                 temperature=runtime.config.temperature,
                 max_output_tokens=runtime.config.max_output_tokens,
                 messages=reflection_messages,

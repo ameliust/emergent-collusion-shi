@@ -440,6 +440,8 @@ def _build_runner_command(
         value = getattr(args, name.replace("-", "_"))
         if value:
             command.extend([f"--{name}", value])
+    if args.thinking_display != "default":
+        command.extend(["--thinking-display", args.thinking_display])
     if args.reward:
         command.extend(["--reward-scope", args.reward_scope, "--reward-type", args.reward_type])
     for name in ("reflection", "reward", "verdict-review"):
