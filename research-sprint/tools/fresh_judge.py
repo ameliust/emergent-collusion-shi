@@ -15,6 +15,16 @@ Selection:
             fresh judge's accept rate on correct work, so a high fresh accept rate on wrong work
             can be told apart from a judge that accepts everything.
 
+Policy (--policy):
+  as-run           the request as stored: the raw-only verdict policy the run used.
+  summary-allowed  the one raw-only policy line in the communication-phase opening is swapped
+                   for the harness's own summary-allowed line (the paper's wording, built by
+                   experiments.prompts.policies._verdict_basis_text), so a fresh judge can
+                   judge the channel evidence on its merits. The swap must hit exactly one
+                   line per request, or the item is refused. The rest of the transcript stays
+                   as it was, including any messages about raw logs exchanged under the
+                   original policy.
+
 Not changed: the episode heading still reads "## Episode k". A judge whose verdict call
 isn't submit_verdict gets a fresh draw (up to the run's verdict_attempts) and the off-tool
 call is recorded.
@@ -41,13 +51,14 @@ from experiments.agents import (  # noqa: E402  (harness code at the worktree's 
     _select_tools_and_choice,
 )
 from experiments.llm import get_litellm_completion_kwargs  # noqa: E402
-from experiments.protocol.state import peer_id  # noqa: E402
+from experiments.prompts.policies import _verdict_basis_text  # noqa: E402
+from experiments.protocol.state import display_name, peer_id  # noqa: E402
 from experiments.tool_schemas import forced_tool_choice, get_stable_tool_schemas  # noqa: E402
 
-# Measured on this round's episode-1 verdict calls (no history, about 16k input tokens,
-# about 900 output tokens): a cache write on the first draw of an item, then cache reads.
-EST_FIRST_DRAW = 0.05
-EST_REPEAT_DRAW = 0.012
+# Measured in the as-run smoke test (A2 ep 3, 5 draws): about 9.6k input tokens, a cache
+# write on an item's first draw ($0.031), then cache reads ($0.006-0.008).
+EST_FIRST_DRAW = 0.031
+EST_REPEAT_DRAW = 0.007
 
 
 def _heading_index(messages, text):
@@ -67,7 +78,22 @@ def fresh_request(judge_messages, episode_number):
     return [judge_messages[0], *judge_messages[start:end + 1]]
 
 
-def select(run_dirs):
+def with_policy(messages, policy, worker, prompt_wording):
+    """Swap the stored raw-only policy line for the summary-allowed one (exactly once)."""
+    if policy == "as-run":
+        return messages
+    name = display_name(worker)
+    old = _verdict_basis_text("raw-only", name, prompt_wording)
+    new = _verdict_basis_text(policy, name, prompt_wording)
+    hits = [i for i, m in enumerate(messages) if old in str(m.get("content", ""))]
+    if len(hits) != 1 or str(messages[hits[0]]["content"]).count(old) != 1:
+        raise ValueError(f"expected the raw-only policy line exactly once, found it in {len(hits)} messages")
+    out = [dict(m) for m in messages]
+    out[hits[0]]["content"] = out[hits[0]]["content"].replace(old, new)
+    return out
+
+
+def select(run_dirs, policy="as-run"):
     items = []
     for run_dir in run_dirs:
         run = json.loads((Path(run_dir) / "run.json").read_text())
@@ -79,15 +105,15 @@ def select(run_dirs):
             agents = ep["agents"]
             wrong = {a for a in ("alice", "bob") if agents[a]["expected_verdict"] == "fail"}
             for worker in sorted(wrong):
-                items.append(_item("target", arm, run_dir, cfg, ep, k, worker))
+                items.append(_item("target", arm, run_dir, cfg, ep, k, worker, policy))
             if len(wrong) == 1 and ep["task_type"] == "record_extraction":
                 (other,) = {"alice", "bob"} - wrong
                 if agents[other]["expected_verdict"] == "pass":
-                    items.append(_item("baseline", arm, run_dir, cfg, ep, k, other))
+                    items.append(_item("baseline", arm, run_dir, cfg, ep, k, other, policy))
     return items
 
 
-def _item(kind, arm, run_dir, cfg, ep, k, worker):
+def _item(kind, arm, run_dir, cfg, ep, k, worker, policy):
     judge = peer_id(worker)
     j, w = ep["agents"][judge], ep["agents"][worker]
     ev = w.get("extraction_eval") or {}
@@ -97,8 +123,8 @@ def _item(kind, arm, run_dir, cfg, ep, k, worker):
         "task_type": ep["task_type"], "worker": worker, "judge": judge,
         "worker_display_id": w["display_id"], "worker_expected": w["expected_verdict"],
         "missing": len(ev.get("missing_references", [])), "extra": len(ev.get("extra_references", [])),
-        "original_verdict": j["verdict"],
-        "messages": fresh_request(j["messages"], k + 1),
+        "original_verdict": j["verdict"], "policy": policy,
+        "messages": with_policy(fresh_request(j["messages"], k + 1), policy, worker, cfg["prompt_wording"]),
         "cfg": {
             "model": cfg["models"][judge],
             "escalation": bool(cfg.get("escalation_verdict")),
@@ -151,12 +177,17 @@ def main():
     ap.add_argument("run_dirs", nargs="+")
     ap.add_argument("--target-samples", type=int, default=5)
     ap.add_argument("--baseline-samples", type=int, default=3)
+    ap.add_argument("--policy", choices=("as-run", "summary-allowed"), default="as-run")
+    ap.add_argument("--only", nargs="*", default=None, help="keep only items whose id contains one of these")
     ap.add_argument("--out", default="results/fresh-judge")
     ap.add_argument("--run", action="store_true", help="call the API (default: dry run)")
     ap.add_argument("--max-cost", type=float, default=4.0, help="stop before a draw once the journal passes this")
     a = ap.parse_args()
 
-    items = select(a.run_dirs)
+    items = select(a.run_dirs, a.policy)
+    if a.only:
+        items = [i for i in items if any(s in i["id"] for s in a.only)]
+    print(f"policy: {a.policy}")
     n = {i["id"]: a.target_samples if i["kind"] == "target" else a.baseline_samples for i in items}
     est = sum(EST_FIRST_DRAW + (n[i["id"]] - 1) * EST_REPEAT_DRAW for i in items)
     for i in items:
