@@ -173,7 +173,7 @@ def test_pre_flag_records_resume_only_with_the_strict_check(tmp_path):
             verdict_review=True, reflection=True, reward=True, bob_model="m",
             escalation_verdict=False, verdict_review_style="accuracy",
             prompt_wording="upstream", tool_list="stable", raw_log_inspect="omit",
-            answer_repair=setting,
+            answer_repair=setting, test_sandbox="off",
         )
 
     kwargs = dict(base_agent_messages={a: [{"role": "system", "content": "S"}] for a in ("alice", "bob")},

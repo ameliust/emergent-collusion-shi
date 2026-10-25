@@ -231,7 +231,7 @@ def _record(tmp_path, *, wording, system_wording=None):
     config = {"prompt_texts": {"system_prompts": {a: m[0]["content"]
                                                   for a, m in prompts.items()}},
               "tool_list": "stable", "raw_log_inspect": "omit",
-              "answer_repair": "markup"}
+              "answer_repair": "markup", "test_sandbox": "bwrap"}
     if wording is not None:
         config["prompt_wording"] = wording
     record = {"run_config": config, "results": [

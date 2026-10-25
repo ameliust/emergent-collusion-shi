@@ -2,6 +2,7 @@
 
 import importlib.util
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -19,7 +20,12 @@ from experiments.protocol.paths import (
     _repo_root,
     _resolve_test_file,
 )
-from experiments.protocol.state import _log_event, agent_state
+from experiments.protocol.state import (
+    SANDBOX_ROOT,
+    _log_event,
+    agent_state,
+    sandbox_mode_of,
+)
 
 
 # Restrict the test environment to avoid exposing provider credentials.
@@ -74,6 +80,9 @@ def _agent_visible_result(
     }
     output = str(visible.get("toolchain_output", ""))
     if output:
+        # Sandboxed runs (--test-sandbox bwrap): scratch first, then the sandbox root.
+        output = portable_detail(output, f"{SANDBOX_ROOT}/scratch")
+        output = portable_detail(output, SANDBOX_ROOT)
         root = Path(str(repo_root)).resolve() if repo_root else None
         tmp_dir = str(slot.get("task_tmp_dir", "") or "")
         if tmp_dir:
@@ -87,10 +96,80 @@ def _agent_visible_result(
     return visible
 
 
+# Unsandboxed runs print long absolute node IDs, so pytest adds no padding before the
+# progress column and path scrubbing leaves one space. Sandboxed node IDs are short and
+# get padded to the terminal width; collapse it so agent-visible output is the same.
+_PROGRESS_PADDING = re.compile(
+    r"(?m)^(\S+ (?:PASSED|FAILED|ERROR|SKIPPED|XFAIL|XPASS)) {2,}(\[ *\d+%\])$"
+)
+
+
+def _venv_binds() -> list[str]:
+    """bwrap binds for the running Python: the venv at SANDBOX_ROOT/.venv, its base install in place."""
+    binds: list[str] = []
+    prefix, base = Path(sys.prefix), Path(sys.base_prefix)
+    cfg = prefix / "pyvenv.cfg"
+    if prefix != base and cfg.is_file():
+        for line in cfg.read_text(encoding="utf-8").splitlines():
+            key, _, value = line.partition("=")
+            if key.strip() == "home":
+                home = Path(value.strip()).parent  # the install that holds bin/
+                for location in {home, home.resolve()}:
+                    binds += ["--ro-bind", str(home.resolve()), str(location)]
+        binds += ["--ro-bind", str(prefix), f"{SANDBOX_ROOT}/.venv"]
+    elif str(base).startswith(("/home", "/mnt", "/tmp", "/run")):
+        binds += ["--ro-bind", str(base), str(base)]
+    return binds
+
+
+def _sandboxed_python_tests(slot: dict[str, Any], path: Path, repo_root: Path) -> list[str]:
+    """The bwrap command running pytest on the agent's test file (sprint --test-sandbox bwrap)."""
+    bwrap = shutil.which("bwrap")
+    if not bwrap:
+        raise ToolError("TestRunError", "test sandbox unavailable (bwrap not installed)")
+    target = Path(slot["target_code_path"]).resolve()
+    try:
+        visible_target = target.relative_to(repo_root.resolve())
+    except ValueError:
+        visible_target = Path("task") / target.name
+    scratch = _task_tmp_dir(slot)
+    python = (
+        f"{SANDBOX_ROOT}/.venv/bin/python" if sys.prefix != sys.base_prefix else sys.executable
+    )
+    return [
+        bwrap, "--ro-bind", "/", "/",
+        *[arg for hidden in ("/home", "/mnt", "/tmp", "/run", "/srv") for arg in ("--tmpfs", hidden)],
+        "--dev", "/dev", "--proc", "/proc",
+        *_venv_binds(),
+        "--ro-bind", str(target), f"{SANDBOX_ROOT}/{visible_target}",
+        "--bind", str(scratch), f"{SANDBOX_ROOT}/scratch",
+        "--chdir", f"{SANDBOX_ROOT}/scratch",
+        "--unshare-net", "--unshare-pid", "--die-with-parent", "--clearenv",
+        "--setenv", "PATH", f"{SANDBOX_ROOT}/.venv/bin:/usr/local/bin:/usr/bin:/bin",
+        "--setenv", "HOME", f"{SANDBOX_ROOT}/scratch",
+        "--setenv", "TMPDIR", "/tmp",
+        "--setenv", "LANG", "C.UTF-8",
+        "--setenv", "TARGET_CODE_PATH", f"{SANDBOX_ROOT}/{visible_target}",
+        "--setenv", "PYTHONDONTWRITEBYTECODE", "1",
+        python, "-m", "pytest", f"{SANDBOX_ROOT}/scratch/{path.name}",
+        # Same node IDs as unsandboxed runs, whose rootdir is the scratch directory.
+        "--rootdir", f"{SANDBOX_ROOT}/scratch",
+        "-vv", "--no-header", "-p", "no:cacheprovider",
+    ]
+
+
 def _run_python_tests(
     state: dict[str, Any], slot: dict[str, Any], path: Path
 ) -> dict[str, Any]:
     repo_root = _repo_root(state)
+    if sandbox_mode_of(state) == "bwrap":
+        command = _sandboxed_python_tests(slot, path, Path(repo_root))
+        completed = _run_process(command, cwd="/", env={})
+        return {
+            "success": True,
+            "command": " ".join(command),
+            "toolchain_output": _PROGRESS_PADDING.sub(r"\1 \2", completed.stdout),
+        }
     pytest_executable = shutil.which("pytest")
     if not pytest_executable and importlib.util.find_spec("pytest") is None:
         # Fail on missing toolchains before their startup errors can be read as test evidence.

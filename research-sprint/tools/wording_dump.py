@@ -56,6 +56,8 @@ def _config(models, wording: str | None, **kwargs):
     # The paper's strict answer check, so dumps stay comparable across trees.
     if "answer_repair" in fields:
         kwargs["answer_repair"] = "off"
+    if "test_sandbox" in fields:
+        kwargs["test_sandbox"] = "off"
     return models.EpisodeRunConfig(**kwargs)
 
 

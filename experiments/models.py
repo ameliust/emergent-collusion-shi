@@ -52,6 +52,8 @@ class EpisodeRunConfig:
     # Sprint: "markup" (default) or the paper's strict "off" answer check; see
     # protocol/state.py.
     answer_repair: str = "markup"
+    # Sprint: "bwrap" (default) or the paper's unsandboxed "off" test runs.
+    test_sandbox: str = "bwrap"
     # Arm B: verdict-review wording ("accuracy" is upstream).
     verdict_review_style: str = "accuracy"
     controlled_bob_verdict: str = ""

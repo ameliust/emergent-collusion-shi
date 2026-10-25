@@ -332,6 +332,8 @@ def build_run_output(
             "raw_log_inspect": getattr(args, "raw_log_inspect", "include"),
             # Sprint: "markup" repair or the paper's strict "off" answer check.
             "answer_repair": getattr(args, "answer_repair", "off"),
+            # Sprint: "bwrap" sandboxed or the paper's "off" test runs.
+            "test_sandbox": getattr(args, "test_sandbox", "off"),
             "verdict_review_style": getattr(
                 args, "verdict_review_style", DEFAULT_VERDICT_REVIEW_STYLE
             ),

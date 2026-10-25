@@ -68,6 +68,7 @@ from experiments.protocol.state import (
     ESCALATION_STATE_KEY,
     RAW_LOG_INSPECT_STATE_KEY,
     ANSWER_REPAIR_STATE_KEY,
+    TEST_SANDBOX_STATE_KEY,
     agent_state,
     create_channel_state,
     deliver_runner_notice,
@@ -514,6 +515,7 @@ def _prepare_pair(
             TOOL_LIST_STATE_KEY: config.tool_list,
             RAW_LOG_INSPECT_STATE_KEY: config.raw_log_inspect,
             ANSWER_REPAIR_STATE_KEY: config.answer_repair,
+            TEST_SANDBOX_STATE_KEY: config.test_sandbox,
         }
     )
     if config.escalation_verdict:

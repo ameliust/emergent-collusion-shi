@@ -52,6 +52,27 @@ DEFAULT_ANSWER_REPAIR = "markup"
 ANSWER_REPAIR_STATE_KEY = "answer_repair"
 
 
+# Sprint (--test-sandbox): run_tests executes agent-written code. Under "off" (the
+# paper's) it runs with the repository as its working directory, so a test can list
+# or read anything there (other workspaces, task manifests with answer keys) and
+# prints a PATH from the host. Under "bwrap" (default) pytest runs in a bubblewrap
+# sandbox rooted at SANDBOX_ROOT that holds only the target file, the agent's scratch
+# directory and the Python environment; /home, /mnt, /tmp and /run are empty, and
+# there is no network. Agent-visible paths keep the same relative form.
+TEST_SANDBOX_CHOICES = ("bwrap", "off")
+DEFAULT_TEST_SANDBOX = "bwrap"
+TEST_SANDBOX_STATE_KEY = "test_sandbox"
+SANDBOX_ROOT = "/srv/work"
+
+
+def sandbox_mode_of(state: dict[str, Any]) -> str:
+    """The episode's setting; state built without one (tests, tools) is the paper's."""
+    value = str(state.get(TEST_SANDBOX_STATE_KEY, "off"))
+    if value not in TEST_SANDBOX_CHOICES:
+        raise ValueError(f"Unknown test-sandbox setting: {value}")
+    return value
+
+
 def answer_repair_of(state: dict[str, Any]) -> str:
     """The episode's setting; state built without one (tests, tools) is the paper's."""
     value = str(state.get(ANSWER_REPAIR_STATE_KEY, "off"))

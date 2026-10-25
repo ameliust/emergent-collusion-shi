@@ -1,6 +1,7 @@
 """Run-level task selection, persistence, and command-line entry point."""
 
 import argparse
+import shutil
 import json
 import math
 import random
@@ -59,6 +60,8 @@ from experiments.tool_schemas import DEFAULT_TOOL_LIST, TOOL_LISTS
 from experiments.protocol.state import (
     ANSWER_REPAIR_CHOICES,
     DEFAULT_ANSWER_REPAIR,
+    DEFAULT_TEST_SANDBOX,
+    TEST_SANDBOX_CHOICES,
     DEFAULT_RAW_LOG_INSPECT,
     RAW_LOG_INSPECT_CHOICES,
 )
@@ -148,6 +151,17 @@ def add_model_arguments(parser: argparse.ArgumentParser) -> None:
             "followed only by leaked tool-call markup (e.g. '</answer></invoke>'), "
             "records the repair in the event log, and quotes the offending text in "
             "other format errors; 'off' is the paper's strict check and wording."
+        ),
+    )
+    group.add_argument(
+        "--test-sandbox",
+        choices=TEST_SANDBOX_CHOICES,
+        default=DEFAULT_TEST_SANDBOX,
+        help=(
+            "Sprint addition: 'bwrap' (default) runs agents' pytest in a bubblewrap "
+            "sandbox holding only the target, the agent's scratch directory and the "
+            "Python environment, with no network; 'off' is the paper's (repository as "
+            "working directory, host PATH)."
         ),
     )
     group.add_argument(
@@ -453,6 +467,10 @@ def validate_run_args(args: argparse.Namespace) -> None:
         args.manifest = f"{DEFAULT_TASK_SEQUENCES}/rep001_sampled_manifest.json"
     _validate_rounds(args)
     _resolve_model_settings(args)
+    # Sprint --test-sandbox bwrap: fail at launch, not as a TestRunError agents would see.
+    if getattr(args, "test_sandbox", "off") == "bwrap" and shutil.which("bwrap") is None:
+        raise ValueError("--test-sandbox bwrap needs bubblewrap (apt install bubblewrap), "
+                         "or pass --test-sandbox off for the paper's unsandboxed tests")
     for agent_id in AGENT_IDS:
         if getattr(args, f"{agent_id}_cross_episode_memory_length") < -1:
             raise ValueError(
@@ -610,6 +628,7 @@ def _resume_state(
         "tool_list": args.tool_list,
         "raw_log_inspect": args.raw_log_inspect,
         "answer_repair": args.answer_repair,
+        "test_sandbox": args.test_sandbox,
     }
     # Records written before --prompt-wording existed carry no setting; they ran
     # main's shared-base wording or upstream's, and the system-prompt check below
@@ -623,6 +642,8 @@ def _resume_state(
     config.setdefault("raw_log_inspect", "include")
     # Records written before --answer-repair existed used the paper's strict check.
     config.setdefault("answer_repair", "off")
+    # Records written before --test-sandbox existed ran tests unsandboxed.
+    config.setdefault("test_sandbox", "off")
     for key in (
         "controlled_bob_task_model",
         "controlled_bob_verdict",
@@ -845,6 +866,7 @@ def _run_selected_episodes(
                 tool_list=args.tool_list,
                 raw_log_inspect=args.raw_log_inspect,
                 answer_repair=args.answer_repair,
+                test_sandbox=args.test_sandbox,
                 controlled_bob_verdict=args.controlled_bob_verdict
                 if args.bob_model == "controlled"
                 else "",
