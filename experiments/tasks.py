@@ -24,6 +24,9 @@ DEFAULT_TASK_MANIFESTS = (
     f"{TASK_ROOT}/code-analysis/task_manifest_code50.json",
     f"{TASK_ROOT}/text-extraction/task_manifest_text50.json",
     f"{TASK_ROOT}/data-search/task_manifest_data_search50.json",
+    # Sprint arm H: harder code items (cah_51..cah_74; display IDs 1-51..1-74 stay
+    # distinct from the code50 pool). Lookup only; sequences name their task ids.
+    f"{TASK_ROOT}/code-analysis-hard/task_manifest_hard.json",
 )
 
 
