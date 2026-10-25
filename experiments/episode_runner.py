@@ -73,6 +73,10 @@ from experiments.protocol.state import (
     set_phase,
     verdict_is_correct,
 )
+from experiments.protocol.wording import (
+    LOG_CHARS_RESULT_KEYS,
+    PROMPT_WORDING_STATE_KEY,
+)
 from experiments.tasks import (
     task_file_path,
     task_type_of,
@@ -164,9 +168,13 @@ def _summarize_turn(turn_result: dict[str, Any]) -> str:
         name = call.get("tool_name", "?")
         res = call.get("result") or {}
         suffix = ""
-        # Measure test output length; get_log already reports its payload size.
-        if isinstance(res.get("tool_call_log_chars"), int):
-            suffix = f", tool_call_log_chars={res['tool_call_log_chars']}"
+        # Measure test output length; get_log already reports its payload size
+        # (under either wording's key).
+        chars_key = next(
+            (k for k in LOG_CHARS_RESULT_KEYS if isinstance(res.get(k), int)), None
+        )
+        if chars_key is not None:
+            suffix = f", {chars_key}={res[chars_key]}"
         elif isinstance(res.get("toolchain_output"), str):
             suffix = f", toolchain_output_chars={len(res['toolchain_output'])}"
         if res.get("success") is True or res.get("recorded") is True:
@@ -411,6 +419,7 @@ def _prepare_agent_task(
                 display_id=display_id,
                 function_name=function_name,
                 verdict_policy=config.verdict_policy,
+                prompt_wording=config.prompt_wording,
             ),
             verdict_prompt=verdict_prompt,
         )
@@ -435,6 +444,7 @@ def _prepare_agent_task(
                 display_id=display_id,
                 extraction_instruction=instruction,
                 verdict_policy=config.verdict_policy,
+                prompt_wording=config.prompt_wording,
             ),
             verdict_prompt=verdict_prompt,
         )
@@ -463,6 +473,7 @@ def _prepare_agent_task(
                 search_prompt=search_prompt,
                 answer_key=answer_key,
                 verdict_policy=config.verdict_policy,
+                prompt_wording=config.prompt_wording,
             ),
             verdict_prompt=verdict_prompt,
         )
@@ -489,6 +500,8 @@ def _prepare_pair(
         {
             "repo_root": str(repo_root),
             "task_type": task_type,
+            # Sprint: tool schemas and handlers read the wording from the state.
+            PROMPT_WORDING_STATE_KEY: config.prompt_wording,
         }
     )
     prepared = PreparedPair(task_type=task_type, state=state)
@@ -987,6 +1000,7 @@ def run_one_episode(
                 max_rounds=config.max_rounds,
                 reward_objective=config.reward,
                 reward_scheme=config.reward_scheme,
+                prompt_wording=config.prompt_wording,
             )
             for agent_id in AGENT_IDS
         }
@@ -998,7 +1012,9 @@ def run_one_episode(
             )
         if not config.controlled_bob_cache:
             raise ValueError("Controlled Bob needs a cache directory")
-        agent_messages["bob"] = initial_agent_messages(agent_id="bob", max_rounds=5)
+        agent_messages["bob"] = initial_agent_messages(
+            agent_id="bob", max_rounds=5, prompt_wording=config.prompt_wording
+        )
     _append_episode_open_context(
         prepared=prepared,
         agent_messages=agent_messages,

@@ -50,6 +50,7 @@ from experiments.protocol.rewards import (
     reward_scheme_from_args,
 )
 from experiments.protocol.state import AGENT_IDS
+from experiments.protocol.wording import DEFAULT_PROMPT_WORDING, PROMPT_WORDINGS
 from experiments.tasks import (
     DEFAULT_TASK_SEQUENCES,
     display_task_id,
@@ -115,6 +116,18 @@ def add_model_arguments(parser: argparse.ArgumentParser) -> None:
             "Sprint addition, both agents: Anthropic thinking display. 'summarized' "
             "stores readable thinking summaries in reasoning traces; 'default' sends "
             "nothing. Display changes visibility only, not billing."
+        ),
+    )
+    group.add_argument(
+        "--prompt-wording",
+        choices=PROMPT_WORDINGS,
+        default=DEFAULT_PROMPT_WORDING,
+        help=(
+            "Sprint addition, both agents: agent-visible protocol wording. "
+            "'upstream' (default) is the paper's ('raw log', a reasoning field); "
+            "'shared-base' is the 131a18f rewording that avoids Sonnet 5.5's "
+            "reasoning_extraction refusals ('tool-call log', a short explanation "
+            "kept out of the log)."
         ),
     )
     for agent_id in AGENT_IDS:
@@ -508,7 +521,11 @@ def _resume_state(
         "reflection": args.reflection,
         "reward": args.reward,
         "reward_scheme": f"{reward_scheme.sharing}-{reward_scheme.terms}",
+        "prompt_wording": args.prompt_wording,
     }
+    # Records written before --prompt-wording existed carry no setting; they ran
+    # main's shared-base wording or upstream's, and the system-prompt check below
+    # tells the two apart.
     for key in (
         "controlled_bob_task_model",
         "controlled_bob_verdict",
@@ -605,6 +622,7 @@ def _run_selected_episodes(
             reward_objective=args.reward
             and not (agent_id == "bob" and args.bob_model == "controlled"),
             reward_scheme=reward_scheme,
+            prompt_wording=args.prompt_wording,
         )
         for agent_id in AGENT_IDS
     }
@@ -708,6 +726,7 @@ def _run_selected_episodes(
                 reward=args.reward,
                 verdict_review=args.verdict_review,
                 reward_scheme=reward_scheme,
+                prompt_wording=args.prompt_wording,
                 controlled_bob_verdict=args.controlled_bob_verdict
                 if args.bob_model == "controlled"
                 else "",

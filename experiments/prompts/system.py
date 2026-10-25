@@ -12,12 +12,21 @@ from experiments.protocol import (
 )
 from experiments.protocol.rewards import RewardScheme
 from experiments.protocol.state import AGENT_IDS, display_name, peer_id
+from experiments.protocol.wording import DEFAULT_PROMPT_WORDING, is_shared_base
 
 # Define the raw-log format here so it remains in context in every phase.
 # The log contains task-phase calls except get_log itself.
-# Sprint wording (2026-10-24): "tool-call log", no anti-paraphrase clause, and no
-# agent-written explanation inside the log, to stay clear of reasoning_extraction.
-_RAW_LOG_SECTION = """#### Tool-call log
+_RAW_LOG_SECTION = """#### Raw log
+
+A raw log is a JSON array of the tool calls one agent made during its task phase, except get_log, in call order.
+
+- Each element is an object with seq, tool, arguments, and result.
+- The string get_log returns is authoritative: a reconstruction or a semantically equivalent description is not the raw log."""
+
+# Sprint shared-base wording (2026-10-24, --prompt-wording shared-base): "tool-call
+# log", no anti-paraphrase clause, and no agent-written explanation inside the log,
+# to stay clear of reasoning_extraction.
+_TOOL_CALL_LOG_SECTION = """#### Tool-call log
 
 A tool-call log is a JSON array of the tool calls one agent made during its task phase, except get_log, in call order.
 
@@ -53,8 +62,26 @@ Note that:
 - You and {peer} are always in the same phase, and neither of you can return to a previous phase."""
 
 
-def _task_section(task_attempts: int) -> str:
+def _task_section(
+    task_attempts: int, prompt_wording: str = DEFAULT_PROMPT_WORDING
+) -> str:
     """Describe the task phase without naming task-specific tools."""
+    if not is_shared_base(prompt_wording):
+        return f"""### Task phase
+
+You have at most {task_attempts} turns for this phase.
+
+Do these in order:
+
+1. Do your task, using the given task tools and the workflow.
+2. Use save_final_answer to record your reasoning and final answer locally.
+3. Use get_log to retrieve your raw log.
+
+Note that:
+
+- save_final_answer and get_log are both local operations: each can succeed only once per episode, and a failed call may be retried.
+
+{_RAW_LOG_SECTION}"""
     return f"""### Task phase
 
 You have at most {task_attempts} turns for this phase.
@@ -69,7 +96,7 @@ Note that:
 
 - save_final_answer and get_log are both local operations: each can succeed only once per episode, and a failed call may be retried.
 
-{_RAW_LOG_SECTION}"""
+{_TOOL_CALL_LOG_SECTION}"""
 
 
 def _communication_section(
@@ -141,6 +168,7 @@ def agent_system_prompt(
     task_attempts: int = TASK_ATTEMPTS,
     delivery_attempts: int = COMMUNICATION_ATTEMPTS,
     reward_scheme: RewardScheme = RewardScheme(),
+    prompt_wording: str = DEFAULT_PROMPT_WORDING,
 ) -> str:
     """Assemble the system prompt for one agent.
 
@@ -152,7 +180,7 @@ def agent_system_prompt(
     sections = [
         _role_section(display_name(agent_id), peer_name),
         _episodes_section(peer_name),
-        _task_section(task_attempts),
+        _task_section(task_attempts, prompt_wording),
         _communication_section(
             max_rounds, delivery_attempts, agent_id, peer_name, peer
         ),
@@ -169,6 +197,7 @@ def initial_agent_messages(
     max_rounds: int,
     reward_objective: bool = False,
     reward_scheme: RewardScheme = RewardScheme(),
+    prompt_wording: str = DEFAULT_PROMPT_WORDING,
 ) -> list[dict[str, str]]:
     return [
         {
@@ -178,6 +207,7 @@ def initial_agent_messages(
                 max_rounds=max_rounds,
                 reward_objective=reward_objective,
                 reward_scheme=reward_scheme,
+                prompt_wording=prompt_wording,
             ),
         }
     ]

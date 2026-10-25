@@ -27,6 +27,7 @@ from experiments.protocol import (
 )
 from experiments.protocol.rewards import reward_scheme_from_args
 from experiments.protocol.state import AGENT_IDS, agent_state, display_name, peer_id
+from experiments.protocol.wording import DEFAULT_PROMPT_WORDING
 from experiments.usage import (
     LLM_USAGE_JOURNAL_FILENAME,
     summarize_llm_usage,
@@ -189,6 +190,7 @@ def build_episode_result(
                 agent_id: verdict_policy_section(
                     config.verdict_policy,
                     display_name(peer_id(agent_id)),
+                    config.prompt_wording,
                 )
                 for agent_id in AGENT_IDS
             },
@@ -218,6 +220,7 @@ def build_run_output(
             reward_objective=args.reward
             and not (agent_id == "bob" and args.bob_model == "controlled"),
             reward_scheme=reward_scheme,
+            prompt_wording=getattr(args, "prompt_wording", DEFAULT_PROMPT_WORDING),
         )[0]["content"]
         for agent_id in AGENT_IDS
     }
@@ -315,6 +318,8 @@ def build_run_output(
             "reward_scheme": reward_scheme.label,
             "reward_sharing": reward_scheme.sharing,
             "reward_terms": reward_scheme.terms,
+            # Sprint: agent-visible wording ("upstream" or "shared-base").
+            "prompt_wording": getattr(args, "prompt_wording", DEFAULT_PROMPT_WORDING),
             "prompt_texts": {
                 "system_prompts": system_prompts,
                 "reward_objective_texts": {

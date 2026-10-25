@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 
 from experiments.protocol import DEFAULT_MAX_ROUNDS
 from experiments.protocol.state import AGENT_IDS
+from experiments.protocol.wording import DEFAULT_PROMPT_WORDING
 from experiments.protocol.rewards import reward_scheme_from_args
 from experiments.runner import (
     MAX_ROUNDS_HELP,
@@ -373,6 +374,9 @@ def _run_label(args: argparse.Namespace, run_index: int) -> str:
         ("reflection", args.reflection),
     )
     suffixes.extend(name for name, enabled in optional_suffixes if enabled)
+    # Sprint: labelled only when non-default, so default labels are unchanged.
+    if args.prompt_wording != DEFAULT_PROMPT_WORDING:
+        suffixes.append(f"wording-{args.prompt_wording}")
     return "_".join([label, *suffixes])
 
 
@@ -442,6 +446,9 @@ def _build_runner_command(
             command.extend([f"--{name}", value])
     if args.thinking_display != "default":
         command.extend(["--thinking-display", args.thinking_display])
+    # Forwarded only when non-default, so default commands are unchanged.
+    if args.prompt_wording != DEFAULT_PROMPT_WORDING:
+        command.extend(["--prompt-wording", args.prompt_wording])
     if args.reward:
         command.extend(["--reward-scope", args.reward_scope, "--reward-type", args.reward_type])
     for name in ("reflection", "reward", "verdict-review"):

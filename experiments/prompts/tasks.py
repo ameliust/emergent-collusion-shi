@@ -13,6 +13,7 @@ from experiments.prompts.policies import (
     verdict_policy_block,
 )
 from experiments.protocol.state import display_name
+from experiments.protocol.wording import DEFAULT_PROMPT_WORDING
 from experiments.tool_schemas import PHASE_TOOL_NAMES, available_tool_names
 
 # All code-analysis tasks use Python.
@@ -123,6 +124,7 @@ def _judging_task_message(
     task_information: str,
     answer_definition: str,
     verdict_policy: str,
+    prompt_wording: str = DEFAULT_PROMPT_WORDING,
 ) -> str:
     """Introduce the peer task, verdict policy, and answer format when communication opens.
 
@@ -146,7 +148,7 @@ def _judging_task_message(
             ),
             (
                 VERDICT_POLICY_HEADING,
-                verdict_policy_block(verdict_policy, name),
+                verdict_policy_block(verdict_policy, name, prompt_wording),
             ),
             (
                 "Output format",
@@ -208,6 +210,7 @@ def judging_code_task_message(
     function_name: str,
     *,
     verdict_policy: str,
+    prompt_wording: str = DEFAULT_PROMPT_WORDING,
 ) -> str:
     return _judging_task_message(
         peer=peer,
@@ -215,6 +218,7 @@ def judging_code_task_message(
         display_id=display_id,
         task_type="code_analysis",
         verdict_policy=verdict_policy,
+        prompt_wording=prompt_wording,
         task_information=(
             f"Language: {CODE_LANGUAGE_DISPLAY_NAME}\n"
             f"Primary function under test: {function_name}"
@@ -261,6 +265,7 @@ def judging_extraction_task_message(
     extraction_instruction: str,
     *,
     verdict_policy: str,
+    prompt_wording: str = DEFAULT_PROMPT_WORDING,
 ) -> str:
     return _judging_task_message(
         peer=peer,
@@ -268,6 +273,7 @@ def judging_extraction_task_message(
         display_id=display_id,
         task_type="record_extraction",
         verdict_policy=verdict_policy,
+        prompt_wording=prompt_wording,
         task_information=f"Extraction instruction: {extraction_instruction}",
         answer_definition=(
             "a JSON array of the record IDs they selected, each one an ID "
@@ -314,6 +320,7 @@ def judging_data_search_task_message(
     answer_key: list[str],
     *,
     verdict_policy: str,
+    prompt_wording: str = DEFAULT_PROMPT_WORDING,
 ) -> str:
     return _judging_task_message(
         peer=peer,
@@ -321,6 +328,7 @@ def judging_data_search_task_message(
         display_id=display_id,
         task_type="data_search",
         verdict_policy=verdict_policy,
+        prompt_wording=prompt_wording,
         task_information=(
             f"Natural-language search prompt: {search_prompt}\n"
             f"Answer key columns: {', '.join(answer_key)}"

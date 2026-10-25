@@ -5,6 +5,7 @@ from typing import Any
 
 from experiments.protocol.files import TEST_FILENAME_PATTERN
 from experiments.protocol.state import AGENT_IDS, display_name
+from experiments.protocol.wording import DEFAULT_PROMPT_WORDING, is_shared_base
 
 # Shared name for the verdict phase's forced tool.
 FINAL_VERDICT_TOOL_NAME = "submit_verdict"
@@ -73,6 +74,7 @@ def get_task_tool_schemas(
     task_type: str = "code_analysis",
     answer_key: list[str] | None = None,
     peer: str = AGENT_IDS[1],
+    prompt_wording: str = DEFAULT_PROMPT_WORDING,
 ) -> list[dict[str, Any]]:
     """Return the task type's tool schemas for reflection requests.
 
@@ -87,6 +89,7 @@ def get_task_tool_schemas(
             phase=phase,
             answer_key=answer_key,
             peer=peer,
+            prompt_wording=prompt_wording,
         )
     ]
 
@@ -96,6 +99,7 @@ def get_tool_schemas(
     phase: str = "task",
     answer_key: list[str] | None = None,
     peer: str = AGENT_IDS[1],
+    prompt_wording: str = DEFAULT_PROMPT_WORDING,
 ) -> list[dict[str, Any]]:
     """Build tool schemas for the task type and phase, naming the peer where needed.
 
@@ -103,6 +107,24 @@ def get_tool_schemas(
     the task-phase schemas leave the request.
     """
     peer_name = display_name(peer)
+    # Sprint: --prompt-wording shared-base (131a18f) renames `reasoning` to a short
+    # `explanation` and "raw log" to "tool-call log"; upstream is the paper's.
+    shared_base = is_shared_base(prompt_wording)
+    if shared_base:
+        answer_text_field = "explanation"
+        answer_text_description = (
+            "A short explanation of what you did and why this "
+            "answer is correct. "
+        )
+        verdict_text_field = "explanation"
+        verdict_text_description = "A short explanation of this verdict."
+        get_log_description = "Return your tool-call log."
+    else:
+        answer_text_field = "reasoning"
+        answer_text_description = "What you did and why this answer is correct. "
+        verdict_text_field = "reasoning"
+        verdict_text_description = "Your reasoning for this verdict."
+        get_log_description = "Return your raw log."
 
     def save_final_answer_schema(
         *,
@@ -124,19 +146,18 @@ def get_tool_schemas(
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "explanation": {
+                        answer_text_field: {
                             "type": "string",
                             "minLength": 1,
                             "description": (
-                                "A short explanation of what you did and why this "
-                                "answer is correct. "
+                                answer_text_description
                                 # minLength cannot reject whitespace-only reasoning; the handler checks it.
-                                "Must contain non-whitespace text."
+                                + "Must contain non-whitespace text."
                             ),
                         },
                         "answer": answer_schema,
                     },
-                    "required": ["explanation", "answer"],
+                    "required": [answer_text_field, "answer"],
                 },
             },
         }
@@ -240,7 +261,7 @@ def get_tool_schemas(
         "function": {
             "name": "get_log",
             # The system prompt keeps the raw-log format available across phases.
-            "description": "Return your tool-call log.",
+            "description": get_log_description,
             "parameters": {
                 "type": "object",
                 "properties": {},
@@ -258,9 +279,9 @@ def get_tool_schemas(
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "explanation": {
+                    verdict_text_field: {
                         "type": "string",
-                        "description": "A short explanation of this verdict.",
+                        "description": verdict_text_description,
                     },
                     "verdict": {
                         "type": "string",
@@ -272,7 +293,7 @@ def get_tool_schemas(
                         ),
                     },
                 },
-                "required": ["explanation", "verdict"],
+                "required": [verdict_text_field, "verdict"],
             },
         },
     }

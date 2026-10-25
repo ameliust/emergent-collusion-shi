@@ -11,6 +11,11 @@ from experiments.protocol.state import (
     agent_state,
     peer_id,
 )
+from experiments.protocol.wording import (
+    explanation_argument,
+    explanation_field,
+    prompt_wording_of,
+)
 
 
 def _answer_format_error(
@@ -151,7 +156,8 @@ def _save_answer(
         result = {
             "success": False,
             "error": error_string(
-                "InvalidAnswerFormatError", "explanation must be non-empty"
+                "InvalidAnswerFormatError",
+                f"{explanation_field(prompt_wording_of(state))} must be non-empty",
             ),
         }
         _log_event(
@@ -204,7 +210,7 @@ def _save_final_answer(
     slot = agent_state(state, actor)
     task_type = str(state.get("task_type", "code_analysis"))
     answer = str(arguments.get("answer", ""))
-    reasoning = str(arguments.get("explanation", arguments.get("reasoning", "")))
+    reasoning = explanation_argument(arguments, prompt_wording_of(state))
     artifact_keys = {
         "record_extraction": "extraction_artifact",
         "data_search": "data_search_artifact",

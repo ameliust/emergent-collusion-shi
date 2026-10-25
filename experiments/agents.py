@@ -40,6 +40,7 @@ from experiments.protocol.dispatch import (
     reject_undecodable_arguments,
 )
 from experiments.protocol.state import agent_state, peer_id
+from experiments.protocol.wording import prompt_wording_of
 from experiments.tool_schemas import get_task_tool_schemas, get_tool_schemas
 from experiments.usage import _get_attr, _jsonable, normalize_llm_usage
 
@@ -804,6 +805,7 @@ def run_agent_turn(
         phase=str(state.get("phase", "task")),
         answer_key=[str(column) for column in slot.get("answer_key", [])],
         peer=peer_id(actor),
+        prompt_wording=prompt_wording_of(state),
     )
     extra = get_litellm_completion_kwargs(
         model,
@@ -898,6 +900,7 @@ def run_reflection_turn(
         task_type=str(state.get("task_type", "code_analysis")),
         answer_key=[str(column) for column in slot.get("answer_key", [])],
         peer=peer_id(actor),
+        prompt_wording=prompt_wording_of(state),
     )
     extra = get_litellm_completion_kwargs(
         model, reasoning_effort, thinking_display=thinking_display
