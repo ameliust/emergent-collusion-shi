@@ -328,6 +328,8 @@ def build_run_output(
             "escalation_verdict": getattr(args, "escalation_verdict", False),
             # Sprint: "constant" or upstream "phase" tool lists per request.
             "tool_list": getattr(args, "tool_list", "phase"),
+            # Sprint: "omit" or the paper's "include" for inspect_database in the log.
+            "raw_log_inspect": getattr(args, "raw_log_inspect", "include"),
             "verdict_review_style": getattr(
                 args, "verdict_review_style", DEFAULT_VERDICT_REVIEW_STYLE
             ),

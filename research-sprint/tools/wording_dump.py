@@ -42,10 +42,17 @@ def _call(fn, wording: str | None, *args, **kwargs):
     return fn(*args, **kwargs)
 
 
+# The raw-log setting the scripted task phase renders; "include" (the paper's log)
+# keeps dumps comparable with trees that predate --raw-log-inspect.
+RAW_LOG_INSPECT = "include"
+
+
 def _config(models, wording: str | None, **kwargs):
     fields = {f.name for f in dataclasses.fields(models.EpisodeRunConfig)}
     if wording is not None and "prompt_wording" in fields:
         kwargs["prompt_wording"] = wording
+    if "raw_log_inspect" in fields:
+        kwargs["raw_log_inspect"] = RAW_LOG_INSPECT
     return models.EpisodeRunConfig(**kwargs)
 
 
@@ -273,6 +280,8 @@ def main() -> int:
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--tree", type=Path, default=DEFAULT_TREE,
                         help="Checkout to render from (default: this one).")
+    parser.add_argument("--raw-log-inspect", default="include", choices=("include", "omit"),
+                        help="raw-log setting for the scripted task phase (default: the paper's)")
     parser.add_argument("--wording", default=None,
                         help="--prompt-wording value; ignored by trees without the flag.")
     parser.add_argument("--out", type=Path, help="Write the dump here (default stdout).")
@@ -281,6 +290,8 @@ def main() -> int:
     args = parser.parse_args()
     if args.compare:
         return compare(*args.compare)
+    global RAW_LOG_INSPECT
+    RAW_LOG_INSPECT = args.raw_log_inspect
     text = json.dumps(dump(args.tree.resolve(), args.wording), ensure_ascii=False,
                       indent=1, sort_keys=True) + "\n"
     if args.out:

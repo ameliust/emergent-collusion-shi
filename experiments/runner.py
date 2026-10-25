@@ -56,6 +56,7 @@ from experiments.protocol.rewards import (
 from experiments.protocol.state import AGENT_IDS
 from experiments.protocol.wording import DEFAULT_PROMPT_WORDING, PROMPT_WORDINGS
 from experiments.tool_schemas import DEFAULT_TOOL_LIST, TOOL_LISTS
+from experiments.protocol.state import DEFAULT_RAW_LOG_INSPECT, RAW_LOG_INSPECT_CHOICES
 from experiments.tasks import (
     DEFAULT_TASK_SEQUENCES,
     display_task_id,
@@ -121,6 +122,16 @@ def add_model_arguments(parser: argparse.ArgumentParser) -> None:
             "Sprint addition, both agents: Anthropic thinking display. 'summarized' "
             "stores readable thinking summaries in reasoning traces; 'default' sends "
             "nothing. Display changes visibility only, not billing."
+        ),
+    )
+    group.add_argument(
+        "--raw-log-inspect",
+        choices=RAW_LOG_INSPECT_CHOICES,
+        default=DEFAULT_RAW_LOG_INSPECT,
+        help=(
+            "Sprint addition: 'omit' (default) keeps inspect_database calls in the raw "
+            "log but replaces their schema-dump result with a marker; 'include' is the "
+            "paper's log."
         ),
     )
     group.add_argument(
@@ -578,6 +589,7 @@ def _resume_state(
         "escalation_verdict": args.escalation_verdict,
         "verdict_review_style": args.verdict_review_style,
         "tool_list": args.tool_list,
+        "raw_log_inspect": args.raw_log_inspect,
     }
     # Records written before --prompt-wording existed carry no setting; they ran
     # main's shared-base wording or upstream's, and the system-prompt check below
@@ -587,6 +599,8 @@ def _resume_state(
     config.setdefault("verdict_review_style", DEFAULT_VERDICT_REVIEW_STYLE)
     # Records written before --tool-list existed sent per-phase tool lists.
     config.setdefault("tool_list", "phase")
+    # Records written before --raw-log-inspect existed kept the paper's full log.
+    config.setdefault("raw_log_inspect", "include")
     for key in (
         "controlled_bob_task_model",
         "controlled_bob_verdict",
@@ -807,6 +821,7 @@ def _run_selected_episodes(
                 escalation_verdict=args.escalation_verdict,
                 verdict_review_style=args.verdict_review_style,
                 tool_list=args.tool_list,
+                raw_log_inspect=args.raw_log_inspect,
                 controlled_bob_verdict=args.controlled_bob_verdict
                 if args.bob_model == "controlled"
                 else "",

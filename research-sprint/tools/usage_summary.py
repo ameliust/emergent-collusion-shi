@@ -1,14 +1,15 @@
 """Summarize a run's llm_usage.jsonl: tokens by cache class, hand-priced cost, statuses.
 
-Usage: python research-sprint/tools/usage_summary.py <run_dir_or_journal> [--model sonnet-5-5]
+Usage: python research-sprint/tools/usage_summary.py <run_dir_or_journal> [--model sonnet-5]
                                                    [--show-discarded]
 
 Also counts tool-phase responses without a tool call (resampled, or dropped after
 the resample limit) per phase; --show-discarded prints their recorded text.
 
-Prices are per MTok, from Anthropic's published rates (checked 2026-10-24). LiteLLM
-1.94.1's own cost field under-prices Sonnet 5.5 cache reads ($0.10 vs $0.20), so we
-price by hand. 5-minute cache writes are 1.25x input.
+Prices are per MTok. Cache reads: Sonnet 5 $0.20, Sonnet 5.5 $0.10 (confirmed by
+Amelius 2026-10-25; an earlier version of this tool priced Sonnet 5.5 reads at $0.20,
+overstating 5.5 costs slightly). Hand pricing is kept so the rate table is explicit
+and per-model. 5-minute cache writes are 1.25x input.
 """
 import argparse
 import collections
@@ -16,7 +17,7 @@ import json
 from pathlib import Path
 
 PRICES = {  # input, output, cache_write_5m, cache_read  ($ per MTok)
-    "sonnet-5-5": (2.00, 10.00, 2.50, 0.20),
+    "sonnet-5-5": (2.00, 10.00, 2.50, 0.10),
     "sonnet-5": (2.00, 10.00, 2.50, 0.20),
     "haiku-5-5": (0.10, 0.50, 0.125, 0.01),  # <=100K-token prompts only; check tier
 }
@@ -29,7 +30,7 @@ def num(x):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("path")
-    ap.add_argument("--model", default="sonnet-5-5", choices=PRICES)
+    ap.add_argument("--model", default="sonnet-5", choices=PRICES)
     ap.add_argument("--show-discarded", action="store_true",
                     help="Print the text of each discarded no-tool-call response.")
     a = ap.parse_args()

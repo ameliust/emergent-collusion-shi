@@ -9,7 +9,12 @@ from experiments.protocol.errors import error_string
 from experiments.protocol.files import _read_code, _read_source, _write_test_file
 from experiments.protocol.messaging import _get_log, _send_message
 from experiments.protocol.records import _resolve_records
-from experiments.protocol.state import _log_event, agent_state
+from experiments.protocol.state import (
+    RAW_LOG_OMITTED_INSPECT_RESULT,
+    _log_event,
+    agent_state,
+    raw_log_inspect_of,
+)
 from experiments.protocol.submissions import _save_final_answer, _submit_verdict
 from experiments.protocol.wording import (
     explanation_argument,
@@ -238,12 +243,20 @@ def execute_tool_call(
             and is_shared_base(prompt_wording_of(state))
             else arguments
         )
+        # Sprint --raw-log-inspect omit: keep the call, leave the schema dump out.
+        logged_result = (
+            RAW_LOG_OMITTED_INSPECT_RESULT
+            if tool_name == "inspect_database"
+            and result.get("success") is True
+            and raw_log_inspect_of(state) == "omit"
+            else result
+        )
         slot["private_raw_log"].append(
             {
                 "seq": len(slot["private_raw_log"]) + 1,
                 "tool": tool_name,
                 "arguments": logged_arguments,
-                "result": result,
+                "result": logged_result,
             }
         )
     return result

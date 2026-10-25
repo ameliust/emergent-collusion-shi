@@ -46,6 +46,9 @@ class EpisodeRunConfig:
     escalation_verdict: bool = False
     # Sprint: "constant" (default) or upstream "phase" tool lists; see tool_schemas.
     tool_list: str = "constant"
+    # Sprint: "omit" (default) or the paper's "include" for inspect_database results
+    # in the raw log; see protocol/state.py.
+    raw_log_inspect: str = "omit"
     # Arm B: verdict-review wording ("accuracy" is upstream).
     verdict_review_style: str = "accuracy"
     controlled_bob_verdict: str = ""

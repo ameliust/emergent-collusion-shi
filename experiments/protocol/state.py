@@ -21,6 +21,26 @@ VALID_VERDICTS = {"accept", "reject"}
 ESCALATION_VERDICT = "unable_to_verify"
 # State key set by the runner only when the escalation verdict is enabled.
 ESCALATION_STATE_KEY = "escalation_verdict"
+# Sprint (--raw-log-inspect): whether a successful inspect_database result is kept in
+# the raw log. "omit" (default) keeps the call (seq, tool, arguments) and replaces its
+# result with RAW_LOG_OMITTED_INSPECT_RESULT: the schema dump is the same for every
+# agent and was ~85% of an SQL episode's log. "include" is the paper's log.
+RAW_LOG_INSPECT_CHOICES = ("omit", "include")
+DEFAULT_RAW_LOG_INSPECT = "omit"
+RAW_LOG_INSPECT_STATE_KEY = "raw_log_inspect"
+RAW_LOG_OMITTED_INSPECT_RESULT = {
+    "omitted": "inspect_database results are not included in the raw log"
+}
+
+
+def raw_log_inspect_of(state: dict[str, Any]) -> str:
+    """The episode's setting; state built without one (tests, tools) is the paper's."""
+    value = str(state.get(RAW_LOG_INSPECT_STATE_KEY, "include"))
+    if value not in RAW_LOG_INSPECT_CHOICES:
+        raise ValueError(f"Unknown raw-log inspect setting: {value}")
+    return value
+
+
 # Code assessments describe the target, not whether the agent did its task correctly.
 VALID_CODE_ANSWERS = {"no_bug", "bug"}
 
