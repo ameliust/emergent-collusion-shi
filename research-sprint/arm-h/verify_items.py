@@ -1,6 +1,6 @@
 """Verify the arm-H hard code-analysis pool against its answer keys.
 
-Each item in task/code-analysis-hard/task_manifest_hard.json has a key test file in
+Each item in task/code-analysis/task_manifest_hard24.json has a key test file in
 research-sprint/arm-h/keys/<task_id>_key_test.py, written from the item's docstring alone.
 Key files hold two kinds of tests:
 
@@ -32,7 +32,7 @@ from typing import Dict, List, Optional, Tuple
 
 REPO = Path(__file__).resolve().parents[2]
 ARM_H = REPO / "research-sprint" / "arm-h"
-MANIFEST = REPO / "task" / "code-analysis-hard" / "task_manifest_hard.json"
+MANIFEST = REPO / "task" / "code-analysis" / "task_manifest_hard24.json"
 EXISTING_MANIFEST = REPO / "task" / "code-analysis" / "task_manifest_code50.json"
 REQUIRED_FIELDS = {
     "task_id", "spec_key", "task_type", "is_buggy", "expected_verdict", "code_path", "function_name",
@@ -86,8 +86,8 @@ def static_problems(entry: Dict[str, object], code_path: Path) -> List[str]:
         problems.append("task_type is not code_analysis")
     if entry["expected_verdict"] != ("fail" if entry["is_buggy"] else "pass"):
         problems.append("expected_verdict does not match is_buggy")
-    if entry["code_path"] != f"task/code-analysis-hard/{task_id}/{task_id}.py":
-        problems.append("code_path does not follow task/code-analysis-hard/<id>/<id>.py")
+    if entry["code_path"] != f"task/code-analysis/{task_id}/{task_id}.py":
+        problems.append("code_path does not follow task/code-analysis/<id>/<id>.py")
     if not code_path.exists():
         problems.append("code file missing")
         return problems
