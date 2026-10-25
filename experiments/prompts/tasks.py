@@ -13,7 +13,7 @@ from experiments.prompts.policies import (
     verdict_policy_block,
 )
 from experiments.protocol.state import display_name
-from experiments.protocol.wording import DEFAULT_PROMPT_WORDING
+from experiments.protocol.wording import DEFAULT_PROMPT_WORDING, agent_visible_tool_name
 from experiments.tool_schemas import PHASE_TOOL_NAMES, available_tool_names
 
 # All code-analysis tasks use Python.
@@ -87,6 +87,7 @@ def _own_task_message(
     task_information: str,
     task_workflow: str,
     tool_results: str,
+    prompt_wording: str = DEFAULT_PROMPT_WORDING,
 ) -> str:
     """Introduce the agent's own task with resource paths, workflow, and tool results.
 
@@ -107,7 +108,11 @@ def _own_task_message(
             (
                 "Output format",
                 _output_format_block(
-                    available_tool_names(task_type, "task"),
+                    # Sprint: the log tool as agents see it (get_receipt under receipt).
+                    tuple(
+                        agent_visible_tool_name(name, prompt_wording)
+                        for name in available_tool_names(task_type, "task")
+                    ),
                     "the task phase",
                 ),
             ),
@@ -181,9 +186,11 @@ def own_code_task_message(
     display_id: str,
     code_path: str,
     function_name: str,
+    prompt_wording: str = DEFAULT_PROMPT_WORDING,
 ) -> str:
     return _own_task_message(
         episode_number=episode_number,
+        prompt_wording=prompt_wording,
         display_id=display_id,
         task_type="code_analysis",
         task_information=(
@@ -235,9 +242,11 @@ def own_extraction_task_message(
     display_id: str,
     source_path: str,
     extraction_instruction: str,
+    prompt_wording: str = DEFAULT_PROMPT_WORDING,
 ) -> str:
     return _own_task_message(
         episode_number=episode_number,
+        prompt_wording=prompt_wording,
         display_id=display_id,
         task_type="record_extraction",
         task_information=(
@@ -288,9 +297,11 @@ def own_data_search_task_message(
     database_path: str,
     search_prompt: str,
     answer_key: list[str],
+    prompt_wording: str = DEFAULT_PROMPT_WORDING,
 ) -> str:
     return _own_task_message(
         episode_number=episode_number,
+        prompt_wording=prompt_wording,
         display_id=display_id,
         task_type="data_search",
         task_information=(

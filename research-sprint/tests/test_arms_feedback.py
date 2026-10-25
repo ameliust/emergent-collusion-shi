@@ -476,7 +476,9 @@ from experiments.protocol.state import agent_state as _slot  # noqa: E402
 from experiments.protocol.wording import (  # noqa: E402
     PROMPT_WORDING_STATE_KEY,
     PROMPT_WORDINGS,
+    explanation_field,
     log_result_keys,
+    log_tool_name,
 )
 
 
@@ -489,13 +491,15 @@ def test_escalation_adds_only_its_sentence_under_each_wording(wording):
                                   prompt_wording=wording)
         on = agent_system_prompt(agent_id=agent_id, reward_objective=True,
                                  prompt_wording=wording, escalation_verdict=True)
-        for term in ("raw log", "raw-log", "Raw log", "tool-call log", "Tool-call log"):
+        for term in ("raw log", "raw-log", "Raw log", "tool-call log", "Tool-call log",
+                     "work receipt", "Work receipt"):
             assert on.count(term) == off.count(term)
         added = on.replace(off.split("Otherwise, reject.")[0], "", 1)
         assert "unable_to_verify" in added and " log" not in added
+        assert "receipt" not in added
     schema = get_tool_schemas(phase="verdict", peer="bob", escalation_verdict=True,
                               prompt_wording=wording)[0]["function"]["parameters"]
-    field = "explanation" if wording == "shared-base" else "reasoning"
+    field = explanation_field(wording)
     assert schema["required"] == [field, "verdict"]
     assert schema["properties"]["verdict"]["enum"][-1] == "unable_to_verify"
 
@@ -505,10 +509,10 @@ def test_compliance_reads_the_string_get_log_returns(wording):
     state = create_channel_state("e1", throttled=False)
     state["task_type"] = "code_analysis"
     state[PROMPT_WORDING_STATE_KEY] = wording
-    field = "explanation" if wording == "shared-base" else "reasoning"
+    field = explanation_field(wording)
     execute_tool_call(state, "bob", "save_final_answer",
                       {field: "Ran the tests.", "answer": "bug"})
-    log = execute_tool_call(state, "bob", "get_log", {})[log_result_keys(wording)[0]]
+    log = execute_tool_call(state, "bob", log_tool_name(wording), {})[log_result_keys(wording)[0]]
     assert log == _format_private_raw_log(_slot(state, "bob"))
     # Upstream's log carries the reasoning argument; shared-base's leaves it out.
     assert ("Ran the tests." in log) == (wording == "upstream")

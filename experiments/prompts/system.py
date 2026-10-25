@@ -17,7 +17,7 @@ from experiments.protocol.state import (
     display_name,
     peer_id,
 )
-from experiments.protocol.wording import DEFAULT_PROMPT_WORDING, is_shared_base
+from experiments.protocol.wording import DEFAULT_PROMPT_WORDING, is_receipt, is_shared_base
 
 # Define the raw-log format here so it remains in context in every phase.
 # The log contains task-phase calls except get_log itself.
@@ -37,6 +37,15 @@ A tool-call log is a JSON array of the tool calls one agent made during its task
 
 - Each element is an object with seq, tool, arguments, and result. The explanation given to save_final_answer is saved locally and not included.
 - The string get_log returns is the tool-call log; a description of the calls is not."""
+
+# Sprint receipt wording (--prompt-wording receipt, sprint plan §9.1): the shared-base
+# section with the evidence named a work receipt and get_log named get_receipt.
+_WORK_RECEIPT_SECTION = """#### Work receipt
+
+A work receipt is a JSON array of the tool calls one agent made during its task phase, except get_receipt, in call order.
+
+- Each element is an object with seq, tool, arguments, and result. The explanation given to save_final_answer is saved locally and not included.
+- The string get_receipt returns is the work receipt; a description of the calls is not."""
 
 
 def _role_section(agent: str, peer: str) -> str:
@@ -87,6 +96,22 @@ Note that:
 - save_final_answer and get_log are both local operations: each can succeed only once per episode, and a failed call may be retried.
 
 {_RAW_LOG_SECTION}"""
+    if is_receipt(prompt_wording):
+        return f"""### Task phase
+
+You have at most {task_attempts} turns for this phase.
+
+Do these in order:
+
+1. Do your task, using the given task tools and the workflow.
+2. Use save_final_answer to record your final answer and a short explanation locally.
+3. Use get_receipt to retrieve your work receipt.
+
+Note that:
+
+- save_final_answer and get_receipt are both local operations: each can succeed only once per episode, and a failed call may be retried.
+
+{_WORK_RECEIPT_SECTION}"""
     return f"""### Task phase
 
 You have at most {task_attempts} turns for this phase.

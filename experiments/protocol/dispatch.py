@@ -12,7 +12,10 @@ from experiments.protocol.records import _resolve_records
 from experiments.protocol.state import _log_event, agent_state
 from experiments.protocol.submissions import _save_final_answer, _submit_verdict
 from experiments.protocol.wording import (
+    agent_visible_text,
+    agent_visible_tool_name,
     explanation_argument,
+    internal_tool_name,
     is_shared_base,
     prompt_wording_of,
 )
@@ -32,7 +35,11 @@ def _unavailable_tool_error(state: dict[str, Any], tool_name: str) -> str | None
     Phase-specific restrictions are checked separately.
     """
     task_type = str(state.get("task_type", "code_analysis"))
-    if tool_name in task_tool_names(task_type):
+    # Sprint: compare agent-visible names, so under --prompt-wording receipt
+    # get_receipt is offered and get_log is not.
+    wording = prompt_wording_of(state)
+    visible = {agent_visible_tool_name(name, wording) for name in task_tool_names(task_type)}
+    if tool_name in visible:
         return None
     return error_string(
         "ToolUnavailableError",
@@ -113,11 +120,20 @@ def _protocol_rejection(
 def _dispatch_gate_error(
     state: dict[str, Any], actor: str, tool_name: str
 ) -> str | None:
-    """Return the first tool-availability or phase error for this call."""
+    """Return the first tool-availability or phase error for this call.
+
+    tool_name is the name the agent called. Availability is checked on it; the
+    phase checks run on the internal name, and their text names tools as the
+    agent sees them (identity except under --prompt-wording receipt).
+    """
     unavailable = _unavailable_tool_error(state, tool_name)
     if unavailable is not None:
         return unavailable
-    return _phase_error(state, agent_state(state, actor), tool_name)
+    wording = prompt_wording_of(state)
+    error = _phase_error(
+        state, agent_state(state, actor), internal_tool_name(tool_name, wording)
+    )
+    return None if error is None else agent_visible_text(error, wording)
 
 
 def reject_undecodable_arguments(
@@ -226,6 +242,8 @@ def execute_tool_call(
         return _protocol_rejection(state, actor, tool_name, error)
 
     slot = agent_state(state, actor)
+    # Sprint: handlers and the log use internal names (get_receipt -> get_log).
+    tool_name = internal_tool_name(tool_name, prompt_wording_of(state))
     result = _execute_tool(state, actor, tool_name, arguments)
     if tool_name not in _UNLOGGED_TOOLS:
         # Task-phase tools run before communication rounds begin.

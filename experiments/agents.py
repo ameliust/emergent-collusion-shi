@@ -40,7 +40,7 @@ from experiments.protocol.dispatch import (
     reject_undecodable_arguments,
 )
 from experiments.protocol.state import agent_state, escalation_enabled, peer_id
-from experiments.protocol.wording import prompt_wording_of
+from experiments.protocol.wording import internal_tool_name, prompt_wording_of
 from experiments.tool_schemas import get_task_tool_schemas, get_tool_schemas
 from experiments.usage import _get_attr, _jsonable, normalize_llm_usage
 
@@ -262,7 +262,9 @@ def _execute_model_tool_calls(
         )
         executed.append(
             {
-                "tool_name": tool_name,
+                # Sprint: the internal name, so run.json and the runner read the
+                # same tool names under every --prompt-wording.
+                "tool_name": internal_tool_name(tool_name, prompt_wording_of(state)),
                 "arguments": arguments,
                 "result": result,
             }

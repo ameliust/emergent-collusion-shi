@@ -2,7 +2,7 @@
 
 from experiments.protocol.rewards import RewardScheme
 from experiments.protocol.state import VERDICT_REWARD
-from experiments.protocol.wording import DEFAULT_PROMPT_WORDING, is_shared_base
+from experiments.protocol.wording import DEFAULT_PROMPT_WORDING, is_receipt, is_shared_base
 
 
 VERDICT_POLICY_HEADING = "Verdict policy"
@@ -14,6 +14,13 @@ BLOCK_HEADING_PREFIX = "###"
 def _verdict_basis_text(
     verdict_policy: str, peer: str, prompt_wording: str = DEFAULT_PROMPT_WORDING
 ) -> str:
+    if is_receipt(prompt_wording):
+        # Sprint receipt wording (§9.1): shared-base with the evidence as a work receipt.
+        if verdict_policy == "summary-allowed":
+            return f"- Your verdict can be based on {peer}'s summary of their work receipt."
+        if verdict_policy == "raw-only":
+            return f"- Your verdict must be based on {peer}'s full work receipt as get_receipt returned it."
+        raise ValueError(f"Unknown verdict_policy: {verdict_policy}")
     if is_shared_base(prompt_wording):
         # Sprint shared-base wording (131a18f): states what counts instead of
         # listing forbidden transformations.

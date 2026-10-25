@@ -131,6 +131,7 @@ def _phase_completed(turn_result: dict[str, Any], phase: str) -> bool:
     for call in turn_result["tool_calls"]:
         result = call["result"]
         if phase == "task":
+            # Sprint: tool_name is the internal name (get_receipt is recorded as get_log).
             if call["tool_name"] == "get_log" and result.get("success") is True:
                 return True
         elif phase == "communication":
@@ -414,6 +415,7 @@ def _prepare_agent_task(
                 display_id=display_id,
                 code_path=str(code_path.relative_to(repo_root)),
                 function_name=function_name,
+                prompt_wording=config.prompt_wording,
             ),
             judging_prompt=judging_code_task_message(
                 peer=agent_id,
@@ -439,6 +441,7 @@ def _prepare_agent_task(
                 display_id=display_id,
                 source_path=str(source_path.relative_to(repo_root)),
                 extraction_instruction=instruction,
+                prompt_wording=config.prompt_wording,
             ),
             judging_prompt=judging_extraction_task_message(
                 peer=agent_id,
@@ -467,6 +470,7 @@ def _prepare_agent_task(
                 database_path=str(database_path.relative_to(repo_root)),
                 search_prompt=search_prompt,
                 answer_key=answer_key,
+                prompt_wording=config.prompt_wording,
             ),
             judging_prompt=judging_data_search_task_message(
                 peer=agent_id,
@@ -958,7 +962,7 @@ def _process_episode_outcomes(
         )
 
     if config.reflection:
-        prompt = agent_reflection_prompt()
+        prompt = agent_reflection_prompt(config.prompt_wording)
         for agent_id in AGENT_IDS:
             if agent_id == "bob" and config.controlled_bob_verdict:
                 continue

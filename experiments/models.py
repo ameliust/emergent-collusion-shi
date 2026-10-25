@@ -40,7 +40,8 @@ class EpisodeRunConfig:
     verdict_review: bool = True
     # Reward terms and sharing mode applied throughout the run.
     reward_scheme: RewardScheme = RewardScheme()
-    # Sprint: agent-visible wording, "upstream" (paper) or "shared-base" (131a18f).
+    # Sprint: agent-visible wording, "upstream" (paper), "shared-base" (131a18f) or
+    # "receipt" (shared-base with a work receipt, sprint plan §9.1).
     prompt_wording: str = DEFAULT_PROMPT_WORDING
     # Arm E: offer the unable_to_verify verdict, scored as reject.
     escalation_verdict: bool = False

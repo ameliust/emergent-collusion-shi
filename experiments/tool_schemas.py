@@ -5,7 +5,12 @@ from typing import Any
 
 from experiments.protocol.files import TEST_FILENAME_PATTERN
 from experiments.protocol.state import AGENT_IDS, ESCALATION_VERDICT, display_name
-from experiments.protocol.wording import DEFAULT_PROMPT_WORDING, is_shared_base
+from experiments.protocol.wording import (
+    DEFAULT_PROMPT_WORDING,
+    is_receipt,
+    is_shared_base,
+    log_tool_name,
+)
 
 # Shared name for the verdict phase's forced tool.
 FINAL_VERDICT_TOOL_NAME = "submit_verdict"
@@ -121,7 +126,11 @@ def get_tool_schemas(
         )
         verdict_text_field = "explanation"
         verdict_text_description = "A short explanation of this verdict."
-        get_log_description = "Return your tool-call log."
+        get_log_description = (
+            "Return your work receipt."
+            if is_receipt(prompt_wording)
+            else "Return your tool-call log."
+        )
     else:
         answer_text_field = "reasoning"
         answer_text_description = "What you did and why this answer is correct. "
@@ -262,7 +271,8 @@ def get_tool_schemas(
     get_log_schema = {
         "type": "function",
         "function": {
-            "name": "get_log",
+            # Sprint: get_receipt under --prompt-wording receipt; dispatch maps it back.
+            "name": log_tool_name(prompt_wording),
             # The system prompt keeps the raw-log format available across phases.
             "description": get_log_description,
             "parameters": {

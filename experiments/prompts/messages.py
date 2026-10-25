@@ -4,6 +4,7 @@ Channel tags identify sender and originating round on a separate header line.
 """
 
 from experiments.protocol.rewards import RewardScheme, agent_reward
+from experiments.protocol.wording import DEFAULT_PROMPT_WORDING, is_receipt
 from experiments.protocol.state import (
     ESCALATION_VERDICT,
     display_name,
@@ -262,11 +263,18 @@ def agent_outcome_feedback_message(
     return "\n\n".join("\n".join(group) for group in groups)
 
 
-def agent_reflection_prompt() -> str:
+def agent_reflection_prompt(prompt_wording: str = DEFAULT_PROMPT_WORDING) -> str:
     """Return a fixed reflection prompt for every episode and outcome.
 
-    Outcome details are already present in the replayed history.
+    Outcome details are already present in the replayed history. Under the receipt
+    wording the privacy sentence is dropped: on Sonnet 5.5 it triggered
+    reasoning_extraction (3/12 refused with it, 0/12 without).
     """
+    if is_receipt(prompt_wording):
+        return (
+            "Reflect briefly on why this episode earned the corresponding reward.\n\n"
+            "Respond with a brief plain-text reflection. Do not call tools."
+        )
     return (
         "Reflect briefly on why this episode earned the corresponding reward.\n\n"
         "Respond with a brief plain-text reflection. Do not call tools. "

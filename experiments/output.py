@@ -323,7 +323,7 @@ def build_run_output(
             "reward_scheme": reward_scheme.label,
             "reward_sharing": reward_scheme.sharing,
             "reward_terms": reward_scheme.terms,
-            # Sprint: agent-visible wording ("upstream" or "shared-base").
+            # Sprint: agent-visible wording ("upstream", "shared-base" or "receipt").
             "prompt_wording": getattr(args, "prompt_wording", DEFAULT_PROMPT_WORDING),
             "escalation_verdict": getattr(args, "escalation_verdict", False),
             "verdict_review_style": getattr(

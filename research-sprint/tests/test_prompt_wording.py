@@ -28,7 +28,9 @@ from experiments.protocol.wording import (
     DEFAULT_PROMPT_WORDING,
     PROMPT_WORDING_STATE_KEY,
     PROMPT_WORDINGS,
+    explanation_field,
     log_result_keys,
+    log_tool_name,
     prompt_wording_of,
 )
 from experiments.runner import _resume_state, build_run_parser, validate_run_args
@@ -125,7 +127,7 @@ def _state(wording):
 @pytest.mark.parametrize("wording", PROMPT_WORDINGS)
 def test_save_final_answer_field_and_log(wording):
     state = _state(wording)
-    field = "explanation" if wording == "shared-base" else "reasoning"
+    field = explanation_field(wording)
     result = execute_tool_call(state, "alice", "save_final_answer",
                                {field: "Ran tests.", "answer": "bug"})
     assert result == {"success": True}
@@ -137,7 +139,7 @@ def test_save_final_answer_field_and_log(wording):
         assert logged == {"reasoning": "Ran tests.", "answer": "bug"}
     else:
         assert logged == {"answer": "bug"}
-    log = execute_tool_call(state, "alice", "get_log", {})
+    log = execute_tool_call(state, "alice", log_tool_name(wording), {})
     log_key, chars_key = log_result_keys(wording)
     assert set(log) == {"success", log_key, chars_key}
     assert log[log_key] == _format_private_raw_log(agent_state(state, "alice"))

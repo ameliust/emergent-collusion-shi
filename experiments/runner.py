@@ -131,7 +131,8 @@ def add_model_arguments(parser: argparse.ArgumentParser) -> None:
             "'upstream' (default) is the paper's ('raw log', a reasoning field); "
             "'shared-base' is the 131a18f rewording that avoids Sonnet 5.5's "
             "reasoning_extraction refusals ('tool-call log', a short explanation "
-            "kept out of the log)."
+            "kept out of the log); 'receipt' is shared-base with the evidence named "
+            "a work receipt (get_receipt) and no privacy sentence in the reflection."
         ),
     )
     for agent_id in AGENT_IDS:

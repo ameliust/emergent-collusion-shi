@@ -92,14 +92,16 @@ def _scripted_tool_results(tree, wording, mods, pair, sequence, index) -> dict[s
             peer=state_mod.peer_id(agent),
         )
         save_schema = next(s for s in schema_list if s["function"]["name"] == "save_final_answer")
+        # The log tool as the agent sees it (get_receipt under the receipt wording).
+        log_tool = schema_list[-1]["function"]["name"]
         field = _schema_field(save_schema)
         answer = {"code_analysis": "bug", "record_extraction": "[]",
                   "data_search": "[]"}[task_type]
         steps = list(read_only) + [
             ("save_final_answer", {field: "   ", "answer": answer}),
-            ("get_log", {}),
+            (log_tool, {}),
             ("save_final_answer", {field: "Checked the target.", "answer": answer}),
-            ("get_log", {}),
+            (log_tool, {}),
         ]
         for step, (tool, arguments) in enumerate(steps):
             result = dispatch.execute_tool_call(state, agent, tool, dict(arguments))
@@ -127,10 +129,11 @@ def _scripted_tool_results(tree, wording, mods, pair, sequence, index) -> dict[s
         )
     # The progress summary keys its log-length suffix by the get_log result key.
     for agent in AGENTS:
-        get_log_result = json.loads(
-            out[f"{sequence}/pair{index:02d}/{agent}/task/"
-                f"{len(read_only) + 3:02d}:get_log"]
+        key = next(
+            k for k in out
+            if k.startswith(f"{sequence}/pair{index:02d}/{agent}/task/{len(read_only) + 3:02d}:")
         )
+        get_log_result = json.loads(out[key])
         out[f"{sequence}/pair{index:02d}/{agent}/progress_summary"] = er._summarize_turn(
             {"tool_calls": [{"tool_name": "get_log", "result": get_log_result}]}
         )
@@ -243,7 +246,7 @@ def dump(tree: Path, wording: str | None) -> dict[str, str]:
                                     reward=reward, verdict_evaluation=direction,
                                     reward_scheme=scheme,
                                 )
-    out["reflection/prompt"] = messages.agent_reflection_prompt()
+    out["reflection/prompt"] = _call(messages.agent_reflection_prompt, wording)
     out["channel/auto_forced_reject"] = messages.AUTO_FORCED_REJECT_REASONING
     out["channel/round_tag"] = messages.communication_round_tag(2, 5)
     out["channel/round_instruction"] = messages.communication_round_instruction(2, 5)
