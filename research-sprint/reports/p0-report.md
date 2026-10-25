@@ -76,6 +76,7 @@ Refused: Sonnet 5.5, Opus 5.5. Proceeded: Haiku 5.5, Sonnet 5, Sonnet 4.6 (n=1 e
 - Refusals per phase and per episode, pre-output vs mid-generation, retries used.
 - **Refusal bias audit:** for each refused mid-generation turn, how the partial thinking leaned (accept/reject) compared with the accepted resample. Both readable partials so far leaned REJECT ("lack of full log evidence means the verdict should be reject"). If refused turns lean REJECT systematically, mutual-ACCEPT rates are biased upward and must be reported with that caveat, or corrected.
 - The journal records refusal partials (`error_detail`) but drops `stop_details`. Category has to be confirmed by raw replay, or by adding raw-response capture to the harness.
+- The harness also does not log provider request IDs (interim 2 wrongly said they were in the run log). Refusal request IDs collected by raw replay are in `refusal-ids.md`, for a false-positive report to Anthropic. Logging `request-id` per call is a cheap harness addition if we keep any classifier model.
 
 ## 7. Round-3 tests (Oct 24 evening, about $1.7 of the $6 testing budget)
 
