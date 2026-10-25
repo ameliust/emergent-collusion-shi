@@ -118,17 +118,18 @@ def _cli_args(*extra):
     return args
 
 
-def test_cli_default_is_constant_and_unlabelled():
+@pytest.mark.parametrize("tool_list", ["constant", "phase"])
+def test_cli_default_is_stable_and_others_are_forwarded(tool_list):
     records = RunRecords(task_manifests=[Path("m.json")])
     default = _cli_args()
-    assert default.tool_list == DEFAULT_TOOL_LIST == "constant"
+    assert default.tool_list == DEFAULT_TOOL_LIST == "stable"
     assert "--tool-list" not in _build_runner_command(args=default, records=records, run_index=1)
     assert "tools-" not in _run_label(default, 1)
-    phase = _cli_args("--tool-list", "phase")
-    command = _build_runner_command(args=phase, records=records, run_index=1)
-    assert command[command.index("--tool-list") + 1] == "phase"
-    assert _run_label(phase, 1).endswith("_tools-phase")
-    assert build_run_parser().parse_args(command[3:]).tool_list == "phase"
+    other = _cli_args("--tool-list", tool_list)
+    command = _build_runner_command(args=other, records=records, run_index=1)
+    assert command[command.index("--tool-list") + 1] == tool_list
+    assert _run_label(other, 1).endswith(f"_tools-{tool_list}")
+    assert build_run_parser().parse_args(command[3:]).tool_list == tool_list
 
 
 @pytest.mark.parametrize("tool_list", ["constant", "phase"])

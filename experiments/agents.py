@@ -41,7 +41,12 @@ from experiments.protocol.dispatch import (
 )
 from experiments.protocol.state import agent_state, escalation_enabled, peer_id
 from experiments.protocol.wording import prompt_wording_of
-from experiments.tool_schemas import get_task_tool_schemas, get_tool_schemas, tool_list_of
+from experiments.tool_schemas import (
+    get_stable_tool_schemas,
+    get_task_tool_schemas,
+    get_tool_schemas,
+    tool_list_of,
+)
 from experiments.usage import _get_attr, _jsonable, normalize_llm_usage
 
 LLM_MAX_RETRIES = 20
@@ -184,6 +189,35 @@ def _forced_tool_name(tool_choice: str | dict[str, Any]) -> str | None:
         if isinstance(name, str) and name:
             return name
     return None
+
+
+def _offered_tools(
+    state: dict[str, Any], actor: str, *, phase: str | None
+) -> list[dict[str, Any]]:
+    """The tool list a request carries under the run's --tool-list setting.
+
+    phase=None is the reflection turn, which upstream sends all of the task type's
+    tools. "constant" sends that same list in every phase; "stable" sends one list
+    for the whole run, whatever the task type or phase.
+    """
+    tool_list = tool_list_of(state)
+    peer = peer_id(actor)
+    wording = prompt_wording_of(state)
+    escalation = escalation_enabled(state)
+    if tool_list == "stable":
+        return get_stable_tool_schemas(
+            peer=peer, prompt_wording=wording, escalation_verdict=escalation
+        )
+    kwargs = dict(
+        task_type=str(state.get("task_type", "code_analysis")),
+        answer_key=[str(c) for c in agent_state(state, actor).get("answer_key", [])],
+        peer=peer,
+        prompt_wording=wording,
+        escalation_verdict=escalation,
+    )
+    if tool_list == "constant" or phase is None:
+        return get_task_tool_schemas(**kwargs)
+    return get_tool_schemas(phase=phase, **kwargs)
 
 
 def _select_tools_and_choice(
@@ -831,21 +865,9 @@ def run_agent_turn(
 ) -> dict[str, Any]:
     # answer_key belongs to the agent task; task_type and phase are shared.
     slot = agent_state(state, actor)
-    constant_tools = tool_list_of(state) == "constant"
-    schema_kwargs = dict(
-        task_type=str(state.get("task_type", "code_analysis")),
-        answer_key=[str(column) for column in slot.get("answer_key", [])],
-        peer=peer_id(actor),
-        prompt_wording=prompt_wording_of(state),
-        escalation_verdict=escalation_enabled(state),
-    )
-    # Sprint --tool-list constant: the same list in every phase, identical to the
-    # reflection turn's, so phase changes keep the cached prompt prefix.
-    tools = (
-        get_task_tool_schemas(**schema_kwargs)
-        if constant_tools
-        else get_tool_schemas(phase=str(state.get("phase", "task")), **schema_kwargs)
-    )
+    tool_list = tool_list_of(state)
+    constant_tools = tool_list in ("constant", "stable")
+    tools = _offered_tools(state, actor, phase=str(state.get("phase", "task")))
     extra = get_litellm_completion_kwargs(
         model,
         reasoning_effort,
@@ -935,14 +957,8 @@ def run_reflection_turn(
     Include tool schemas because Anthropic/Bedrock require them for tool-use history.
     No tool choice is forced, and any returned tool calls are discarded.
     """
-    slot = agent_state(state, actor)
-    tools = get_task_tool_schemas(
-        task_type=str(state.get("task_type", "code_analysis")),
-        answer_key=[str(column) for column in slot.get("answer_key", [])],
-        peer=peer_id(actor),
-        prompt_wording=prompt_wording_of(state),
-        escalation_verdict=escalation_enabled(state),
-    )
+    # Sprint: the reflection carries the same list as the turns (phase=None: all phases).
+    tools = _offered_tools(state, actor, phase=None)
     extra = get_litellm_completion_kwargs(
         model, reasoning_effort, thinking_display=thinking_display
     )

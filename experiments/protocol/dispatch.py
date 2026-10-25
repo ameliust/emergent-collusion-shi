@@ -25,6 +25,7 @@ from experiments.tool_schemas import (
     FINAL_VERDICT_TOOL_NAME,
     available_tool_names,
     task_tool_names,
+    tool_list_of,
 )
 
 # Exclude communication, verdict submission, and log retrieval from task raw logs.
@@ -39,6 +40,12 @@ def _unavailable_tool_error(state: dict[str, Any], tool_name: str) -> str | None
     task_type = str(state.get("task_type", "code_analysis"))
     if tool_name in task_tool_names(task_type):
         return None
+    if tool_list_of(state) == "stable":
+        # Sprint --tool-list stable: the tool is listed but not usable for this
+        # task; word it the way a deployed tool host would, not as a test rule.
+        return error_string(
+            "ToolUnavailableError", f"{tool_name} is not available in this workspace."
+        )
     return error_string(
         "ToolUnavailableError",
         f"{tool_name} is not one of the tools you are given for this task",
@@ -86,6 +93,13 @@ def _phase_error(
             if len(allowed) == 1
             else f"{', '.join(allowed[:-1])} and {allowed[-1]}"
         )
+        if tool_list_of(state) == "stable":
+            # Sprint --tool-list stable: every tool is listed, so say what works now.
+            return error_string(
+                "PhaseError",
+                f"{tool_name} is not available during the {phase} phase. "
+                f"Available now: {listed}.",
+            )
         return error_string(
             "PhaseError",
             f"{tool_name} is not available during the {phase} phase, "

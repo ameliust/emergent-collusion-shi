@@ -42,11 +42,33 @@ TASK_TYPES: tuple[str, ...] = tuple(TASK_TOOL_NAMES)
 
 # Sprint (--tool-list): which tool list a request carries. "phase" (upstream) offers
 # each phase's own tools; "constant" offers every tool of the task type in every
-# phase, in one fixed order, and dispatch rejects off-phase calls. Tools render at
-# the start of the prompt, so changing them per phase rewrote the whole prompt cache
-# at every phase start (81% of a Sonnet 5 pilot trajectory's cost).
-TOOL_LISTS: tuple[str, ...] = ("constant", "phase")
-DEFAULT_TOOL_LIST = "constant"
+# phase; "stable" offers one list for the whole run: every task type's tools and one
+# save_final_answer covering all answer formats. Dispatch rejects off-phase and
+# off-task-type calls. Tools render at the start of the prompt, so any change to the
+# list rewrites the whole prompt cache: per-phase lists cost 81% of a Sonnet 5 pilot
+# trajectory, and per-task-type lists still rewrite it at every episode start.
+TOOL_LISTS: tuple[str, ...] = ("stable", "constant", "phase")
+DEFAULT_TOOL_LIST = "stable"
+# Order of the stable list: task tools by task type, then the shared tools.
+STABLE_TOOL_ORDER: tuple[str, ...] = (
+    "read_code",
+    "write_test_file",
+    "run_tests",
+    "read_source",
+    "resolve_records",
+    "inspect_database",
+    "query_database",
+    "save_final_answer",
+    "get_log",
+    "send_message",
+    FINAL_VERDICT_TOOL_NAME,
+)
+# Labels for the merged answer description, in TASK_TOOL_NAMES order.
+_ANSWER_FORMAT_LABELS = {
+    "code_analysis": "Code analysis",
+    "record_extraction": "Record extraction",
+    "data_search": "Data search",
+}
 # Episode state key; state built without it (tests, tools) uses upstream "phase".
 TOOL_LIST_STATE_KEY = "tool_list"
 
@@ -111,6 +133,50 @@ def get_task_tool_schemas(
             escalation_verdict=escalation_verdict,
         )
     ]
+
+
+def get_stable_tool_schemas(
+    peer: str = AGENT_IDS[1],
+    prompt_wording: str = DEFAULT_PROMPT_WORDING,
+    escalation_verdict: bool = False,
+) -> list[dict[str, Any]]:
+    """One tool list for every task type and phase (--tool-list stable).
+
+    Each tool keeps its own schema. save_final_answer's `answer` becomes a plain string
+    whose description gives each task type's format, word for word, under a label; the
+    data-search example uses the generic column placeholder because the answer key
+    differs per task (the task brief lists it). Code analysis loses its enum; the
+    handler already rejects anything but no_bug or bug.
+    """
+    by_name: dict[str, dict[str, Any]] = {}
+    answer_formats = []
+    for task_type in TASK_TOOL_NAMES:
+        schemas = get_tool_schemas(
+            task_type=task_type, phase="task", answer_key=None, peer=peer,
+            prompt_wording=prompt_wording, escalation_verdict=escalation_verdict,
+        )
+        for schema in schemas:
+            name = schema["function"]["name"]
+            if name == "save_final_answer":
+                answer = schema["function"]["parameters"]["properties"]["answer"]
+                answer_formats.append(
+                    f"{_ANSWER_FORMAT_LABELS[task_type]}: {answer['description']}"
+                )
+                by_name.setdefault(name, json.loads(json.dumps(schema)))
+            else:
+                by_name.setdefault(name, schema)
+    for phase in PHASE_TOOL_NAMES:
+        for schema in get_tool_schemas(
+            phase=phase, peer=peer, prompt_wording=prompt_wording,
+            escalation_verdict=escalation_verdict,
+        ):
+            by_name.setdefault(schema["function"]["name"], schema)
+    by_name["save_final_answer"]["function"]["parameters"]["properties"]["answer"] = {
+        "type": "string",
+        "description": "Your final answer, in your task type's format. "
+        + " ".join(answer_formats),
+    }
+    return [by_name[name] for name in STABLE_TOOL_ORDER]
 
 
 def get_tool_schemas(

@@ -139,9 +139,12 @@ def add_model_arguments(parser: argparse.ArgumentParser) -> None:
         choices=TOOL_LISTS,
         default=DEFAULT_TOOL_LIST,
         help=(
-            "Sprint addition: 'constant' (default) sends every tool of the task type "
-            "in every phase, so the prompt cache survives phase changes; dispatch "
-            "still rejects off-phase calls. 'phase' is upstream's per-phase list."
+            "Sprint addition: 'stable' (default) sends one tool list for the whole "
+            "run (every task type's tools, one save_final_answer for all answer "
+            "formats), so the prompt cache survives phase and episode changes; "
+            "'constant' sends the task type's tools in every phase; 'phase' is "
+            "upstream's per-phase list. Dispatch rejects off-phase and off-task-type "
+            "calls under all three."
         ),
     )
     group.add_argument(

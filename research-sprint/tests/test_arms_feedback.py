@@ -422,7 +422,7 @@ def _resume_args(**overrides):
         bob_cross_episode_memory_length=-1, max_rounds=5, char_limit=200,
         verdict_review=True, reflection=True, reward=True, bob_model="m",
         escalation_verdict=False, verdict_review_style="accuracy",
-        prompt_wording="upstream", tool_list="constant", raw_log_inspect="omit",
+        prompt_wording="upstream", tool_list="stable", raw_log_inspect="omit",
     )
     args.update(overrides)
     return Namespace(**args)
@@ -434,7 +434,7 @@ def _write_record(tmp_path, *, style, with_flag=True):
         agent["verdict_policy_compliant"] = True
     record = {
         "run_config": {"verdict_review_style": style, "escalation_verdict": False,
-                       "tool_list": "constant", "raw_log_inspect": "omit"},
+                       "tool_list": "stable", "raw_log_inspect": "omit"},
         "results": [{"episode_id": "e1", "agents": {"alice": dict(agent),
                                                      "bob": dict(agent)}}],
     }
