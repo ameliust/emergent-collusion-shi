@@ -1,4 +1,8 @@
-"""Answer key for ca_55_bookings (clean): strict `<` is right for half-open intervals."""
+"""Answer key for ca_55_bookings (clean, v2).
+
+Tempting: empty bookings (start == end) never conflict even inside another booking, touching
+bookings don't conflict, and the result is the pair with the smallest j (not smallest i).
+"""
 import importlib.util
 import os
 import random
@@ -11,47 +15,49 @@ if not TARGET_CODE_PATH:
 spec = importlib.util.spec_from_file_location("target_module", TARGET_CODE_PATH)
 target = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(target)
-has_conflict = target.has_conflict
+first_conflict = target.first_conflict
 
 
-def test_basic_overlap_and_disjoint():
-    assert has_conflict([(1, 3), (2, 4)])
-    assert not has_conflict([(1, 2), (3, 4)])
+def _oracle(bookings):
+    pairs = []
+    for j, (rb, sb, eb) in enumerate(bookings):
+        for i, (ra, sa, ea) in enumerate(bookings[:j]):
+            points_a = set(range(sa, ea))
+            if ra == rb and points_a & set(range(sb, eb)):
+                pairs.append((j, i))
+    return (min(pairs)[1], min(pairs)[0]) if pairs else None
 
 
-def test_basic_small_inputs():
-    assert not has_conflict([])
-    assert not has_conflict([(0, 5)])
-
-
-def test_basic_invalid_booking():
+def test_pilot_clause_by_clause():
+    assert first_conflict([]) is None
+    assert first_conflict([("A", 0, 5)]) is None
+    assert first_conflict([("A", 1, 3), ("A", 2, 4)]) == (0, 1)
+    assert first_conflict([("A", 1, 2), ("A", 3, 4)]) is None
+    assert first_conflict([("A", 1, 3), ("A", 3, 5)]) is None
+    assert first_conflict([("A", 1, 5), ("B", 2, 3)]) is None
+    assert first_conflict([("A", 1, 5), ("a", 2, 3)]) is None
+    assert first_conflict([("A", 10, 20), ("A", 0, 30)]) == (0, 1)
     with pytest.raises(ValueError):
-        has_conflict([(5, 1)])
-    with pytest.raises(ValueError):
-        has_conflict([(3, 3)])
+        first_conflict([("A", 5, 1)])
 
 
-def test_key_touching_bookings_do_not_conflict():
-    """A booking that ends when another starts does not conflict with it."""
-    assert not has_conflict([(1, 3), (3, 5)])
-    assert not has_conflict([(20, 30), (0, 10), (10, 20)])
+def test_key_empty_bookings_never_conflict():
+    """start == end contains no time point, even inside another booking."""
+    assert first_conflict([("A", 0, 10), ("A", 5, 5)]) is None
+    assert first_conflict([("A", 5, 5), ("A", 5, 5)]) is None
 
 
-def test_key_containment_unsorted():
-    assert has_conflict([(10, 20), (0, 30)])
-    assert has_conflict([(0, 10), (12, 14), (2, 3)])
+def test_key_smallest_j_then_smallest_i():
+    assert first_conflict([("A", 0, 10), ("B", 0, 2), ("B", 1, 3), ("A", 9, 12)]) == (1, 2)
+    assert first_conflict([("A", 0, 10), ("A", 0, 10), ("A", 0, 10)]) == (0, 1)
+    assert first_conflict([("A", 0, 2), ("A", 5, 9), ("A", 1, 6)]) == (0, 2)
 
 
 def test_key_oracle_random():
-    rng = random.Random(5)
+    rng = random.Random(55)
     for _ in range(500):
         bookings = []
         for _ in range(rng.randrange(0, 6)):
-            start = rng.randrange(0, 20)
-            bookings.append((start, start + rng.randrange(1, 6)))
-        expected = any(
-            max(a[0], b[0]) < min(a[1], b[1])
-            for i, a in enumerate(bookings)
-            for b in bookings[i + 1:]
-        )
-        assert has_conflict(bookings) == expected
+            start = rng.randrange(0, 12)
+            bookings.append((rng.choice("AB"), start, start + rng.randrange(0, 5)))
+        assert first_conflict(bookings) == _oracle(bookings)

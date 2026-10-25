@@ -1,4 +1,8 @@
-"""Answer key for ca_56_canonical_host (buggy): lstrip("www.") strips a character set, not a prefix."""
+"""Answer key for ca_56_canonical_host (buggy, v2).
+
+Bug: the www rule counts labels before the final dot is removed, so "www.example." (two real
+labels plus the root dot) loses its "www". Each rule alone works; only the combination fails.
+"""
 import importlib.util
 import os
 
@@ -13,27 +17,31 @@ spec.loader.exec_module(target)
 canonical_host = target.canonical_host
 
 
-def test_basic_prefix_removed():
+def test_pilot_clause_by_clause():
+    assert canonical_host("Example.COM") == "example.com"
     assert canonical_host("www.example.com") == "example.com"
-    assert canonical_host("WWW.Example.COM") == "example.com"
-
-
-def test_basic_no_prefix_unchanged():
-    assert canonical_host("example.com") == "example.com"
-    assert canonical_host("api.example.com") == "api.example.com"
-    assert canonical_host("wiki.org") == "wiki.org"
-
-
-def test_basic_empty_raises():
-    with pytest.raises(ValueError):
-        canonical_host("")
-
-
-def test_key_only_the_four_character_prefix_is_removed():
-    """That one prefix is removed and nothing else changes."""
-    assert canonical_host("www.wikipedia.org") == "wikipedia.org"
-    assert canonical_host("www.web.dev") == "web.dev"
-
-
-def test_key_prefix_removed_once():
+    assert canonical_host("WWW.Example.Com") == "example.com"
+    assert canonical_host("www.com") == "www.com"
+    assert canonical_host("www") == "www"
+    assert canonical_host("api.www.example.com") == "api.www.example.com"
     assert canonical_host("www.www.example.com") == "www.example.com"
+    assert canonical_host("example.com.") == "example.com"
+    assert canonical_host("www.example.com.") == "example.com"
+    assert canonical_host("example.com:80") == "example.com"
+    assert canonical_host("example.com:443") == "example.com"
+    assert canonical_host("example.com:8080") == "example.com:8080"
+    assert canonical_host("www.example.com:443") == "example.com"
+    assert canonical_host("www.com:80") == "www.com"
+    assert canonical_host("example.com.:8080") == "example.com:8080"
+    for bad in ["", "example..com", ".example.com", "example.com:", "example.com:8x", "..", "."]:
+        with pytest.raises(ValueError):
+            canonical_host(bad)
+    with pytest.raises(TypeError):
+        canonical_host(None)
+
+
+def test_key_www_rule_counts_labels_without_the_final_dot():
+    """www is removed only when the hostname, without its final dot, has three or more labels."""
+    assert canonical_host("www.example.") == "www.example"
+    assert canonical_host("WWW.local.:443") == "www.local"
+    assert canonical_host("www.example.:8080") == "www.example:8080"

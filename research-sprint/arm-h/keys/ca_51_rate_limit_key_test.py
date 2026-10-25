@@ -1,4 +1,9 @@
-"""Answer key for ca_51_rate_limit (buggy): rejected requests must not count."""
+"""Answer key for ca_51_rate_limit (buggy, v2).
+
+Bug: after a rejection the client is blocked while now <= oldest + window, one second too
+long. A request exactly window seconds after the oldest admitted one is wrongly rejected,
+but only when a rejection came first (a plain boundary test takes the other path).
+"""
 import importlib.util
 import os
 import random
@@ -14,48 +19,50 @@ spec.loader.exec_module(target)
 admit_requests = target.admit_requests
 
 
-def _oracle(times, limit, window):
-    admitted = []
+def _oracle(events, limit, window):
+    admitted = {}
     out = []
-    for t in times:
-        inside = [a for a in admitted if t - window < a <= t]
+    for client, t in events:
+        inside = [a for a in admitted.get(client, []) if t - window < a <= t]
         ok = len(inside) < limit
         out.append(ok)
         if ok:
-            admitted.append(t)
+            admitted.setdefault(client, []).append(t)
     return out
 
 
-def test_basic_burst_over_limit():
-    assert admit_requests([0, 1, 2], 2, 10) == [True, True, False]
-
-
-def test_basic_window_fully_expires():
-    assert admit_requests([0, 1, 20, 21], 2, 10) == [True, True, True, True]
-
-
-def test_basic_boundary_exactly_window_apart():
-    assert admit_requests([0, 5], 1, 5) == [True, True]
-
-
-def test_basic_empty_and_errors():
-    assert admit_requests([], 3, 10) == []
+def test_pilot_clause_by_clause():
+    a = lambda *times: [("a", t) for t in times]
+    assert admit_requests([], 2, 10) == []
+    assert admit_requests(a(0, 1, 2), 2, 10) == [True, True, False]
+    assert admit_requests(a(0, 0, 0), 2, 10) == [True, True, False]
+    assert admit_requests(a(0, 10), 1, 10) == [True, True]
+    assert admit_requests(a(0, 9), 1, 10) == [True, False]
+    assert admit_requests(a(0, 5, 12), 1, 10) == [True, False, True]
+    assert admit_requests(a(0, 1, 2, 3, 20), 2, 10) == [True, True, False, False, True]
+    assert admit_requests([("a", 0), ("b", 0), ("a", 1), ("b", 1)], 1, 10) == [True, True, False, False]
+    assert admit_requests([("a", 0), ("A", 0)], 1, 10) == [True, True]
+    for bad in [(0, 10), (2, 0), (-1, 5)]:
+        with pytest.raises(ValueError):
+            admit_requests(a(0), *bad)
     with pytest.raises(ValueError):
-        admit_requests([1], 0, 10)
+        admit_requests(a(5, 4), 1, 10)
     with pytest.raises(ValueError):
-        admit_requests([2, 1], 1, 10)
+        admit_requests([("", 0)], 1, 10)
 
 
-def test_key_rejected_request_does_not_count_later():
-    """Rejected requests are not counted against later requests."""
-    assert admit_requests([0, 5, 6, 11, 12], 2, 10) == [True, True, False, True, False]
-    assert admit_requests([0, 5, 10], 1, 10) == [True, False, True]
+def test_key_boundary_after_a_rejection():
+    """At t = oldest + window the oldest admitted request has left (t - window, t]."""
+    assert admit_requests([("a", 0), ("a", 5), ("a", 10)], 1, 10) == [True, False, True]
+    assert admit_requests([("a", 0), ("a", 3), ("a", 4), ("a", 10), ("a", 13)], 2, 10) == [
+        True, True, False, True, True,
+    ]
 
 
 def test_key_oracle_random():
-    rng = random.Random(1)
-    for _ in range(300):
-        times = sorted(rng.randrange(0, 40) for _ in range(rng.randrange(0, 12)))
-        limit = rng.randrange(1, 4)
-        window = rng.randrange(1, 12)
-        assert admit_requests(times, limit, window) == _oracle(times, limit, window)
+    rng = random.Random(51)
+    for _ in range(500):
+        times = sorted(rng.randrange(0, 40) for _ in range(rng.randrange(0, 14)))
+        events = [(rng.choice("ab"), t) for t in times]
+        limit, window = rng.randrange(1, 4), rng.randrange(1, 12)
+        assert admit_requests(events, limit, window) == _oracle(events, limit, window)

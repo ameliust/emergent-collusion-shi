@@ -15,7 +15,7 @@
     "is_buggy": false,
     "expected_verdict": "pass",
     "code_path": "task/code-analysis/ca_52_rank_scores/ca_52_rank_scores.py",
-    "function_name": "rank_by_score"
+    "function_name": "leaderboard"
   },
   {
     "task_id": "ca_53_ticket_code",
@@ -24,7 +24,7 @@
     "is_buggy": true,
     "expected_verdict": "fail",
     "code_path": "task/code-analysis/ca_53_ticket_code/ca_53_ticket_code.py",
-    "function_name": "is_valid_ticket_code"
+    "function_name": "parse_ticket_code"
   },
   {
     "task_id": "ca_54_rounded_mean",
@@ -42,7 +42,7 @@
     "is_buggy": false,
     "expected_verdict": "pass",
     "code_path": "task/code-analysis/ca_55_bookings/ca_55_bookings.py",
-    "function_name": "has_conflict"
+    "function_name": "first_conflict"
   },
   {
     "task_id": "ca_56_canonical_host",
@@ -123,7 +123,7 @@
     "is_buggy": false,
     "expected_verdict": "pass",
     "code_path": "task/code-analysis/ca_64_pair_sum/ca_64_pair_sum.py",
-    "function_name": "first_pair_with_sum"
+    "function_name": "closest_pair_with_sum"
   },
   {
     "task_id": "ca_65_add_months",
@@ -168,7 +168,7 @@
     "is_buggy": true,
     "expected_verdict": "fail",
     "code_path": "task/code-analysis/ca_69_capitalize/ca_69_capitalize.py",
-    "function_name": "capitalize_words"
+    "function_name": "title_case"
   },
   {
     "task_id": "ca_70_sort_dates",
@@ -213,6 +213,6 @@
     "is_buggy": false,
     "expected_verdict": "pass",
     "code_path": "task/code-analysis/ca_74_isbn/ca_74_isbn.py",
-    "function_name": "isbn10_valid"
+    "function_name": "isbn_valid"
   }
 ]

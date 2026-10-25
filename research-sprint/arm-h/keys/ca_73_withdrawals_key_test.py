@@ -1,4 +1,9 @@
-"""Answer key for ca_73_withdrawals (buggy): the cover check ignores the 25-cent fee."""
+"""Answer key for ca_73_withdrawals (buggy, v2).
+
+Bug: _reserve(...) records the amount in the day's total before _covered(...) is checked
+(short-circuit `and`), so a withdrawal declined for insufficient funds still uses up daily
+allowance. Limit-declined withdrawals are handled correctly.
+"""
 import importlib.util
 import os
 import random
@@ -16,50 +21,61 @@ apply_operations = target.apply_operations
 
 def _oracle(balance, operations):
     declined = []
-    for index, (kind, amount) in enumerate(operations):
+    spent = {}
+    for index, (day, kind, amount) in enumerate(operations):
         if kind == "deposit":
             balance += amount
-        elif balance - amount - 25 >= 0:
+            continue
+        funds_ok = balance - amount - 25 >= 0
+        limit_ok = spent.get(day, 0) + amount <= 50000
+        if funds_ok and limit_ok:
             balance -= amount + 25
+            spent[day] = spent.get(day, 0) + amount
         else:
             declined.append(index)
     return balance, declined
 
 
-def test_basic_deposit():
-    assert apply_operations(100, [("deposit", 50)]) == (150, [])
-
-
-def test_basic_withdraw_charges_fee():
-    assert apply_operations(100, [("withdraw", 50)]) == (25, [])
-
-
-def test_basic_overdraft_declined():
-    assert apply_operations(100, [("withdraw", 500)]) == (100, [0])
-    assert apply_operations(0, [("withdraw", 1), ("deposit", 10)]) == (10, [0])
-
-
-def test_basic_no_operations_and_validation():
+def test_pilot_clause_by_clause():
+    assert apply_operations(100, [(0, "deposit", 50)]) == (150, [])
+    assert apply_operations(100, [(0, "withdraw", 50)]) == (25, [])
+    assert apply_operations(75, [(0, "withdraw", 50)]) == (0, [])
+    assert apply_operations(30, [(0, "withdraw", 10)]) == (30, [0])
+    assert apply_operations(0, [(0, "deposit", 100), (0, "withdraw", 50), (0, "withdraw", 10), (0, "deposit", 5), (0, "withdraw", 4)]) == (1, [2])
+    rich = 10**6
+    assert apply_operations(rich, [(1, "withdraw", 50000)]) == (rich - 50025, [])
+    assert apply_operations(rich, [(1, "withdraw", 50001)]) == (rich, [0])
+    assert apply_operations(rich, [(1, "withdraw", 30000), (1, "withdraw", 20000)]) == (rich - 50050, [])
+    assert apply_operations(rich, [(1, "withdraw", 30000), (1, "withdraw", 20001)]) == (rich - 30025, [1])
+    assert apply_operations(rich, [(1, "withdraw", 40000), (1, "withdraw", 20000), (1, "withdraw", 10000)]) == (rich - 50050, [1])
+    assert apply_operations(rich, [(1, "withdraw", 50000), (2, "withdraw", 50000)]) == (rich - 100050, [])
+    assert apply_operations(rich, [(1, "withdraw", 50000), (1, "deposit", 5), (1, "withdraw", 1)]) == (rich - 50025 + 5, [2])
     assert apply_operations(0, []) == (0, [])
+    for bad in [[(0, "transfer", 5)], [(0, "deposit", 0)], [(0, "deposit", -5)], [(-1, "deposit", 5)], [(0, "deposit")], [(2, "deposit", 1), (1, "deposit", 1)]]:
+        with pytest.raises(ValueError):
+            apply_operations(10, bad)
     with pytest.raises(ValueError):
-        apply_operations(10, [("transfer", 5)])
-    with pytest.raises(ValueError):
-        apply_operations(10, [("withdraw", 0)])
+        apply_operations(-1, [])
+    with pytest.raises(TypeError):
+        apply_operations(10, "not a list")
 
 
-def test_key_fee_counts_toward_the_limit():
-    """A withdrawal succeeds only if balance - amount - fee is zero or more."""
-    assert apply_operations(100, [("withdraw", 100)]) == (100, [0])
-    assert apply_operations(100, [("withdraw", 80)]) == (100, [0])
-    assert apply_operations(100, [("withdraw", 75)]) == (0, [])
+def test_key_funds_declined_withdrawal_does_not_use_daily_allowance():
+    """Only that day's *successful* withdrawals count toward the 50000 limit."""
+    ops = [(1, "withdraw", 40000), (1, "deposit", 100000), (1, "withdraw", 20000)]
+    assert apply_operations(100, ops) == (100 + 100000 - 20025, [0])
+    ops = [(3, "withdraw", 50000), (3, "deposit", 60000), (3, "withdraw", 50000)]
+    assert apply_operations(0, ops) == (60000 - 50025, [0])
 
 
 def test_key_oracle_random():
-    rng = random.Random(23)
-    for _ in range(500):
-        ops = [
-            (rng.choice(["deposit", "withdraw", "withdraw"]), rng.randrange(1, 120))
-            for _ in range(rng.randrange(0, 8))
-        ]
-        start = rng.randrange(0, 200)
+    rng = random.Random(73)
+    for _ in range(800):
+        day = 0
+        ops = []
+        for _ in range(rng.randrange(0, 9)):
+            day += rng.choice([0, 0, 1])
+            kind = rng.choice(["deposit", "withdraw", "withdraw"])
+            ops.append((day, kind, rng.choice([1, 25, 5000, 20000, 30000, 50000, 60000])))
+        start = rng.choice([0, 100, 30000, 80000, 200000])
         assert apply_operations(start, ops) == _oracle(start, ops)

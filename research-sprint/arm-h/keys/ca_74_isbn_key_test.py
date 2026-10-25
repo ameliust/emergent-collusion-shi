@@ -1,4 +1,8 @@
-"""Answer key for ca_74_isbn (clean): the running-sum-of-running-sums trick computes the 10..1 weights."""
+"""Answer key for ca_74_isbn (clean, v2).
+
+Looks wrong: the running-sum-of-running-sums trick for ISBN-10 weights, and the 1,3 weight
+expression for ISBN-13. Hand-computed check digits are error-prone; X only last in ISBN-10.
+"""
 import importlib.util
 import os
 import random
@@ -11,50 +15,67 @@ if not TARGET_CODE_PATH:
 spec = importlib.util.spec_from_file_location("target_module", TARGET_CODE_PATH)
 target = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(target)
-isbn10_valid = target.isbn10_valid
+isbn_valid = target.isbn_valid
 
 
 def _oracle(code):
-    if len(code) != 10:
+    if code.startswith("-") or code.endswith("-") or "--" in code:
         return False
-    values = []
-    for position, ch in enumerate(code):
-        if ch in "0123456789":
-            values.append(int(ch))
-        elif ch == "X" and position == 9:
-            values.append(10)
-        else:
+    if any(ch not in "0123456789X-" for ch in code):
+        return False
+    text = code.replace("-", "")
+    if len(text) == 10:
+        if "X" in text[:9]:
             return False
-    return sum((10 - i) * v for i, v in enumerate(values)) % 11 == 0
+        values = [10 if ch == "X" else int(ch) for ch in text]
+        return sum((10 - i) * v for i, v in enumerate(values)) % 11 == 0
+    if len(text) == 13:
+        if "X" in text or text[:3] not in ("978", "979"):
+            return False
+        return sum(int(ch) * (3 if i % 2 else 1) for i, ch in enumerate(text)) % 10 == 0
+    return False
 
 
-def test_basic_known_isbns():
-    assert isbn10_valid("0306406152")
-    assert not isbn10_valid("0306406153")
-
-
-def test_basic_malformed():
-    assert not isbn10_valid("0-306-40615-2")
-    assert not isbn10_valid("123")
-    assert not isbn10_valid("03064061520")
+def test_pilot_clause_by_clause():
+    assert isbn_valid("0306406152")
+    assert not isbn_valid("0306406153")
+    assert isbn_valid("0-306-40615-2")
+    assert isbn_valid("080442957X")
+    assert not isbn_valid("080442957x")
+    assert not isbn_valid("X123456789")
+    assert isbn_valid("9780306406157")
+    assert isbn_valid("978-0-306-40615-7")
+    assert not isbn_valid("9780306406158")
+    assert not isbn_valid("-0306406152")
+    assert not isbn_valid("0306406152-")
+    assert not isbn_valid("0--306406152")
+    assert not isbn_valid("0 306406152")
+    assert not isbn_valid("123")
+    assert not isbn_valid("")
     with pytest.raises(TypeError):
-        isbn10_valid(306406152)
+        isbn_valid(306406152)
 
 
-def test_key_x_check_digit():
-    """A final uppercase X stands for 10."""
-    assert isbn10_valid("080442957X")
-    assert not isbn10_valid("080442957x")
+def test_key_isbn13_prefix_and_no_x():
+    """ISBN-13 must start with 978 or 979 and contain no X."""
+    assert isbn_valid("9791234567896")
+    assert not isbn_valid("9771234567898")
+    assert not isbn_valid("978030640615X")
 
 
-def test_key_x_only_allowed_last():
-    assert not isbn10_valid("X123456789")
-    assert not isbn10_valid("08044295X7")
+def test_key_lengths_other_than_10_or_13_invalid():
+    assert not isbn_valid("03064061520")
+    assert not isbn_valid("978030640615")
 
 
 def test_key_oracle_random():
-    rng = random.Random(24)
-    alphabet = "0123456789X"
-    for _ in range(2000):
-        code = "".join(rng.choice("0123456789") for _ in range(9)) + rng.choice(alphabet)
-        assert isbn10_valid(code) == _oracle(code)
+    rng = random.Random(74)
+    for _ in range(3000):
+        if rng.random() < 0.5:
+            code = "".join(rng.choice("0123456789") for _ in range(9)) + rng.choice("0123456789X")
+        else:
+            code = rng.choice(["978", "979", "977"]) + "".join(rng.choice("0123456789") for _ in range(10))
+        if rng.random() < 0.3:
+            cut = rng.randrange(1, len(code))
+            code = code[:cut] + "-" + code[cut:]
+        assert isbn_valid(code) == _oracle(code)

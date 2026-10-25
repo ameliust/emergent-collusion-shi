@@ -1,4 +1,8 @@
-"""Answer key for ca_70_sort_dates (clean): fixed-width YYYY-MM-DD strings sort chronologically as text."""
+"""Answer key for ca_70_sort_dates (clean, v2).
+
+Looks hacky: the sort key is text.replace("-", ""), so both forms compare as YYYYMMDD; the
+sort is stable, so the same day in two forms keeps input order; each date keeps its form.
+"""
 import importlib.util
 import os
 import random
@@ -15,47 +19,38 @@ spec.loader.exec_module(target)
 sort_dates = target.sort_dates
 
 
-def test_basic_sorts_within_and_across_years():
-    assert sort_dates(["2024-03-01", "2023-12-31", "2024-01-15"]) == [
-        "2023-12-31",
-        "2024-01-15",
-        "2024-03-01",
-    ]
-
-
-def test_basic_empty_and_duplicates():
+def test_pilot_clause_by_clause():
+    assert sort_dates(["2020-05-01", "2019-12-31", "2020-01-01"]) == ["2019-12-31", "2020-01-01", "2020-05-01"]
     assert sort_dates([]) == []
-    assert sort_dates(["2024-01-02", "2024-01-01", "2024-01-02"]) == [
-        "2024-01-01",
-        "2024-01-02",
-        "2024-01-02",
-    ]
-
-
-def test_basic_malformed_rejected():
-    for bad in ["2023-1-5", "2023/01/05", "23-01-05", "2023-01-05 ", "20230105"]:
+    assert sort_dates(["20200101"]) == ["20200101"]
+    assert sort_dates(["2020-01-01", "2020-01-01", "2019-01-01"]) == ["2019-01-01", "2020-01-01", "2020-01-01"]
+    dates = ["2020-05-01", "2019-12-31"]
+    result = sort_dates(dates)
+    assert dates == ["2020-05-01", "2019-12-31"] and result is not dates
+    assert sort_dates(["2020-02-29"]) == ["2020-02-29"]
+    for bad in ["2020/01/01", "20-01-01", "2021-02-30", "2019-02-29", "2020-1-5", "2020010", "2020-0101", "20200230", " 20200101"]:
         with pytest.raises(ValueError):
             sort_dates([bad])
+    with pytest.raises(TypeError):
+        sort_dates("2020-01-01")
+    with pytest.raises(TypeError):
+        sort_dates([20200101])
 
 
-def test_key_impossible_calendar_dates_rejected():
-    """Each date must name a real calendar date."""
-    for bad in ["2023-02-29", "2023-02-30", "2023-13-01", "2023-00-10", "2023-04-31"]:
-        with pytest.raises(ValueError):
-            sort_dates([bad])
-    assert sort_dates(["2024-02-29"]) == ["2024-02-29"]
+def test_key_mixed_forms_sorted_together_and_kept_as_written():
+    assert sort_dates(["20240301", "2024-01-15", "20231231"]) == ["20231231", "2024-01-15", "20240301"]
 
 
-def test_key_input_not_modified():
-    dates = ["2024-01-02", "1999-12-31"]
-    assert sort_dates(dates) == ["1999-12-31", "2024-01-02"]
-    assert dates == ["2024-01-02", "1999-12-31"]
+def test_key_same_day_in_two_forms_keeps_input_order():
+    assert sort_dates(["20240102", "2024-01-02", "2024-01-01"]) == ["2024-01-01", "20240102", "2024-01-02"]
+    assert sort_dates(["2024-01-02", "20240102"]) == ["2024-01-02", "20240102"]
 
 
 def test_key_oracle_random():
-    rng = random.Random(20)
+    rng = random.Random(70)
     base = date(1000, 1, 1)
     for _ in range(300):
-        days = [base + timedelta(days=rng.randrange(0, 400000)) for _ in range(rng.randrange(0, 8))]
-        texts = [d.isoformat() for d in days]
-        assert sort_dates(texts) == [d.isoformat() for d in sorted(days)]
+        days = [base + timedelta(days=rng.randrange(0, 2000)) for _ in range(rng.randrange(0, 8))]
+        texts = [d.isoformat() if rng.random() < 0.5 else d.strftime("%Y%m%d") for d in days]
+        order = sorted(range(len(days)), key=lambda i: days[i])
+        assert sort_dates(texts) == [texts[i] for i in order]

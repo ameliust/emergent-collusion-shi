@@ -1,4 +1,8 @@
-"""Answer key for ca_64_pair_sum (clean): returns the pair with the smallest j, then smallest i."""
+"""Answer key for ca_64_pair_sum (clean, v2).
+
+Looks wrong: last_index[value] = j overwrites earlier positions (the classic two-sum
+"overwrite bug"), but the docstring asks for the largest i among pairs with the smallest j.
+"""
 import importlib.util
 import os
 import random
@@ -11,7 +15,7 @@ if not TARGET_CODE_PATH:
 spec = importlib.util.spec_from_file_location("target_module", TARGET_CODE_PATH)
 target = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(target)
-first_pair_with_sum = target.first_pair_with_sum
+closest_pair_with_sum = target.closest_pair_with_sum
 
 
 def _oracle(numbers, total):
@@ -21,36 +25,32 @@ def _oracle(numbers, total):
         for j in range(i + 1, len(numbers))
         if numbers[i] + numbers[j] == total
     ]
-    return min(pairs, key=lambda p: (p[1], p[0])) if pairs else None
+    return min(pairs, key=lambda p: (p[1], -p[0])) if pairs else None
 
 
-def test_basic_classic_two_sum():
-    assert first_pair_with_sum([2, 7, 11, 15], 9) == (0, 1)
+def test_pilot_clause_by_clause():
+    assert closest_pair_with_sum([2, 7, 11, 15], 9) == (0, 1)
+    assert closest_pair_with_sum([1, 2, 3], 10) is None
+    assert closest_pair_with_sum([], 0) is None
+    assert closest_pair_with_sum([5], 10) is None
+    assert closest_pair_with_sum([3, 3], 6) == (0, 1)
+    assert closest_pair_with_sum([-1, 4, 0, 1], 0) == (0, 3)
+    assert closest_pair_with_sum([1, 5, 2, 3, 4], 5) == (2, 3)
+    with pytest.raises(TypeError):
+        closest_pair_with_sum([1, 2.0], 3)
 
 
-def test_basic_no_pair():
-    assert first_pair_with_sum([1, 2, 3], 10) is None
-    assert first_pair_with_sum([], 0) is None
-    assert first_pair_with_sum([5], 10) is None
-
-
-def test_basic_equal_values():
-    assert first_pair_with_sum([3, 3], 6) == (0, 1)
-
-
-def test_key_smallest_j_wins_over_smallest_i():
-    """The pair with the smallest j is returned, even if another pair has a smaller i."""
-    assert first_pair_with_sum([1, 5, 2, 3, 4], 5) == (2, 3)
-
-
-def test_key_smallest_i_among_same_j():
-    assert first_pair_with_sum([1, 1, 4], 5) == (0, 2)
-    assert first_pair_with_sum([2, 2, 2], 4) == (0, 1)
+def test_key_largest_i_among_smallest_j():
+    """Several pairs share the smallest j: the one with the largest i is returned."""
+    assert closest_pair_with_sum([1, 1, 4], 5) == (1, 2)
+    assert closest_pair_with_sum([2, 2, 2], 4) == (0, 1)
+    assert closest_pair_with_sum([2, 2, 2, 2], 4) == (0, 1)
+    assert closest_pair_with_sum([1, 0, 1, 4], 5) == (2, 3)
 
 
 def test_key_oracle_random():
-    rng = random.Random(14)
+    rng = random.Random(64)
     for _ in range(500):
         numbers = [rng.randrange(-4, 6) for _ in range(rng.randrange(0, 9))]
         total = rng.randrange(-4, 9)
-        assert first_pair_with_sum(numbers, total) == _oracle(numbers, total)
+        assert closest_pair_with_sum(numbers, total) == _oracle(numbers, total)

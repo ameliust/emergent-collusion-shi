@@ -12,18 +12,18 @@ def _require_parts(parts: int) -> int:
 
 
 def _chunk_sizes(total: int, parts: int) -> List[int]:
-    small, extra = divmod(total, parts)
-    return [small] * (parts - extra) + [small + 1] * extra
+    return [(total + index) // parts for index in range(parts)]
 
 
 def split_evenly(items: List[T], parts: int) -> List[List[T]]:
     """Split items into exactly parts consecutive chunks of near-equal size.
 
-    The chunks, concatenated in order, give back items. Chunk sizes differ by
-    at most one, and the larger chunks come last: for example 10 items in 3
-    parts gives chunk sizes 3, 3 and 4. When parts exceeds len(items), the
-    leading chunks are empty. An integer parts less than 1 raises ValueError.
-    The input list is not modified.
+    The chunks, concatenated in order, give back items, and every chunk is a
+    new list. Chunk sizes differ by at most one. When the sizes are not all
+    equal, every smaller chunk comes before every larger chunk. When parts
+    exceeds len(items), the chunks at the front are empty. An integer parts
+    below 1 raises ValueError, and a non-list items argument raises
+    TypeError. The input list is not modified.
     """
     if not isinstance(items, list):
         raise TypeError("items must be a list")
