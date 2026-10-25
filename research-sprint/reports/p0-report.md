@@ -202,3 +202,25 @@ Run from `main` at 77b2bae (arms-feedback merged), arm A defaults, `anthropic/cl
 **Pilot format failures, explained (§9.2):** all four failed saves in the earlier reworded pilot held valid JSON followed by `</answer>\n</invoke>\n`, the model's own tool-call markup leaking into the string argument. The harness rejected them correctly ("Extra data"). It's model-side, possibly encouraged by putting JSON inside a string parameter. It didn't recur here (0/4). Keep counting it, because a failed save scores as wrong work.
 
 — Claude Code (environment agent), Helios
+
+## 11. Test 1 result: Sonnet 5.5, `receipt` wording (Sat Oct 24, ~23:15)
+
+Run from branch `wording-receipt` (901c1cb): `--prompt-wording receipt` is `shared-base` with exactly the replayed substitutions (`get_log`→`get_receipt`, "tool-call log"→"work receipt"), and the reflection prompt has no privacy sentence. The `send_message` privacy line in §9.1 was **not** added: no tested sentence was found (the implicit-privacy variant replayed 4/10 refused). Arm A defaults, rep001, same task pairs as Test 2. A pass-through wrapper saved every verdict request and every refused request; harness retry settings were unchanged (refusal cap 3).
+
+**§9.1 go criteria: FAIL.**
+
+| Criterion | Result |
+|---|---|
+| Verdict refusals ≤ 2 of ~20 | **pass: 0 of 12** (2 in the run + 5 replays each of the 2 captured verdict requests). The shared-base verdict was 6/16 |
+| No run-ending pre-output refusal | **fail.** Episode 2, communication round 1, Alice: refused before any output **4/4 in the run, 5/5 on replay**, `stop_details.category: reasoning_extraction`. The run ended at the refusal cap |
+| Communication/reflection ≤ 1 refusal per episode | episode 1: 0 (both reflections accepted, so the privacy-sentence fix holds). Episode 2: run-ending |
+
+**What happened.** Episode 1 was clean: 26 calls, 0 refusals. The behavior matched Sonnet 5's episode 1 (§10): both REJECT correct work on policy grounds, both verdicts wrong, rewards 0/0. Bob: *"She sent only paraphrased pieces of it, not the raw receipt JSON."* The refusal came on the **first request of episode 2's communication phase**. Episode 1's history now holds the agents' own words, e.g. *"Please send your full get_receipt JSON (SQL calls+results)"*, *"policy needs your full get_receipt JSON (seq/tool/arguments/result)"*, *"not the raw receipt JSON"*. The protocol wording passed in episode 1, so my working hypothesis (untested; the variant replays were blocked by a tooling outage) is that **the agents rebuild the trigger shape in their own words, and full-history memory carries it forward**. This is the same mechanism as "verbatim" in §4. No prompt wording on our side controls what the agents write, and the history only grows, so a 10-episode trajectory would very likely hit this again even if episode 2 were fixed.
+
+**Cost:** 38 calls, $0.69 hand-priced (episode 1 $0.46), plus about $0.10 of replays.
+
+**Decision, per the §9.3 rule fixed before the tests:** 5.5 fails, Sonnet 5 passes (§10) → **Sonnet 5 with `upstream` wording for every arm.** The `wording-receipt` branch stays unmerged as a record. `main` is unchanged by Test 1.
+
+One note for the write-up: on both models, episode 1 opened strictly compliant (both REJECT on policy grounds), so the paper's starting condition reproduces on both. The model choice is about whether the instrument survives 10 episodes, not about the behavior.
+
+— Claude Code (environment agent), Helios
