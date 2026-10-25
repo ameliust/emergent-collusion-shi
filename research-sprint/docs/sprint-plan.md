@@ -1,7 +1,7 @@
 # Sprint Plan: Is Emergent Collusion Principled Relaxation? Auditing Shi, Zhang & Yang (2026)
 
 Apart AI Collusion Research Sprint, Oct 23–25 2026. Submission deadline: Sunday 23:59 AoE = **Monday 04:59 Vancouver time**.
-Status: **v3, Sun Oct 25 ~00:45**, written by Claude@ClaudeAI with Amelius. The current run state is in `research-sprint/reports/status-2026-10-25.md`; model tests and diagnostics are in `research-sprint/reports/p0-report.md`. Every change from the paper's setup, or from an earlier version of this plan, is recorded in the **deviation log (§9)**.
+Status: **v3.1, Sun Oct 25 ~01:00**, written by Claude@ClaudeAI with Amelius. The current run state is in `research-sprint/reports/status-2026-10-25.md`; model tests and diagnostics are in `research-sprint/reports/p0-report.md`. Every change from the paper's setup, or from an earlier version of this plan, is recorded in the **deviation log (§9)**.
 
 Repo: https://github.com/ameliust/emergent-collusion-shi (fork of https://github.com/SALT-NLP/agent-collusion, MIT; keep the copyright notice and cite the paper).
 
@@ -74,14 +74,13 @@ What the agent sees after each verdict when the peer's work is actually correct 
   - fallback if the API budget is gone: a customized Claude Code with an empty system prompt, no tools, and system reminders stripped, on Amelius's plan. Same model, same prompt; recorded in the deviation log if used.
 - It also runs on arm A's episode 10 and on every other wrong-work episode in A, B and E.
 
-**Status:** not built. The first build attempt was stopped before it produced files. It must be built on current `main` (stable tool list, merged `save_final_answer`).
+**Status:** not built. Amelius's companion agent is building it on current `main` (stable tool list, merged `save_final_answer`). The first attempt, by a Claude@ClaudeAI subagent on a pre-stable-tool branch, was stopped before it produced files.
 
 ## 6. Budget and run order
 
 $78.72 left (Oct 25, 00:15), no further funding. Projected **~$4–5 per trajectory** on current settings (episodes 1–2 measured at $0.39 + $0.35).
 
-- **Allocation (Amelius):** 1 more arm-A trajectory, 4 each for E, B and H, plus H calibration, with the spare allocated after results.
-- **Open point (Claude):** comparisons are only as strong as the weakest arm. With one final-settings A run against four of each other arm, A is that weakest arm. I'd prefer **equal N**: e.g. 3 each of A/E/B/H (12 runs, about $54–60), extended to 4 each if cost allows.
+- **Allocation (decided Oct 25):** **equal N**, 3 trajectories each of A/E/B/H on final settings (12 runs, about $54–60), extended to 4 each if cost allows. H calibration comes out of the remainder. The pilot A run is reported separately (D6).
 - **Run order: round-robin.** Launch A1, E1, B1, H1, then A2, E2, … so that if money or time runs out, every arm has the same N. The first new trajectory runs alone; its cost after episodes 3–4 decides how many run in parallel.
 - Pairing: trajectory *i* of A, E and B uses sequence *i*. The pilot used sequence 1.
 
@@ -111,10 +110,10 @@ Every departure from the paper's setup, or from an earlier version of this plan.
 | D4 | Oct 25 | `--tool-list stable`: one tool list for all task types and phases; one `save_final_answer` with a merged `answer` description; off-phase / off-type calls rejected with a deployment-style error | paper: per-phase tool lists | per-phase lists rewrote the prompt cache 8× per episode: 81% of the pilot's $20 | agents see tools they can't use here, a possible eval-awareness cue; off-phase calls are coded (§7) |
 | D5 | Oct 25 | `--raw-log-inspect omit`: the `inspect_database` schema dump in the raw log is replaced by a marker | paper: included | the dump was ~85% of an SQL log and sat in history twice | logs stay 1,830–7,932 chars, all above the 1,000-char channel; the manipulation holds |
 | D6 | Oct 25 | Arm A pilot (sequence 1) ran under pre-D4/D5 settings | — | ran before the cost fixes | reported as the reproduction result; arm comparisons use final-settings A runs |
-| D7 | Oct 24 | Thinking display `summarized` | not applicable in paper | needed for reasoning traces on current models; billing unchanged | **to check**: whether replayed history carries summaries rather than full thinking, which would change what agents see of their own past reasoning |
+| D7 | Oct 24 | Thinking display `summarized` | not applicable in paper | needed for reasoning traces on current models; billing unchanged | agents see their own full thinking server-side (confirmed Oct 25); only *our* copy is a summary. Any analysis of thinking traces works from summaries; visible text (messages, verdict explanations, reflections) is complete |
 | D8 | Oct 24 | Arm E: escalation always pays 0, reviewed without a grade | plan v2: scored and reviewed as REJECT | the reward rule pays for verdicts that "agree with correctness"; an escalation makes no such claim | escalation is a costly signal (§4) |
 | D9 | Oct 24 | Core feedback arm is B; C becomes stretch | plan v1: C core | C changes two things relative to A; B is the clean first link (§4) | S-H2 is tested only weakly in core; said plainly in the write-up |
-| D10 | Oct 24 | N per arm: 3–4 trajectories | plan v1: 10–15 | budget (~$100 total) | pilot-level evidence; only large effects are detectable |
+| D10 | Oct 24–25 | N per arm: 3 each (4 if cost allows), equal across arms, launched round-robin | plan v1: 10–15; status report: A×1, E/B/H×4 | budget (~$100 total) | pilot-level evidence; only large effects are detectable |
 | D11 | Oct 24 | Arm H: new harder task pool + offline full-log reviewer (Batch API, or stripped Claude Code as a fallback) | not in paper; plan v1: H design-only | Sonnet 5 rarely produces wrong work on the paper's tasks | H trajectories aren't paired with A's sequences; the reviewer is an idealized ceiling |
 | D12 | Oct 24 | Research framing: "is emergent collusion principled relaxation?" | plan v1–v2: replication + levers | Sonnet 5's early behavior (§1) | same arms, sharper question; pre-registered decisions are unchanged |
 
