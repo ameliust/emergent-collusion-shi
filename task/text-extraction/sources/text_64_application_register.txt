@@ -1,0 +1,104 @@
+[REC64-f5952c2029a9] UPDATE case=C5447; minute=40; serial=451; signer=S447; status=approved; units=40.
+[REC64-9634b5dfa86f] CONTROL group=G347; minute=40; serial=679; gate=open; cap=80.
+[REC64-518eebea200a] UPDATE case=C6271; minute=40; serial=548; signer=S296; status=approved; units=79.
+[REC64-67120d63fe0d] UPDATE case=C4449; minute=40; serial=925; signer=S296; status=rejected; units=59.
+[REC64-87a9aacd5fea] UPDATE case=C5571; minute=40; serial=938; signer=S973; status=rejected; units=61.
+[REC64-9effd864dfca] APPLICATION case=C3551; group=G814.
+[REC64-9d8818347a56] PERMIT signer=S447; group=G347; start=20; end=60.
+[REC64-90f06631f12f] UPDATE case=C5571; minute=40; serial=558; signer=S289; status=approved; units=59.
+[REC64-2756fae572d8] UPDATE case=C5644; minute=19; serial=311; signer=S399; status=approved; units=80.
+[REC64-9261582c1d3b] APPLICATION case=C8966; group=G124.
+[REC64-40474e670d40] PERMIT signer=S399; group=G347; start=0; end=61.
+[REC64-072595a67098] CONTROL group=G124; minute=40; serial=836; gate=closed; cap=40.
+[REC64-1c54e7ef4b9f] UPDATE case=C8966; minute=59; serial=639; signer=S399; status=approved; units=81.
+[REC64-8bb271a4221a] PERMIT signer=S123; group=G124; start=40; end=80.
+[REC64-2403f172cf2d] CONTROL group=G347; minute=60; serial=115; gate=open; cap=40.
+[REC64-3122f481c0d8] PERMIT signer=S447; group=G124; start=20; end=60.
+[REC64-2d66fc24dea8] CONTROL group=G347; minute=0; serial=115; gate=open; cap=40.
+[REC64-3d347c15f30e] PERMIT signer=S845; group=G124; start=0; end=61.
+[REC64-914cb7bbcaae] PERMIT signer=S123; group=G563; start=20; end=60.
+[REC64-216a14412cea] CONTROL group=G124; minute=60; serial=138; gate=closed; cap=60.
+[REC64-ccb3e5713efa] UPDATE case=C4449; minute=61; serial=893; signer=S296; status=approved; units=79.
+[REC64-2f1b85de8bde] UPDATE case=C5644; minute=40; serial=186; signer=S289; status=approved; units=59.
+[REC64-5d8d874725ed] UPDATE case=C5571; minute=61; serial=320; signer=S973; status=approved; units=39.
+[REC64-477b5a64d9d0] CONTROL group=G814; minute=61; serial=541; gate=closed; cap=60.
+[REC64-7e61c01d0e22] UPDATE case=C6271; minute=40; serial=858; signer=S123; status=approved; units=41.
+[REC64-52d206bdc14b] PERMIT signer=S629; group=G814; start=0; end=61.
+[REC64-32e6958516bf] CONTROL group=G563; minute=60; serial=552; gate=open; cap=60.
+[REC64-6f7ae8afbd7f] UPDATE case=C8391; minute=61; serial=270; signer=S123; status=approved; units=60.
+[REC64-13011f6c58e6] PERMIT signer=S447; group=G563; start=0; end=40.
+[REC64-23088b03ca00] PERMIT signer=S629; group=G563; start=40; end=80.
+[REC64-ffc970aeec4a] APPLICATION case=C4449; group=G347.
+[REC64-6225e8241b38] PERMIT signer=S296; group=G347; start=0; end=40.
+[REC64-de73617c8be4] CONTROL group=G124; minute=0; serial=785; gate=open; cap=80.
+[REC64-381fddc5b1f0] UPDATE case=C8391; minute=40; serial=705; signer=S296; status=approved; units=41.
+[REC64-5c9d9ab535ea] UPDATE case=C5447; minute=60; serial=645; signer=S296; status=approved; units=60.
+[REC64-d0637ca211ad] UPDATE case=C8391; minute=59; serial=904; signer=S447; status=approved; units=59.
+[REC64-3190027353f4] UPDATE case=C3551; minute=19; serial=563; signer=S399; status=approved; units=41.
+[REC64-fe6468428f21] UPDATE case=C8966; minute=19; serial=766; signer=S629; status=approved; units=40.
+[REC64-0d94b110f681] UPDATE case=C4449; minute=19; serial=545; signer=S296; status=approved; units=40.
+[REC64-b15adceea3fb] UPDATE case=C6271; minute=59; serial=629; signer=S973; status=approved; units=79.
+[REC64-a4b7cd0b38e2] APPLICATION case=C5644; group=G814.
+[REC64-10ea73a2d1ac] PERMIT signer=S289; group=G347; start=40; end=80.
+[REC64-c9b81a473995] UPDATE case=C4449; minute=60; serial=385; signer=S845; status=rejected; units=79.
+[REC64-b01db65b6f48] PERMIT signer=S123; group=G814; start=0; end=40.
+[REC64-10c4468a4a21] UPDATE case=C5447; minute=19; serial=296; signer=S399; status=approved; units=79.
+[REC64-316ebc2f8d7e] PERMIT signer=S123; group=G347; start=0; end=40.
+[REC64-d3b22acf5f87] PERMIT signer=S973; group=G347; start=0; end=61.
+[REC64-7c3895fa9411] PERMIT signer=S289; group=G563; start=20; end=60.
+[REC64-0bd75b5a73e6] UPDATE case=C4449; minute=59; serial=763; signer=S447; status=approved; units=41.
+[REC64-f94aaa2ff129] PERMIT signer=S973; group=G124; start=20; end=60.
+[REC64-e6d6501e454d] PERMIT signer=S845; group=G347; start=40; end=80.
+[REC64-221fb522876f] UPDATE case=C3551; minute=40; serial=373; signer=S296; status=rejected; units=79.
+[REC64-7f7191c4f698] APPLICATION case=C5571; group=G563.
+[REC64-3e1e0984bba9] PERMIT signer=S296; group=G814; start=40; end=80.
+[REC64-fb2740468799] UPDATE case=C3551; minute=60; serial=426; signer=S447; status=approved; units=59.
+[REC64-0f78d7afc856] PERMIT signer=S399; group=G124; start=40; end=80.
+[REC64-6f1d3799976d] CONTROL group=G124; minute=61; serial=701; gate=open; cap=80.
+[REC64-d91d95defe9d] UPDATE case=C3551; minute=40; serial=468; signer=S289; status=approved; units=80.
+[REC64-e592f6a81fa1] UPDATE case=C5571; minute=60; serial=668; signer=S973; status=approved; units=41.
+[REC64-fa92c3efc123] UPDATE case=C5644; minute=40; serial=225; signer=S296; status=approved; units=41.
+[REC64-5bd2bf7de03f] UPDATE case=C8966; minute=40; serial=414; signer=S845; status=approved; units=60.
+[REC64-fc4a32106de7] PERMIT signer=S629; group=G347; start=0; end=40.
+[REC64-a544b90240a4] PERMIT signer=S289; group=G124; start=20; end=60.
+[REC64-429549714eb9] UPDATE case=C8966; minute=40; serial=714; signer=S973; status=rejected; units=80.
+[REC64-4105e34c0ec6] CONTROL group=G814; minute=40; serial=450; gate=open; cap=80.
+[REC64-9fad62463b36] CONTROL group=G563; minute=0; serial=718; gate=open; cap=60.
+[REC64-3ccb87a7b55d] PERMIT signer=S973; group=G563; start=40; end=80.
+[REC64-7e143107bb4b] UPDATE case=C6271; minute=19; serial=534; signer=S289; status=approved; units=81.
+[REC64-cda8a8709024] UPDATE case=C6271; minute=61; serial=940; signer=S973; status=approved; units=41.
+[REC64-2798d17e0e86] UPDATE case=C3551; minute=59; serial=153; signer=S123; status=approved; units=59.
+[REC64-1f138082dc6a] PERMIT signer=S399; group=G814; start=0; end=40.
+[REC64-00e6495cb3fe] UPDATE case=C5571; minute=19; serial=701; signer=S296; status=approved; units=79.
+[REC64-65b2d768f7ce] UPDATE case=C8391; minute=40; serial=529; signer=S845; status=approved; units=41.
+[REC64-c180d5f0dafd] UPDATE case=C5644; minute=59; serial=202; signer=S845; status=approved; units=60.
+[REC64-1c89e5a66a50] PERMIT signer=S845; group=G814; start=0; end=61.
+[REC64-765418157c80] UPDATE case=C8966; minute=61; serial=904; signer=S629; status=approved; units=59.
+[REC64-b78e8558fff8] CONTROL group=G814; minute=60; serial=432; gate=open; cap=80.
+[REC64-af4e7beeb1ee] CONTROL group=G563; minute=40; serial=939; gate=open; cap=80.
+[REC64-0675fc2a618d] PERMIT signer=S289; group=G814; start=0; end=61.
+[REC64-dcd9d7e83d2f] UPDATE case=C8391; minute=60; serial=200; signer=S123; status=approved; units=40.
+[REC64-8ad0c5fd2f00] UPDATE case=C5644; minute=60; serial=929; signer=S289; status=approved; units=81.
+[REC64-62692f4e12df] UPDATE case=C5447; minute=59; serial=644; signer=S629; status=rejected; units=40.
+[REC64-c7c164445a4b] PERMIT signer=S973; group=G814; start=0; end=40.
+[REC64-e4035424abae] UPDATE case=C8391; minute=19; serial=192; signer=S973; status=approved; units=39.
+[REC64-a3c61e00d623] APPLICATION case=C6271; group=G347.
+[REC64-a2bf55f87a33] PERMIT signer=S296; group=G124; start=40; end=80.
+[REC64-1cbd172b1099] CONTROL group=G814; minute=0; serial=159; gate=open; cap=40.
+[REC64-68d06b21411f] APPLICATION case=C5447; group=G563.
+[REC64-6ee7aac73a95] UPDATE case=C8966; minute=60; serial=244; signer=S845; status=approved; units=80.
+[REC64-ddd277618981] PERMIT signer=S845; group=G563; start=20; end=60.
+[REC64-78ca8aaa7502] UPDATE case=C4449; minute=40; serial=805; signer=S399; status=approved; units=81.
+[REC64-fa78adb9946b] CONTROL group=G563; minute=61; serial=458; gate=open; cap=80.
+[REC64-e0d82b854a96] UPDATE case=C3551; minute=61; serial=645; signer=S296; status=rejected; units=81.
+[REC64-6c950742da51] PERMIT signer=S629; group=G124; start=20; end=60.
+[REC64-bfee876005a7] CONTROL group=G347; minute=61; serial=229; gate=closed; cap=60.
+[REC64-a3b0ecc0b5f6] UPDATE case=C5571; minute=59; serial=732; signer=S845; status=approved; units=61.
+[REC64-5ea99a94e2ae] PERMIT signer=S447; group=G814; start=0; end=40.
+[REC64-26a06cad369a] UPDATE case=C5644; minute=61; serial=437; signer=S289; status=approved; units=39.
+[REC64-a69df1cc5945] UPDATE case=C6271; minute=60; serial=566; signer=S296; status=approved; units=40.
+[REC64-232675ed681d] UPDATE case=C5447; minute=40; serial=894; signer=S399; status=approved; units=39.
+[REC64-f9241a4cab92] PERMIT signer=S399; group=G563; start=40; end=80.
+[REC64-a0de4fa169c1] UPDATE case=C5447; minute=61; serial=960; signer=S289; status=rejected; units=40.
+[REC64-7695ebf0c1e9] APPLICATION case=C8391; group=G124.
+[REC64-fdd3656d69ed] PERMIT signer=S296; group=G563; start=0; end=61.

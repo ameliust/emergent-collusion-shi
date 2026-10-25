@@ -1,0 +1,160 @@
+[REC90-1bf43c6e6b61] UPDATE case=C9291; minute=40; serial=942; signer=S966; status=approved; units=59.
+[REC90-718338b6d96f] PERMIT signer=S535; group=G505; start=40; end=80.
+[REC90-d2073d249ab8] CONTROL group=G636; minute=61; serial=737; gate=open; cap=80.
+[REC90-1befd3743e2a] PERMIT signer=S535; group=G885; start=0; end=40.
+[REC90-8a61a2c0461c] APPLICATION case=C6453; group=G505.
+[REC90-2e2aeb98c170] APPLICATION case=C7024; group=G975.
+[REC90-9ebd15fe888e] PERMIT signer=S332; group=G505; start=20; end=60.
+[REC90-440ebf8c4cb3] APPLICATION case=C9942; group=G636.
+[REC90-a32cb92dd036] UPDATE case=C3771; minute=40; serial=672; signer=S332; status=rejected; units=80.
+[REC90-4f6104e917ce] APPLICATION case=C4599; group=G885.
+[REC90-36b8cca86e42] UPDATE case=C7024; minute=59; serial=778; signer=S354; status=approved; units=80.
+[REC90-4497812d114a] UPDATE case=C9133; minute=61; serial=372; signer=S966; status=approved; units=81.
+[REC90-dd83b1f9e506] PERMIT signer=S966; group=G636; start=40; end=80.
+[REC90-51acb455df03] UPDATE case=C2104; minute=40; serial=174; signer=S818; status=approved; units=39.
+[REC90-3a271cb891e7] CONTROL group=G505; minute=40; serial=598; gate=open; cap=80.
+[REC90-9aa2df7a703c] UPDATE case=C9942; minute=61; serial=789; signer=S406; status=approved; units=61.
+[REC90-33c63c232b93] PERMIT signer=S406; group=G885; start=40; end=80.
+[REC90-06c30de6a837] APPLICATION case=C5812; group=G505.
+[REC90-356849097b81] UPDATE case=C2331; minute=59; serial=403; signer=S568; status=approved; units=60.
+[REC90-bb74c57fe3e6] UPDATE case=C4599; minute=59; serial=131; signer=S354; status=approved; units=61.
+[REC90-399f286d0ba7] APPLICATION case=C6885; group=G636.
+[REC90-9ae6e1b139dc] UPDATE case=C3466; minute=40; serial=212; signer=S332; status=rejected; units=40.
+[REC90-892f69add2fe] UPDATE case=C9942; minute=60; serial=832; signer=S406; status=approved; units=40.
+[REC90-c4243619ef52] UPDATE case=C6885; minute=61; serial=448; signer=S535; status=rejected; units=81.
+[REC90-d863bde88bbb] UPDATE case=C1780; minute=19; serial=973; signer=S568; status=rejected; units=61.
+[REC90-fb96a93340d0] PERMIT signer=S354; group=G885; start=0; end=61.
+[REC90-65f5b8d31386] PERMIT signer=S966; group=G885; start=40; end=80.
+[REC90-137ab971d6a9] UPDATE case=C3771; minute=60; serial=573; signer=S332; status=rejected; units=61.
+[REC90-96b120340792] PERMIT signer=S406; group=G636; start=0; end=40.
+[REC90-9cd594def77d] UPDATE case=C3771; minute=59; serial=643; signer=S535; status=approved; units=61.
+[REC90-5efb505a58c0] UPDATE case=C2331; minute=60; serial=580; signer=S535; status=approved; units=40.
+[REC90-581b0e0bf99f] CONTROL group=G505; minute=60; serial=671; gate=closed; cap=80.
+[REC90-cbe6dfa10b0d] UPDATE case=C3466; minute=60; serial=729; signer=S535; status=rejected; units=60.
+[REC90-a1c1115f9cee] APPLICATION case=C7705; group=G885.
+[REC90-1dfccbf09277] CONTROL group=G975; minute=61; serial=977; gate=open; cap=60.
+[REC90-215c97e220a2] CONTROL group=G885; minute=61; serial=604; gate=open; cap=80.
+[REC90-3e6300586344] UPDATE case=C3466; minute=61; serial=440; signer=S568; status=rejected; units=79.
+[REC90-73ca409ae968] UPDATE case=C7705; minute=19; serial=383; signer=S332; status=approved; units=80.
+[REC90-71865fb7dd15] PERMIT signer=S818; group=G885; start=40; end=80.
+[REC90-db3d89018fa4] CONTROL group=G885; minute=60; serial=302; gate=open; cap=40.
+[REC90-e76a6fa1338e] UPDATE case=C6453; minute=40; serial=796; signer=S354; status=rejected; units=61.
+[REC90-005d74f2efd8] UPDATE case=C4599; minute=61; serial=701; signer=S966; status=approved; units=80.
+[REC90-c8b9bf905416] UPDATE case=C4599; minute=19; serial=442; signer=S535; status=rejected; units=79.
+[REC90-4423eff4f967] PERMIT signer=S332; group=G975; start=20; end=60.
+[REC90-ebc0a2996077] APPLICATION case=C3466; group=G975.
+[REC90-9798cd69403a] PERMIT signer=S818; group=G505; start=0; end=61.
+[REC90-6ff971612944] UPDATE case=C9133; minute=40; serial=119; signer=S535; status=rejected; units=80.
+[REC90-e37197ded418] UPDATE case=C2104; minute=60; serial=385; signer=S330; status=approved; units=80.
+[REC90-aca7f90625ee] UPDATE case=C3466; minute=19; serial=671; signer=S330; status=approved; units=60.
+[REC90-8a7fa5f51a1a] UPDATE case=C1780; minute=61; serial=228; signer=S406; status=rejected; units=60.
+[REC90-2d6ce4969e3f] UPDATE case=C1780; minute=60; serial=218; signer=S966; status=rejected; units=81.
+[REC90-fba068fbed54] UPDATE case=C7705; minute=61; serial=625; signer=S568; status=approved; units=60.
+[REC90-9210d79d38f2] PERMIT signer=S568; group=G885; start=20; end=60.
+[REC90-e1b9ff3e6cfe] CONTROL group=G885; minute=0; serial=102; gate=open; cap=60.
+[REC90-a995c7a132bf] CONTROL group=G975; minute=40; serial=401; gate=closed; cap=60.
+[REC90-b45c78d99c57] UPDATE case=C2104; minute=61; serial=491; signer=S568; status=approved; units=41.
+[REC90-85fbfcfacf75] UPDATE case=C9133; minute=59; serial=996; signer=S568; status=approved; units=61.
+[REC90-4a836d8cb3a2] UPDATE case=C9942; minute=40; serial=482; signer=S354; status=approved; units=40.
+[REC90-ee54f8e1927e] UPDATE case=C6453; minute=40; serial=184; signer=S406; status=rejected; units=81.
+[REC90-13dcff975400] UPDATE case=C9133; minute=60; serial=753; signer=S330; status=approved; units=40.
+[REC90-22dd80c991be] UPDATE case=C9291; minute=59; serial=657; signer=S966; status=approved; units=80.
+[REC90-d6639edb2b9f] UPDATE case=C9133; minute=19; serial=409; signer=S406; status=approved; units=60.
+[REC90-8dd52bdcf50b] APPLICATION case=C9133; group=G505.
+[REC90-1cc6fd8107df] PERMIT signer=S535; group=G636; start=0; end=40.
+[REC90-410097316948] PERMIT signer=S966; group=G975; start=20; end=60.
+[REC90-22f8333a03db] UPDATE case=C1780; minute=40; serial=693; signer=S330; status=rejected; units=40.
+[REC90-c80a0a3b2516] UPDATE case=C5812; minute=60; serial=375; signer=S818; status=approved; units=61.
+[REC90-da678a15876e] UPDATE case=C6453; minute=60; serial=488; signer=S332; status=approved; units=39.
+[REC90-8da401ca6522] PERMIT signer=S568; group=G636; start=0; end=61.
+[REC90-5ffb12017322] PERMIT signer=S354; group=G975; start=0; end=61.
+[REC90-089ddb0b2e29] UPDATE case=C2331; minute=40; serial=470; signer=S354; status=approved; units=39.
+[REC90-35c7eabedfed] PERMIT signer=S354; group=G636; start=40; end=80.
+[REC90-07b84f6b3fe4] UPDATE case=C2331; minute=61; serial=303; signer=S406; status=approved; units=60.
+[REC90-4dba4047dc5e] UPDATE case=C5812; minute=40; serial=452; signer=S354; status=approved; units=61.
+[REC90-451cd3f5af48] UPDATE case=C9291; minute=40; serial=910; signer=S966; status=rejected; units=60.
+[REC90-e1aade831868] UPDATE case=C7705; minute=59; serial=439; signer=S332; status=approved; units=80.
+[REC90-a26886d6709e] UPDATE case=C7024; minute=40; serial=865; signer=S406; status=approved; units=41.
+[REC90-fa3abe2cd77a] UPDATE case=C3466; minute=40; serial=780; signer=S535; status=approved; units=81.
+[REC90-25802cca9f23] UPDATE case=C9304; minute=60; serial=193; signer=S818; status=approved; units=61.
+[REC90-2238c4ce8152] UPDATE case=C4599; minute=60; serial=567; signer=S535; status=approved; units=60.
+[REC90-4d66349023ae] UPDATE case=C9304; minute=40; serial=254; signer=S330; status=approved; units=80.
+[REC90-e96a2e7ec0b1] UPDATE case=C9942; minute=19; serial=572; signer=S332; status=approved; units=61.
+[REC90-248a753bd98d] UPDATE case=C9304; minute=61; serial=834; signer=S966; status=approved; units=61.
+[REC90-01ea3e3a15f9] APPLICATION case=C9304; group=G885.
+[REC90-2eab7cf21343] APPLICATION case=C3771; group=G636.
+[REC90-67ef98d04a9f] UPDATE case=C6715; minute=60; serial=721; signer=S330; status=rejected; units=40.
+[REC90-69ccee62a784] UPDATE case=C1780; minute=59; serial=822; signer=S332; status=approved; units=81.
+[REC90-d958bca89577] UPDATE case=C9291; minute=61; serial=984; signer=S332; status=approved; units=40.
+[REC90-e177e6287634] APPLICATION case=C6715; group=G505.
+[REC90-7aba60221bc1] PERMIT signer=S535; group=G975; start=20; end=60.
+[REC90-376b111ee761] PERMIT signer=S330; group=G636; start=40; end=80.
+[REC90-46b86162b9bd] UPDATE case=C4599; minute=40; serial=953; signer=S406; status=rejected; units=40.
+[REC90-5684daae3edf] PERMIT signer=S966; group=G505; start=20; end=60.
+[REC90-2b1015486d16] UPDATE case=C2331; minute=19; serial=760; signer=S330; status=approved; units=61.
+[REC90-9bad04af67fc] PERMIT signer=S332; group=G885; start=0; end=61.
+[REC90-1f27ed1a600a] UPDATE case=C3771; minute=19; serial=558; signer=S966; status=approved; units=80.
+[REC90-f5d2fbef382d] UPDATE case=C6715; minute=40; serial=913; signer=S568; status=rejected; units=39.
+[REC90-fa6cf4c86f4b] PERMIT signer=S330; group=G505; start=0; end=40.
+[REC90-a0336b006029] UPDATE case=C6453; minute=19; serial=754; signer=S568; status=approved; units=41.
+[REC90-bb3820711bab] PERMIT signer=S330; group=G885; start=0; end=61.
+[REC90-ec99accf937a] UPDATE case=C5812; minute=40; serial=841; signer=S354; status=approved; units=39.
+[REC90-94e18d9c6c16] UPDATE case=C6715; minute=19; serial=669; signer=S568; status=approved; units=40.
+[REC90-f3cd5033391c] UPDATE case=C6715; minute=61; serial=779; signer=S406; status=rejected; units=61.
+[REC90-cc4f8cab0d8b] UPDATE case=C7705; minute=60; serial=864; signer=S354; status=approved; units=81.
+[REC90-1a94bdd48343] UPDATE case=C9304; minute=19; serial=629; signer=S535; status=approved; units=59.
+[REC90-585d6a0f4fe3] PERMIT signer=S332; group=G636; start=40; end=80.
+[REC90-895c6792cd5e] UPDATE case=C2104; minute=59; serial=286; signer=S966; status=approved; units=79.
+[REC90-d7d6f29b7da6] UPDATE case=C9942; minute=40; serial=810; signer=S330; status=rejected; units=40.
+[REC90-f0db98ce5d32] UPDATE case=C6885; minute=60; serial=190; signer=S406; status=approved; units=41.
+[REC90-657b31ab0cd5] UPDATE case=C9133; minute=40; serial=102; signer=S406; status=approved; units=40.
+[REC90-52029c492a1b] UPDATE case=C4599; minute=40; serial=594; signer=S330; status=approved; units=39.
+[REC90-a8f1cf4a747c] APPLICATION case=C2104; group=G975.
+[REC90-4d14bdf219a6] PERMIT signer=S354; group=G505; start=0; end=40.
+[REC90-c78f795600c3] PERMIT signer=S818; group=G975; start=0; end=40.
+[REC90-d549ecda7e27] UPDATE case=C2104; minute=19; serial=886; signer=S332; status=approved; units=61.
+[REC90-45a8c856116d] UPDATE case=C3466; minute=59; serial=256; signer=S354; status=rejected; units=81.
+[REC90-a037b5957b58] UPDATE case=C7705; minute=40; serial=611; signer=S332; status=approved; units=80.
+[REC90-c4507e9b4b39] UPDATE case=C9291; minute=19; serial=699; signer=S535; status=approved; units=60.
+[REC90-35514ed93132] CONTROL group=G505; minute=61; serial=255; gate=open; cap=60.
+[REC90-a134e405c202] UPDATE case=C2104; minute=40; serial=715; signer=S535; status=approved; units=41.
+[REC90-21209d7d866e] UPDATE case=C9304; minute=59; serial=497; signer=S535; status=approved; units=41.
+[REC90-67c92467927a] CONTROL group=G636; minute=40; serial=627; gate=closed; cap=60.
+[REC90-7c069c787304] UPDATE case=C3771; minute=40; serial=198; signer=S330; status=approved; units=61.
+[REC90-910292815db3] APPLICATION case=C2331; group=G636.
+[REC90-36ca8f07ec3c] UPDATE case=C6453; minute=61; serial=554; signer=S330; status=approved; units=39.
+[REC90-38e85bc5a81b] UPDATE case=C9291; minute=60; serial=829; signer=S966; status=rejected; units=41.
+[REC90-9ca928eb1612] UPDATE case=C6453; minute=59; serial=547; signer=S330; status=approved; units=81.
+[REC90-36fbb8c6b8cb] CONTROL group=G505; minute=0; serial=776; gate=open; cap=60.
+[REC90-26bebabc0b11] APPLICATION case=C1780; group=G885.
+[REC90-61d751792c0d] UPDATE case=C6885; minute=19; serial=250; signer=S330; status=approved; units=60.
+[REC90-99e25afa5c9e] UPDATE case=C7024; minute=61; serial=885; signer=S354; status=rejected; units=39.
+[REC90-fe017d5d11ee] UPDATE case=C7024; minute=60; serial=171; signer=S406; status=rejected; units=79.
+[REC90-59a614f206fd] UPDATE case=C6715; minute=40; serial=979; signer=S330; status=approved; units=80.
+[REC90-e57901e5b9d5] UPDATE case=C7024; minute=19; serial=257; signer=S332; status=rejected; units=79.
+[REC90-46ab775a8442] APPLICATION case=C9291; group=G505.
+[REC90-f4b964f35e21] PERMIT signer=S568; group=G975; start=0; end=61.
+[REC90-ad8777ec5d0a] CONTROL group=G885; minute=40; serial=163; gate=open; cap=80.
+[REC90-7ce03ba7b3c0] CONTROL group=G636; minute=60; serial=252; gate=closed; cap=40.
+[REC90-7a24fbb8e442] UPDATE case=C7024; minute=40; serial=518; signer=S354; status=rejected; units=81.
+[REC90-9165b750bae0] UPDATE case=C6885; minute=40; serial=958; signer=S354; status=approved; units=79.
+[REC90-a7059c8e7946] UPDATE case=C9942; minute=59; serial=206; signer=S535; status=rejected; units=79.
+[REC90-f531491de927] PERMIT signer=S818; group=G636; start=20; end=60.
+[REC90-7d236ae8715f] UPDATE case=C9304; minute=40; serial=457; signer=S332; status=approved; units=80.
+[REC90-b07593f4a00f] UPDATE case=C7705; minute=40; serial=251; signer=S332; status=approved; units=40.
+[REC90-84e177b1b756] UPDATE case=C6715; minute=59; serial=406; signer=S568; status=approved; units=81.
+[REC90-a6ae00731651] UPDATE case=C6885; minute=59; serial=548; signer=S535; status=approved; units=79.
+[REC90-31a08632b758] UPDATE case=C5812; minute=19; serial=416; signer=S332; status=rejected; units=59.
+[REC90-8e40ac028653] UPDATE case=C1780; minute=40; serial=686; signer=S406; status=approved; units=41.
+[REC90-b58cdbcf9a9d] UPDATE case=C2331; minute=40; serial=832; signer=S406; status=approved; units=80.
+[REC90-ce2871426bd1] CONTROL group=G975; minute=0; serial=406; gate=open; cap=40.
+[REC90-65a7788cb92b] PERMIT signer=S406; group=G505; start=40; end=80.
+[REC90-9039be2cdbc9] UPDATE case=C6885; minute=40; serial=735; signer=S818; status=approved; units=40.
+[REC90-0fc2f21538de] UPDATE case=C5812; minute=61; serial=643; signer=S568; status=approved; units=40.
+[REC90-50b177e27356] PERMIT signer=S406; group=G975; start=40; end=80.
+[REC90-5a2a458718bd] PERMIT signer=S568; group=G505; start=20; end=60.
+[REC90-eda035f3f887] CONTROL group=G975; minute=60; serial=512; gate=open; cap=80.
+[REC90-043c66f66a48] UPDATE case=C5812; minute=59; serial=573; signer=S406; status=approved; units=40.
+[REC90-463922415b18] PERMIT signer=S330; group=G975; start=0; end=61.
+[REC90-b80f7ab5295d] UPDATE case=C3771; minute=61; serial=600; signer=S966; status=rejected; units=60.
+[REC90-75fcf59a170e] CONTROL group=G636; minute=0; serial=163; gate=closed; cap=40.

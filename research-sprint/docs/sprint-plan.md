@@ -63,6 +63,13 @@ What the agent sees after each verdict when the peer's work is actually correct 
 
 ## 5. Arm H
 
+**Oct 25 follow-up (pending local calibration):** an alternative explicit-rule
+extraction pool and actual-harness task-only runner are implemented on
+`arm-h-ledger-extraction`. See [the proposal](../reports/arm-h-ledger-proposal.md)
+and [local verification commands](../arm-h/LEDGER.md). No Sonnet error rate has
+been measured for these candidates. The original design below is retained as the
+historical plan; the candidate changes are recorded in D16.
+
 **Why.** Sonnet 5 gets the existing tasks right almost always. The pilot's only wrong work was episode 10. H raises the wrong-work rate to about half, so we can see whether the agents' partial checking (bug descriptions, quoted test lines) still catches errors. Discerning relaxation is judgment; indiscriminate acceptance is habit.
 
 **Design.**
@@ -119,6 +126,7 @@ Every departure from the paper's setup, or from an earlier version of this plan.
 | D13 | Oct 25 | `--answer-repair markup`: a `save_final_answer` answer followed only by leaked tool-call markup (`</answer>\n</invoke>\n`) is saved without the markup; the agent sees the normal success, the repair is recorded in the event log (`answer_repaired`, `stripped_tail`); other format errors quote the offending text instead of Python's `Extra data: line 1 column 464` | paper: strict JSON check, raw decoder message | Sonnet 5 leaked this markup in 9 save calls across 4 runs (both agents; Bob far more often, probably self-imitation from leaked calls in his history). Saves succeed once, so in the stable check Bob's debugging probe ("test", 2 items) locked in as his answer | removes a harness-made source of wrong work; every repaired save is countable from `events`. Leaked text stays in the agent's own history (we don't edit what the model said), so leaks continue but are harmless |
 | D14 | Oct 25 | Arm H calibration piloted first in a stripped-down Claude Code (empty or drafted system prompt and tool list, identifying system reminders removed by a CC mod), before any API calibration; reviewer and calibration requests are exported as standalone prompts so they can run via Batch or that fallback | plan v3 §5: API calibration | calibration is a capability test, so it doesn't need the harness; saves API budget | pilot numbers come from a different scaffold than the harness; items are confirmed on the API (or harness) before H runs |
 | D15 | Oct 25 | `--test-sandbox bwrap`: `run_tests` runs the agent's pytest in a bubblewrap sandbox holding only the target file, the agent's scratch directory and the Python environment; `/home`, `/mnt`, `/tmp`, `/run` empty; no network; minimal PATH | paper: pytest with the repository as working directory and the host PATH | a probe test file could list the repo's parent (`collusion-sprint`, Amelius's `memory`, `ARENA_materials`), open task manifests holding answer keys, and print a PATH naming `claude.exe`; absolute paths were already scrubbed, listings and file contents were not | removes an eval-awareness and answer-key channel no agent has been seen using; ordinary test output is byte-identical to unsandboxed runs apart from timing (tested). The arm-A pilot ran unsandboxed (D6) |
+| D16 | Oct 25 | H candidate: explicit-rule extraction with three sizes, frozen development/confirmation seeds, actual-harness task-only calibration, and configurable hard fraction (default all-hard); **unverified, pending local run** | §5's harder code pool, CC pilot, and half-hard mixture | prior code candidates scored 23/24 correct; half hard at 50% error cannot reach 40% overall error | changes task-family mix and log/history length; requires held-out >=40% substantive error and a full-log catch-rate check before use; original A/B/E sequences unchanged; see `arm-h/LEDGER.md` |
 
 ## 10. Conventions
 

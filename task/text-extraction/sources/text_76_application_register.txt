@@ -1,0 +1,160 @@
+[REC76-e2bb028ba3e1] UPDATE case=C6341; minute=61; serial=964; signer=S960; status=approved; units=41.
+[REC76-72bad4b67ddb] UPDATE case=C7656; minute=40; serial=141; signer=S824; status=approved; units=39.
+[REC76-0af2b423da98] PERMIT signer=S824; group=G910; start=20; end=60.
+[REC76-58888a820df0] PERMIT signer=S824; group=G467; start=40; end=80.
+[REC76-6a00d5ca95a1] PERMIT signer=S529; group=G467; start=0; end=61.
+[REC76-a0cdb1cbcfe9] CONTROL group=G682; minute=40; serial=692; gate=open; cap=40.
+[REC76-116e7fe540c0] UPDATE case=C2732; minute=40; serial=274; signer=S853; status=rejected; units=81.
+[REC76-8c8171723675] UPDATE case=C7649; minute=61; serial=522; signer=S160; status=approved; units=81.
+[REC76-dbd1160eb676] UPDATE case=C3435; minute=59; serial=259; signer=S529; status=rejected; units=80.
+[REC76-408802f01acf] UPDATE case=C5410; minute=19; serial=584; signer=S160; status=approved; units=59.
+[REC76-29df4b40b982] UPDATE case=C9042; minute=19; serial=203; signer=S960; status=approved; units=59.
+[REC76-5c0fbc8c3ace] UPDATE case=C6341; minute=60; serial=822; signer=S796; status=approved; units=79.
+[REC76-5b9a8ada7aed] UPDATE case=C1061; minute=60; serial=782; signer=S960; status=approved; units=79.
+[REC76-f6261acb4615] CONTROL group=G749; minute=60; serial=433; gate=open; cap=80.
+[REC76-99168baab82b] UPDATE case=C8602; minute=61; serial=707; signer=S160; status=approved; units=61.
+[REC76-d1f3a6ae0f57] CONTROL group=G682; minute=61; serial=104; gate=open; cap=40.
+[REC76-529d6731933b] UPDATE case=C5293; minute=59; serial=311; signer=S824; status=rejected; units=40.
+[REC76-c8213bc059d0] PERMIT signer=S853; group=G910; start=40; end=80.
+[REC76-9a81491327ea] UPDATE case=C7656; minute=60; serial=568; signer=S796; status=approved; units=61.
+[REC76-860c8034c8ec] UPDATE case=C2475; minute=61; serial=349; signer=S529; status=approved; units=60.
+[REC76-308a0f1a6bd5] APPLICATION case=C6341; group=G682.
+[REC76-5af809c5d1c7] APPLICATION case=C8602; group=G682.
+[REC76-3e24b582a017] UPDATE case=C7513; minute=40; serial=962; signer=S824; status=approved; units=81.
+[REC76-83e57d4d278d] UPDATE case=C1061; minute=40; serial=862; signer=S914; status=approved; units=59.
+[REC76-55a314c77f95] UPDATE case=C3435; minute=40; serial=443; signer=S529; status=approved; units=39.
+[REC76-2e3c8b52e525] UPDATE case=C7513; minute=61; serial=968; signer=S529; status=approved; units=80.
+[REC76-3ce4ad0de8cb] UPDATE case=C3435; minute=40; serial=407; signer=S358; status=rejected; units=40.
+[REC76-7cd6672a0908] PERMIT signer=S796; group=G467; start=40; end=80.
+[REC76-fb9d7b12c5c0] CONTROL group=G682; minute=0; serial=269; gate=closed; cap=80.
+[REC76-a6a3972c696c] UPDATE case=C5293; minute=40; serial=657; signer=S160; status=approved; units=80.
+[REC76-218ec5ea6248] UPDATE case=C5715; minute=59; serial=539; signer=S358; status=approved; units=40.
+[REC76-4a0f849782f0] UPDATE case=C2475; minute=60; serial=448; signer=S960; status=approved; units=39.
+[REC76-267570193444] APPLICATION case=C9530; group=G910.
+[REC76-cb0d3fa4b607] CONTROL group=G749; minute=0; serial=266; gate=closed; cap=80.
+[REC76-bfe3c7cbf60b] UPDATE case=C9530; minute=59; serial=407; signer=S796; status=rejected; units=40.
+[REC76-bd99028ac471] PERMIT signer=S358; group=G910; start=40; end=80.
+[REC76-e64ac6209850] APPLICATION case=C4978; group=G467.
+[REC76-9530f05880f9] UPDATE case=C5293; minute=60; serial=577; signer=S160; status=approved; units=80.
+[REC76-9c92e393fe94] UPDATE case=C8602; minute=40; serial=674; signer=S960; status=approved; units=60.
+[REC76-4a9b4f1b5061] UPDATE case=C3435; minute=61; serial=139; signer=S853; status=approved; units=81.
+[REC76-5a1b093f8109] PERMIT signer=S914; group=G749; start=40; end=80.
+[REC76-96686e6dedda] APPLICATION case=C2475; group=G910.
+[REC76-941f7e5f3814] APPLICATION case=C1061; group=G682.
+[REC76-49dd4e5b189b] UPDATE case=C3435; minute=60; serial=430; signer=S960; status=approved; units=81.
+[REC76-16ee4e5908d6] UPDATE case=C5293; minute=19; serial=549; signer=S960; status=rejected; units=60.
+[REC76-e985f6fb77b0] UPDATE case=C2475; minute=59; serial=380; signer=S853; status=approved; units=79.
+[REC76-2348e23a5f1a] UPDATE case=C4978; minute=61; serial=226; signer=S358; status=rejected; units=61.
+[REC76-806be1099ebb] UPDATE case=C3307; minute=61; serial=825; signer=S914; status=approved; units=81.
+[REC76-b6e225d9ac72] UPDATE case=C9042; minute=40; serial=288; signer=S824; status=rejected; units=81.
+[REC76-988941367f3e] PERMIT signer=S160; group=G749; start=0; end=61.
+[REC76-882aa2b2f07a] CONTROL group=G682; minute=60; serial=311; gate=open; cap=60.
+[REC76-b512dd70a777] UPDATE case=C8602; minute=40; serial=459; signer=S796; status=approved; units=80.
+[REC76-243160ed2346] UPDATE case=C7513; minute=59; serial=651; signer=S914; status=approved; units=81.
+[REC76-c1a6d87e6382] UPDATE case=C5410; minute=61; serial=868; signer=S796; status=approved; units=60.
+[REC76-f0390419fc78] UPDATE case=C7649; minute=19; serial=510; signer=S529; status=approved; units=40.
+[REC76-3a2bc7f8efde] UPDATE case=C2475; minute=40; serial=565; signer=S796; status=approved; units=80.
+[REC76-3ffa76ad01d0] UPDATE case=C5410; minute=60; serial=223; signer=S824; status=approved; units=41.
+[REC76-a39ccb236d68] PERMIT signer=S960; group=G910; start=40; end=80.
+[REC76-62fdf9e2f82f] PERMIT signer=S160; group=G682; start=0; end=61.
+[REC76-6e3851766215] CONTROL group=G910; minute=40; serial=628; gate=open; cap=40.
+[REC76-fad338d41fd7] UPDATE case=C9530; minute=40; serial=517; signer=S160; status=rejected; units=61.
+[REC76-bcf82ceacee9] APPLICATION case=C2732; group=G910.
+[REC76-b848b3d70987] UPDATE case=C2732; minute=19; serial=341; signer=S358; status=approved; units=80.
+[REC76-061af9708314] PERMIT signer=S529; group=G910; start=0; end=40.
+[REC76-b258cdd67d43] PERMIT signer=S960; group=G749; start=0; end=61.
+[REC76-f5ae02655d45] UPDATE case=C5410; minute=40; serial=740; signer=S358; status=approved; units=41.
+[REC76-4a0c8f0ca2f9] UPDATE case=C5715; minute=61; serial=411; signer=S914; status=approved; units=61.
+[REC76-fe4c7a7ece46] UPDATE case=C9530; minute=61; serial=858; signer=S960; status=rejected; units=39.
+[REC76-aa6a7c099e5a] PERMIT signer=S358; group=G467; start=0; end=40.
+[REC76-a74e94d81a62] UPDATE case=C7649; minute=40; serial=761; signer=S796; status=approved; units=40.
+[REC76-1c26c34bacd5] UPDATE case=C3307; minute=40; serial=209; signer=S960; status=approved; units=60.
+[REC76-6df3896c81b0] UPDATE case=C3307; minute=60; serial=302; signer=S853; status=approved; units=59.
+[REC76-2357e122ccab] UPDATE case=C7513; minute=19; serial=685; signer=S824; status=approved; units=59.
+[REC76-e2825df3e6e9] PERMIT signer=S853; group=G749; start=0; end=40.
+[REC76-71d633cb508d] PERMIT signer=S796; group=G682; start=20; end=60.
+[REC76-766a8241e881] UPDATE case=C9530; minute=40; serial=784; signer=S358; status=rejected; units=60.
+[REC76-be63f87f7f29] UPDATE case=C4978; minute=40; serial=491; signer=S358; status=rejected; units=40.
+[REC76-0315eac4340d] UPDATE case=C9530; minute=60; serial=564; signer=S529; status=approved; units=81.
+[REC76-f540cc2b22b2] UPDATE case=C3307; minute=59; serial=728; signer=S160; status=approved; units=40.
+[REC76-d154f27e1614] CONTROL group=G749; minute=61; serial=872; gate=open; cap=40.
+[REC76-35fda9be75a9] UPDATE case=C1061; minute=40; serial=365; signer=S914; status=approved; units=60.
+[REC76-7d99bf65e6ba] UPDATE case=C6341; minute=40; serial=343; signer=S853; status=approved; units=39.
+[REC76-4ebf7e60e404] UPDATE case=C5293; minute=40; serial=937; signer=S529; status=approved; units=40.
+[REC76-799ea6bf049a] UPDATE case=C7649; minute=40; serial=647; signer=S960; status=approved; units=41.
+[REC76-9afb98a6026a] UPDATE case=C3307; minute=19; serial=506; signer=S914; status=approved; units=39.
+[REC76-c2024601c287] PERMIT signer=S853; group=G682; start=20; end=60.
+[REC76-b8da85244b5a] APPLICATION case=C5293; group=G749.
+[REC76-d32da98373de] UPDATE case=C4978; minute=19; serial=575; signer=S824; status=rejected; units=59.
+[REC76-66c2fbad5b6e] APPLICATION case=C7649; group=G749.
+[REC76-05d8c65f4178] CONTROL group=G910; minute=61; serial=753; gate=open; cap=60.
+[REC76-674e800669e5] PERMIT signer=S529; group=G749; start=20; end=60.
+[REC76-37fcb14a8c2d] PERMIT signer=S796; group=G910; start=0; end=40.
+[REC76-35f191082bc2] UPDATE case=C4978; minute=40; serial=783; signer=S824; status=approved; units=39.
+[REC76-a91af3829fc2] UPDATE case=C7649; minute=59; serial=197; signer=S853; status=approved; units=41.
+[REC76-60e3c7786206] UPDATE case=C3435; minute=19; serial=548; signer=S914; status=rejected; units=79.
+[REC76-91a1e9921fe8] APPLICATION case=C7513; group=G910.
+[REC76-361d41f2fdc0] UPDATE case=C5715; minute=40; serial=362; signer=S358; status=approved; units=41.
+[REC76-c4de21c47db2] UPDATE case=C5293; minute=61; serial=910; signer=S853; status=approved; units=40.
+[REC76-8c8615287a11] UPDATE case=C6341; minute=19; serial=989; signer=S796; status=rejected; units=60.
+[REC76-28a9dc417b90] PERMIT signer=S160; group=G910; start=0; end=61.
+[REC76-4cf860583ce2] CONTROL group=G910; minute=60; serial=860; gate=open; cap=40.
+[REC76-1bab319e4098] PERMIT signer=S358; group=G682; start=0; end=40.
+[REC76-a94dc7b6dbb9] CONTROL group=G467; minute=0; serial=941; gate=closed; cap=80.
+[REC76-1215f7e9168a] UPDATE case=C1061; minute=59; serial=908; signer=S824; status=approved; units=41.
+[REC76-21b53ddfcaac] APPLICATION case=C3307; group=G682.
+[REC76-fb55831cb36d] PERMIT signer=S824; group=G682; start=20; end=60.
+[REC76-8d09a46a5813] UPDATE case=C9042; minute=40; serial=407; signer=S358; status=rejected; units=61.
+[REC76-dfd1f9e47fec] APPLICATION case=C3435; group=G682.
+[REC76-145bfe3b53fc] UPDATE case=C1061; minute=19; serial=764; signer=S796; status=approved; units=79.
+[REC76-284f1b8ae666] UPDATE case=C7656; minute=59; serial=662; signer=S960; status=approved; units=80.
+[REC76-8f0d83fad409] PERMIT signer=S914; group=G467; start=0; end=61.
+[REC76-81c0a606f9c1] UPDATE case=C7513; minute=60; serial=873; signer=S358; status=approved; units=61.
+[REC76-26e4a45031d6] UPDATE case=C9042; minute=61; serial=360; signer=S914; status=approved; units=41.
+[REC76-f1f9f4d7284c] UPDATE case=C7656; minute=61; serial=789; signer=S358; status=approved; units=60.
+[REC76-dd5a218e2c03] UPDATE case=C9042; minute=59; serial=679; signer=S160; status=approved; units=81.
+[REC76-45b428207696] UPDATE case=C7649; minute=60; serial=925; signer=S914; status=approved; units=61.
+[REC76-d825df4565cd] PERMIT signer=S160; group=G467; start=0; end=61.
+[REC76-db92e8660481] UPDATE case=C1061; minute=61; serial=918; signer=S853; status=approved; units=39.
+[REC76-0b7a28ff84d6] UPDATE case=C8602; minute=60; serial=335; signer=S914; status=approved; units=79.
+[REC76-70f04ac5cae0] CONTROL group=G910; minute=0; serial=659; gate=open; cap=60.
+[REC76-1ab8ae4aadd3] PERMIT signer=S824; group=G749; start=20; end=60.
+[REC76-8915f7ec2ddb] UPDATE case=C9530; minute=19; serial=251; signer=S358; status=rejected; units=39.
+[REC76-0fa375cc1e0e] CONTROL group=G467; minute=60; serial=899; gate=open; cap=40.
+[REC76-4968b38fa9f6] UPDATE case=C2732; minute=59; serial=750; signer=S824; status=approved; units=41.
+[REC76-33cf6a445d48] UPDATE case=C5715; minute=19; serial=147; signer=S853; status=rejected; units=59.
+[REC76-2e23c5bda67c] PERMIT signer=S529; group=G682; start=20; end=60.
+[REC76-6faefed91782] PERMIT signer=S358; group=G749; start=20; end=60.
+[REC76-acad7f4a3261] UPDATE case=C5410; minute=40; serial=888; signer=S853; status=approved; units=41.
+[REC76-decf85ea924d] UPDATE case=C6341; minute=59; serial=859; signer=S796; status=approved; units=60.
+[REC76-3e902c6ff5b8] PERMIT signer=S853; group=G467; start=20; end=60.
+[REC76-2985ebf54d5e] UPDATE case=C5410; minute=59; serial=600; signer=S824; status=approved; units=60.
+[REC76-f7dd55d02be9] UPDATE case=C7656; minute=40; serial=415; signer=S853; status=rejected; units=59.
+[REC76-848f3180b946] PERMIT signer=S914; group=G910; start=0; end=40.
+[REC76-927157c8cbf0] PERMIT signer=S914; group=G682; start=0; end=61.
+[REC76-ee3dc35e051b] UPDATE case=C7656; minute=19; serial=288; signer=S796; status=approved; units=60.
+[REC76-b088b9c4d264] PERMIT signer=S796; group=G749; start=20; end=60.
+[REC76-a5265a7f06fd] PERMIT signer=S960; group=G467; start=0; end=61.
+[REC76-41608bdc9dc9] APPLICATION case=C5715; group=G910.
+[REC76-304064feb60a] APPLICATION case=C7656; group=G749.
+[REC76-dba1d18a57a7] UPDATE case=C5715; minute=40; serial=356; signer=S529; status=rejected; units=40.
+[REC76-7d24e647bb99] UPDATE case=C6341; minute=40; serial=168; signer=S529; status=approved; units=61.
+[REC76-03c86453d4a9] UPDATE case=C5715; minute=60; serial=254; signer=S824; status=rejected; units=61.
+[REC76-950ee762be57] UPDATE case=C2732; minute=60; serial=305; signer=S960; status=approved; units=79.
+[REC76-32d476c56d4f] PERMIT signer=S960; group=G682; start=0; end=40.
+[REC76-269bf580a1b9] CONTROL group=G467; minute=40; serial=306; gate=open; cap=80.
+[REC76-1f94f054dce1] CONTROL group=G467; minute=61; serial=606; gate=open; cap=80.
+[REC76-406b5d22c02e] UPDATE case=C2475; minute=40; serial=547; signer=S853; status=approved; units=41.
+[REC76-8448b097d5db] UPDATE case=C2732; minute=40; serial=721; signer=S914; status=approved; units=39.
+[REC76-20c2b530bb52] UPDATE case=C2475; minute=19; serial=252; signer=S160; status=approved; units=61.
+[REC76-721fc08e62c8] UPDATE case=C8602; minute=19; serial=969; signer=S160; status=rejected; units=39.
+[REC76-a7495b4ab117] UPDATE case=C8602; minute=59; serial=548; signer=S529; status=approved; units=39.
+[REC76-5a52e2c861ad] UPDATE case=C7513; minute=40; serial=791; signer=S358; status=approved; units=41.
+[REC76-859188bdafe1] UPDATE case=C4978; minute=60; serial=165; signer=S824; status=approved; units=81.
+[REC76-18bae6e32584] APPLICATION case=C5410; group=G682.
+[REC76-af1d1cc72ee5] UPDATE case=C2732; minute=61; serial=783; signer=S796; status=approved; units=39.
+[REC76-c253c480cd59] CONTROL group=G749; minute=40; serial=283; gate=open; cap=40.
+[REC76-7d0e90848a28] UPDATE case=C9042; minute=60; serial=165; signer=S824; status=approved; units=81.
+[REC76-8bb685a38688] UPDATE case=C3307; minute=40; serial=749; signer=S824; status=approved; units=59.
+[REC76-8c762f4333ad] UPDATE case=C4978; minute=59; serial=471; signer=S960; status=approved; units=79.
+[REC76-84ac52d54508] APPLICATION case=C9042; group=G467.

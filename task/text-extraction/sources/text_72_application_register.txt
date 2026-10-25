@@ -1,0 +1,104 @@
+[REC72-c04f9bbbadb8] UPDATE case=C6088; minute=59; serial=965; signer=S677; status=approved; units=39.
+[REC72-bb4e59d569de] PERMIT signer=S489; group=G904; start=40; end=80.
+[REC72-eb85e08d8a75] UPDATE case=C8493; minute=40; serial=890; signer=S344; status=rejected; units=80.
+[REC72-d8dbee67458c] UPDATE case=C7169; minute=59; serial=370; signer=S769; status=rejected; units=61.
+[REC72-199ac45251b3] UPDATE case=C7379; minute=61; serial=691; signer=S829; status=approved; units=59.
+[REC72-284aab4a0f36] PERMIT signer=S829; group=G904; start=0; end=61.
+[REC72-169cad2b8f70] UPDATE case=C8975; minute=59; serial=748; signer=S555; status=approved; units=41.
+[REC72-d3b98233f702] PERMIT signer=S344; group=G904; start=40; end=80.
+[REC72-86b996164b1d] PERMIT signer=S829; group=G885; start=0; end=40.
+[REC72-afeaa3728567] APPLICATION case=C7379; group=G951.
+[REC72-b2cd5486ebaa] PERMIT signer=S677; group=G951; start=0; end=40.
+[REC72-9f8bb937847d] UPDATE case=C8975; minute=19; serial=395; signer=S324; status=approved; units=39.
+[REC72-2a1a5523bf85] UPDATE case=C3283; minute=40; serial=468; signer=S829; status=approved; units=79.
+[REC72-9f484e8e5e4d] CONTROL group=G951; minute=0; serial=465; gate=open; cap=80.
+[REC72-94bbb8da59a9] CONTROL group=G513; minute=60; serial=763; gate=open; cap=60.
+[REC72-354d2764ab6c] CONTROL group=G904; minute=60; serial=487; gate=closed; cap=40.
+[REC72-cb7f1a9b2b73] PERMIT signer=S859; group=G885; start=0; end=61.
+[REC72-a0a85795f2bf] UPDATE case=C6610; minute=60; serial=365; signer=S769; status=approved; units=60.
+[REC72-ffd4bfa41086] APPLICATION case=C8493; group=G513.
+[REC72-86c984f883d5] UPDATE case=C6610; minute=61; serial=967; signer=S769; status=rejected; units=41.
+[REC72-c19c78b1c24d] UPDATE case=C5617; minute=40; serial=489; signer=S324; status=approved; units=81.
+[REC72-0b75731f43a5] PERMIT signer=S489; group=G951; start=20; end=60.
+[REC72-9d6f1fcab621] UPDATE case=C8975; minute=40; serial=553; signer=S677; status=approved; units=40.
+[REC72-03423f4ec13d] PERMIT signer=S324; group=G885; start=0; end=40.
+[REC72-5725e5c8e980] UPDATE case=C7379; minute=40; serial=929; signer=S677; status=approved; units=80.
+[REC72-07bcf382bb01] PERMIT signer=S677; group=G885; start=0; end=40.
+[REC72-de0bf3e63a37] PERMIT signer=S677; group=G904; start=20; end=60.
+[REC72-b8c2c63ed061] APPLICATION case=C8975; group=G904.
+[REC72-00c3d3e0baf7] PERMIT signer=S555; group=G885; start=20; end=60.
+[REC72-e9b961eb6af3] PERMIT signer=S769; group=G885; start=40; end=80.
+[REC72-b3781301addb] PERMIT signer=S489; group=G885; start=0; end=61.
+[REC72-6f296b4297df] UPDATE case=C5617; minute=60; serial=971; signer=S769; status=approved; units=40.
+[REC72-a27ac33e53da] UPDATE case=C8493; minute=61; serial=329; signer=S344; status=approved; units=61.
+[REC72-bc28e0ba8073] UPDATE case=C6088; minute=60; serial=366; signer=S677; status=approved; units=61.
+[REC72-8e06dfe3457b] CONTROL group=G885; minute=60; serial=271; gate=open; cap=80.
+[REC72-9aafa143b1c0] UPDATE case=C7169; minute=40; serial=554; signer=S344; status=approved; units=41.
+[REC72-5f50123a9b5d] UPDATE case=C7379; minute=19; serial=987; signer=S829; status=approved; units=41.
+[REC72-002589f030a4] UPDATE case=C8493; minute=19; serial=795; signer=S555; status=approved; units=39.
+[REC72-42f8bef33dc3] UPDATE case=C6610; minute=40; serial=233; signer=S769; status=approved; units=80.
+[REC72-7027d5f3ef3c] APPLICATION case=C6088; group=G904.
+[REC72-50a486ec50a3] PERMIT signer=S769; group=G951; start=20; end=60.
+[REC72-d82babe6f12d] CONTROL group=G904; minute=40; serial=547; gate=closed; cap=40.
+[REC72-ab0f3f06b995] UPDATE case=C8493; minute=59; serial=420; signer=S344; status=rejected; units=79.
+[REC72-77a41415f78e] CONTROL group=G885; minute=0; serial=445; gate=open; cap=80.
+[REC72-a384770532d3] UPDATE case=C7379; minute=59; serial=822; signer=S324; status=approved; units=80.
+[REC72-9bbb2ddb547e] PERMIT signer=S324; group=G904; start=40; end=80.
+[REC72-3170b15c6675] CONTROL group=G951; minute=61; serial=154; gate=open; cap=60.
+[REC72-1daeede63aa0] PERMIT signer=S489; group=G513; start=0; end=40.
+[REC72-59b7f3dd64fd] UPDATE case=C7169; minute=19; serial=178; signer=S769; status=approved; units=81.
+[REC72-602e37d64583] UPDATE case=C8493; minute=40; serial=312; signer=S859; status=approved; units=41.
+[REC72-4ee1c791c405] UPDATE case=C7169; minute=60; serial=868; signer=S769; status=approved; units=81.
+[REC72-b5e4f5f8fcb1] PERMIT signer=S769; group=G904; start=0; end=40.
+[REC72-f9d1e1807619] PERMIT signer=S324; group=G513; start=0; end=40.
+[REC72-b9c219250dc2] PERMIT signer=S829; group=G951; start=20; end=60.
+[REC72-5a36cc8faee1] UPDATE case=C8975; minute=60; serial=684; signer=S324; status=rejected; units=61.
+[REC72-304c589d48ca] CONTROL group=G513; minute=40; serial=422; gate=open; cap=80.
+[REC72-d25af9274579] UPDATE case=C3283; minute=61; serial=741; signer=S859; status=approved; units=39.
+[REC72-74956b3e674e] PERMIT signer=S344; group=G885; start=0; end=61.
+[REC72-c33ec7b159d9] UPDATE case=C6088; minute=61; serial=141; signer=S829; status=rejected; units=41.
+[REC72-72ba19fba6c9] CONTROL group=G904; minute=61; serial=721; gate=open; cap=40.
+[REC72-81182a1dcec3] PERMIT signer=S769; group=G513; start=40; end=80.
+[REC72-962c3f883b16] UPDATE case=C5617; minute=61; serial=826; signer=S555; status=approved; units=41.
+[REC72-860fb82f80b7] UPDATE case=C6610; minute=40; serial=379; signer=S829; status=approved; units=60.
+[REC72-03a0a16f9bbe] UPDATE case=C5617; minute=19; serial=553; signer=S555; status=approved; units=40.
+[REC72-5ffaf0e6f0a0] UPDATE case=C3283; minute=60; serial=409; signer=S859; status=approved; units=40.
+[REC72-96a997dbeb0f] PERMIT signer=S344; group=G951; start=20; end=60.
+[REC72-414aeaeff46a] CONTROL group=G885; minute=61; serial=276; gate=closed; cap=80.
+[REC72-b18d6cb9f1ff] UPDATE case=C5617; minute=40; serial=823; signer=S489; status=approved; units=40.
+[REC72-b87075408d93] UPDATE case=C6088; minute=40; serial=352; signer=S769; status=approved; units=60.
+[REC72-2717e8b259f9] PERMIT signer=S829; group=G513; start=0; end=61.
+[REC72-3c993a658bb9] PERMIT signer=S344; group=G513; start=20; end=60.
+[REC72-6942320e6e90] UPDATE case=C6610; minute=19; serial=139; signer=S489; status=approved; units=79.
+[REC72-fa98c21ffc72] UPDATE case=C3283; minute=19; serial=915; signer=S859; status=approved; units=59.
+[REC72-86186f26939f] UPDATE case=C8493; minute=60; serial=307; signer=S344; status=rejected; units=79.
+[REC72-8b147e843ac9] APPLICATION case=C6610; group=G904.
+[REC72-1a121ceeb8d9] CONTROL group=G951; minute=60; serial=592; gate=open; cap=40.
+[REC72-c24249c8d01c] CONTROL group=G885; minute=40; serial=641; gate=open; cap=40.
+[REC72-f11e156700f8] UPDATE case=C6610; minute=59; serial=377; signer=S829; status=approved; units=81.
+[REC72-b33282be160a] UPDATE case=C8975; minute=40; serial=947; signer=S555; status=approved; units=39.
+[REC72-f524d315c4bc] PERMIT signer=S555; group=G951; start=0; end=61.
+[REC72-630a9c5380d4] APPLICATION case=C3283; group=G951.
+[REC72-66248d95658c] CONTROL group=G904; minute=0; serial=706; gate=open; cap=80.
+[REC72-450d6ee2f6a5] CONTROL group=G513; minute=0; serial=722; gate=open; cap=80.
+[REC72-ad9455b9a1bc] PERMIT signer=S677; group=G513; start=0; end=61.
+[REC72-0c6752ec2adf] APPLICATION case=C7169; group=G951.
+[REC72-c2cab1293af4] UPDATE case=C6088; minute=19; serial=499; signer=S555; status=approved; units=39.
+[REC72-5a04905354f7] UPDATE case=C6088; minute=40; serial=486; signer=S859; status=approved; units=81.
+[REC72-1f4ea4550cf4] UPDATE case=C3283; minute=40; serial=825; signer=S677; status=approved; units=79.
+[REC72-2a942551b0fc] UPDATE case=C7169; minute=61; serial=303; signer=S829; status=approved; units=41.
+[REC72-07643835c154] PERMIT signer=S324; group=G951; start=0; end=61.
+[REC72-219d0ddf3756] UPDATE case=C7379; minute=40; serial=175; signer=S324; status=approved; units=40.
+[REC72-45bf75eabedd] UPDATE case=C8975; minute=61; serial=757; signer=S489; status=approved; units=60.
+[REC72-23e8455f9180] PERMIT signer=S859; group=G951; start=0; end=40.
+[REC72-44d41800371f] UPDATE case=C7169; minute=40; serial=941; signer=S677; status=approved; units=80.
+[REC72-a58d62b0e64c] UPDATE case=C5617; minute=59; serial=538; signer=S324; status=approved; units=40.
+[REC72-c2c39f039633] PERMIT signer=S555; group=G904; start=40; end=80.
+[REC72-dddf4b1e811d] APPLICATION case=C5617; group=G951.
+[REC72-f478daf30257] UPDATE case=C7379; minute=60; serial=393; signer=S344; status=approved; units=41.
+[REC72-114309405843] PERMIT signer=S859; group=G513; start=40; end=80.
+[REC72-2e5337d045a5] UPDATE case=C3283; minute=59; serial=726; signer=S324; status=approved; units=61.
+[REC72-506c4ae4abcf] PERMIT signer=S555; group=G513; start=0; end=40.
+[REC72-e476e96b1f71] PERMIT signer=S859; group=G904; start=40; end=80.
+[REC72-7c8a38595b75] CONTROL group=G951; minute=40; serial=700; gate=open; cap=60.
+[REC72-1512d1a548df] CONTROL group=G513; minute=61; serial=141; gate=closed; cap=40.

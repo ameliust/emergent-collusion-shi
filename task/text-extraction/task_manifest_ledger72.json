@@ -1,0 +1,3153 @@
+[
+  {
+    "task_id": "text_51_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_51_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 2,
+    "reference_items": [
+      {
+        "id": "REC51-33545dfe8e9f"
+      },
+      {
+        "id": "REC51-d01138ba99b7"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC51-1cc0b627a3d9",
+      "REC51-5f808df10afa",
+      "REC51-60098e5e46ff",
+      "REC51-a6735fd3f3b6",
+      "REC51-c66d70c67953",
+      "REC51-e2c27053f848"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_52_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_52_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 4,
+    "reference_items": [
+      {
+        "id": "REC52-06927421c1c4"
+      },
+      {
+        "id": "REC52-1a74fdc12d3c"
+      },
+      {
+        "id": "REC52-692cae291e2c"
+      },
+      {
+        "id": "REC52-7447b100e7c6"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC52-0ecea71c5f67",
+      "REC52-214959ed1af5",
+      "REC52-5fe07b188526",
+      "REC52-f04edb0384fc"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_53_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_53_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 3,
+    "reference_items": [
+      {
+        "id": "REC53-51b766480c77"
+      },
+      {
+        "id": "REC53-868a36a0305c"
+      },
+      {
+        "id": "REC53-9dc5ec81c33e"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC53-118d571b0b8f",
+      "REC53-401de65cd763",
+      "REC53-4bd894c180c3",
+      "REC53-a7249716eef9",
+      "REC53-e485b4cf8bc8"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_54_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_54_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 3,
+    "reference_items": [
+      {
+        "id": "REC54-963cc121e4c1"
+      },
+      {
+        "id": "REC54-e6edc21544e4"
+      },
+      {
+        "id": "REC54-fc322299dd8c"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC54-1c5c1d2187ab",
+      "REC54-3872b0755016",
+      "REC54-4686709fa84f",
+      "REC54-559954bc2b58",
+      "REC54-8dd481e11052"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_55_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_55_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 2,
+    "reference_items": [
+      {
+        "id": "REC55-079bb49a12a4"
+      },
+      {
+        "id": "REC55-20a8c266bcb2"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC55-4efe30c57e76",
+      "REC55-5d22215169ad",
+      "REC55-824c8c9faf7f",
+      "REC55-963bdc084a6b",
+      "REC55-cb52bb061521",
+      "REC55-dfba5d1dffd0"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_56_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_56_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 7,
+    "reference_items": [
+      {
+        "id": "REC56-001dbea3c5cb"
+      },
+      {
+        "id": "REC56-0271112cad24"
+      },
+      {
+        "id": "REC56-3e68242d1da5"
+      },
+      {
+        "id": "REC56-3f2bab8a8d96"
+      },
+      {
+        "id": "REC56-5a055445b097"
+      },
+      {
+        "id": "REC56-6ae2d40733f1"
+      },
+      {
+        "id": "REC56-b153cd7d6cf2"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC56-e8598778bb95"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_57_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_57_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 3,
+    "reference_items": [
+      {
+        "id": "REC57-2f46661776d2"
+      },
+      {
+        "id": "REC57-4d847f2b6fab"
+      },
+      {
+        "id": "REC57-bbea8e564966"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC57-1d7b9dffd11a",
+      "REC57-3875815d919c",
+      "REC57-5803539a75cb",
+      "REC57-77f8cbe9568b",
+      "REC57-925ce9e544ce"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_58_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_58_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 3,
+    "reference_items": [
+      {
+        "id": "REC58-8978b2a05025"
+      },
+      {
+        "id": "REC58-a1a456922477"
+      },
+      {
+        "id": "REC58-b7d777472c41"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC58-2261e8642026",
+      "REC58-3aa93052655e",
+      "REC58-5e4cad2fb24f",
+      "REC58-77814ecde00c",
+      "REC58-fc3c8cf9f19c"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_59_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_59_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 2,
+    "reference_items": [
+      {
+        "id": "REC59-a15d998eb8cb"
+      },
+      {
+        "id": "REC59-f944eeeeffb2"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC59-1d69073523b0",
+      "REC59-212ceaac20e6",
+      "REC59-21459b2d87cf",
+      "REC59-351557f52568",
+      "REC59-58c369143d1d",
+      "REC59-c6c32ad2286a"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_60_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_60_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 2,
+    "reference_items": [
+      {
+        "id": "REC60-881364db503a"
+      },
+      {
+        "id": "REC60-943ed05bcb24"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC60-14e83d2da63e",
+      "REC60-2e1d7c423e19",
+      "REC60-40df85413de4",
+      "REC60-5224b55f7407",
+      "REC60-9d39c6fb9efe",
+      "REC60-e2e9f7c12b9e"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_61_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_61_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 4,
+    "reference_items": [
+      {
+        "id": "REC61-02c7894afb12"
+      },
+      {
+        "id": "REC61-59d9acba501d"
+      },
+      {
+        "id": "REC61-90da3a14c26a"
+      },
+      {
+        "id": "REC61-c8c6b601f175"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC61-07235ed6323f",
+      "REC61-2d6a5bcff4dc",
+      "REC61-97a27f81ce29",
+      "REC61-e35fcb218a31"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_62_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_62_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 4,
+    "reference_items": [
+      {
+        "id": "REC62-60ad8b2fbcfc"
+      },
+      {
+        "id": "REC62-639188bfbd47"
+      },
+      {
+        "id": "REC62-7abe77f704a7"
+      },
+      {
+        "id": "REC62-938ec651997c"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC62-4f20b36321c9",
+      "REC62-503d636b6e5d",
+      "REC62-9399012f0dbc",
+      "REC62-fda1b6d7e9c0"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_63_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_63_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 3,
+    "reference_items": [
+      {
+        "id": "REC63-09b9785a8c1d"
+      },
+      {
+        "id": "REC63-a02a3849f9a7"
+      },
+      {
+        "id": "REC63-c2ad22e8c298"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC63-1c64171c5c15",
+      "REC63-1cce7e1e7048",
+      "REC63-2fa1be8beb28",
+      "REC63-7661d086524f",
+      "REC63-7670c4a03f6d"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_64_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_64_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 3,
+    "reference_items": [
+      {
+        "id": "REC64-68d06b21411f"
+      },
+      {
+        "id": "REC64-7f7191c4f698"
+      },
+      {
+        "id": "REC64-9effd864dfca"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC64-7695ebf0c1e9",
+      "REC64-9261582c1d3b",
+      "REC64-a3c61e00d623",
+      "REC64-a4b7cd0b38e2",
+      "REC64-ffc970aeec4a"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_65_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_65_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 2,
+    "reference_items": [
+      {
+        "id": "REC65-59b1da3ccf87"
+      },
+      {
+        "id": "REC65-f00dd6abf0ed"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC65-14644ca41ab1",
+      "REC65-432d4cea7072",
+      "REC65-469ed893b296",
+      "REC65-64285016d5db",
+      "REC65-adb476385f5c",
+      "REC65-bfb6e49648bd"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_66_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_66_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 0,
+    "reference_items": [],
+    "invalid_item_markers": [
+      "REC66-4988d3c29166",
+      "REC66-5d052258a654",
+      "REC66-6afa90f2d787",
+      "REC66-db1ea85b0524",
+      "REC66-e1cdec6ccc98",
+      "REC66-ec6435106ae8",
+      "REC66-f2405d8dbe2b",
+      "REC66-fa089de707eb"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_67_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_67_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 1,
+    "reference_items": [
+      {
+        "id": "REC67-6d54ef163cba"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC67-14cb374491f3",
+      "REC67-2ae4b5d56f6b",
+      "REC67-916fee7e1a84",
+      "REC67-932bf05ce848",
+      "REC67-a6f4cdcc77ef",
+      "REC67-f084c542e391",
+      "REC67-f21602b6e175"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_68_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_68_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 2,
+    "reference_items": [
+      {
+        "id": "REC68-57b311dcb9b1"
+      },
+      {
+        "id": "REC68-b9bddece7266"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC68-09efe0f14e3b",
+      "REC68-2371ed8bc90a",
+      "REC68-6638fcee5379",
+      "REC68-90810c9c237f",
+      "REC68-c832cbdbfd10",
+      "REC68-eed2c7baa5f4"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_69_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_69_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 4,
+    "reference_items": [
+      {
+        "id": "REC69-16c5db868a8d"
+      },
+      {
+        "id": "REC69-44e4f60c1d88"
+      },
+      {
+        "id": "REC69-f82f14bb7485"
+      },
+      {
+        "id": "REC69-faad3243c277"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC69-74544cef3dd7",
+      "REC69-7ded645d7b42",
+      "REC69-c971cd9e69f5",
+      "REC69-dc02b16ddcc4"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_70_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_70_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 3,
+    "reference_items": [
+      {
+        "id": "REC70-48e383708383"
+      },
+      {
+        "id": "REC70-6010698dd737"
+      },
+      {
+        "id": "REC70-67fdc84956e4"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC70-21399efaf244",
+      "REC70-4ae3cdcea8b1",
+      "REC70-5a06038d2591",
+      "REC70-643f119b47c1",
+      "REC70-ec90c62d4f80"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_71_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_71_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 3,
+    "reference_items": [
+      {
+        "id": "REC71-252cd9a4eb75"
+      },
+      {
+        "id": "REC71-5d7b06724dca"
+      },
+      {
+        "id": "REC71-9ecf16b01322"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC71-33466e3801b9",
+      "REC71-384f05dfbf6a",
+      "REC71-4e3886a7be10",
+      "REC71-a05f4558fb93",
+      "REC71-ba2cc5d6f954"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_72_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_72_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 1,
+    "reference_items": [
+      {
+        "id": "REC72-dddf4b1e811d"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC72-0c6752ec2adf",
+      "REC72-630a9c5380d4",
+      "REC72-7027d5f3ef3c",
+      "REC72-8b147e843ac9",
+      "REC72-afeaa3728567",
+      "REC72-b8c2c63ed061",
+      "REC72-ffd4bfa41086"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_73_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_73_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 2,
+    "reference_items": [
+      {
+        "id": "REC73-1c98cf9ab26f"
+      },
+      {
+        "id": "REC73-86275c071772"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC73-20347262311e",
+      "REC73-55ffb8e7f892",
+      "REC73-72447784a361",
+      "REC73-a26882bfd8e5",
+      "REC73-c3ed622cee14",
+      "REC73-fe41c562c878"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_74_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_74_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 3,
+    "reference_items": [
+      {
+        "id": "REC74-15ca1f21d6fc"
+      },
+      {
+        "id": "REC74-b0f35e8e1ff6"
+      },
+      {
+        "id": "REC74-e491f69dd8af"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC74-5966a3321465",
+      "REC74-7bce18f7107e",
+      "REC74-96ac56aaf930",
+      "REC74-9961d28aa186",
+      "REC74-b67560f5777a"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_75_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_75_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 4,
+    "reference_items": [
+      {
+        "id": "REC75-06d886a19ed4"
+      },
+      {
+        "id": "REC75-4c041402b54e"
+      },
+      {
+        "id": "REC75-647f45059e2f"
+      },
+      {
+        "id": "REC75-bfedb1235793"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC75-1f8de4b6b1dc",
+      "REC75-2badf98cb35b",
+      "REC75-387fe5fe8115",
+      "REC75-4182fe2a4e20",
+      "REC75-4abe1bc362c3",
+      "REC75-59527886b7d3",
+      "REC75-650bb90884c6",
+      "REC75-7acc08655212",
+      "REC75-8a3756308416",
+      "REC75-9c4a211478bb",
+      "REC75-a09b9980ad9c",
+      "REC75-eff1a6ad2371"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_76_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_76_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 9,
+    "reference_items": [
+      {
+        "id": "REC76-18bae6e32584"
+      },
+      {
+        "id": "REC76-21b53ddfcaac"
+      },
+      {
+        "id": "REC76-304064feb60a"
+      },
+      {
+        "id": "REC76-308a0f1a6bd5"
+      },
+      {
+        "id": "REC76-41608bdc9dc9"
+      },
+      {
+        "id": "REC76-66c2fbad5b6e"
+      },
+      {
+        "id": "REC76-941f7e5f3814"
+      },
+      {
+        "id": "REC76-96686e6dedda"
+      },
+      {
+        "id": "REC76-b8da85244b5a"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC76-267570193444",
+      "REC76-5af809c5d1c7",
+      "REC76-84ac52d54508",
+      "REC76-91a1e9921fe8",
+      "REC76-bcf82ceacee9",
+      "REC76-dfd1f9e47fec",
+      "REC76-e64ac6209850"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_77_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_77_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 5,
+    "reference_items": [
+      {
+        "id": "REC77-619973108c38"
+      },
+      {
+        "id": "REC77-6e086e77c349"
+      },
+      {
+        "id": "REC77-8a51f352c795"
+      },
+      {
+        "id": "REC77-c9afb820345b"
+      },
+      {
+        "id": "REC77-d400857e4446"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC77-0ff8132a84f7",
+      "REC77-2fdd7755436f",
+      "REC77-3739656c3c60",
+      "REC77-64d9a8f22066",
+      "REC77-79abc126e2bf",
+      "REC77-7dfc6468b79f",
+      "REC77-b23cfcc07795",
+      "REC77-b8ed9f97f50d",
+      "REC77-e28fa349902d",
+      "REC77-e93a8264fb01",
+      "REC77-fe3ea1e98ab8"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_78_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_78_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 6,
+    "reference_items": [
+      {
+        "id": "REC78-0b6e773d819e"
+      },
+      {
+        "id": "REC78-34e37cc8a092"
+      },
+      {
+        "id": "REC78-aee324918e55"
+      },
+      {
+        "id": "REC78-b8434abe72c8"
+      },
+      {
+        "id": "REC78-c3b91515dd32"
+      },
+      {
+        "id": "REC78-eb027f45d132"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC78-379ec0470585",
+      "REC78-3a55cbeb4620",
+      "REC78-562c3ac4d246",
+      "REC78-7870f8dd33e7",
+      "REC78-78ef0e2d8ad3",
+      "REC78-964292e4c171",
+      "REC78-97f2eb0e421c",
+      "REC78-c748739c29d1",
+      "REC78-eaec146b26d2",
+      "REC78-eb48216141dc"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_79_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_79_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 6,
+    "reference_items": [
+      {
+        "id": "REC79-184f0b491588"
+      },
+      {
+        "id": "REC79-54337441337e"
+      },
+      {
+        "id": "REC79-6995147828b9"
+      },
+      {
+        "id": "REC79-8db7d1718466"
+      },
+      {
+        "id": "REC79-b07c764d30a6"
+      },
+      {
+        "id": "REC79-fe5db46942ca"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC79-0cbd0887cbb9",
+      "REC79-2fd9db71ee0e",
+      "REC79-3c87510ba4f6",
+      "REC79-40ad5ee3474c",
+      "REC79-a49d290c909a",
+      "REC79-a77ce1df1b34",
+      "REC79-c0a3d40eb208",
+      "REC79-ed6185e40415",
+      "REC79-f0ecd7f131d8",
+      "REC79-fd6888312d84"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_80_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_80_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 7,
+    "reference_items": [
+      {
+        "id": "REC80-0861444b2e1f"
+      },
+      {
+        "id": "REC80-54f56b4fb025"
+      },
+      {
+        "id": "REC80-81a8b82dbb3c"
+      },
+      {
+        "id": "REC80-a87572c1ab35"
+      },
+      {
+        "id": "REC80-aae8fce7d7f6"
+      },
+      {
+        "id": "REC80-bf3f1693b594"
+      },
+      {
+        "id": "REC80-fe9ec9ba14da"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC80-274cba74dc7a",
+      "REC80-5818de1b2d97",
+      "REC80-6e7934548b2a",
+      "REC80-741a9acb9562",
+      "REC80-82d845255aac",
+      "REC80-97f023a39869",
+      "REC80-d6b9d026d49d",
+      "REC80-e0f85e7a7c49",
+      "REC80-f2e416b0b8f7"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_81_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_81_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 1,
+    "reference_items": [
+      {
+        "id": "REC81-519102c36514"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC81-1b31ff5ba49a",
+      "REC81-3b2192bc1366",
+      "REC81-404333b4fed9",
+      "REC81-41d1a3008218",
+      "REC81-69298ca8c3b8",
+      "REC81-6be66e7707d7",
+      "REC81-6dd1dfbea9de",
+      "REC81-97467e2b8d03",
+      "REC81-993afd2379ec",
+      "REC81-aa46e3ee628e",
+      "REC81-b7ae046e7cbe",
+      "REC81-b89e36b8e376",
+      "REC81-bbe8965fe500",
+      "REC81-d07361fbcb36",
+      "REC81-fd9e989c3897"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_82_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_82_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 7,
+    "reference_items": [
+      {
+        "id": "REC82-1adda78332ef"
+      },
+      {
+        "id": "REC82-51ed4b3d916a"
+      },
+      {
+        "id": "REC82-5b7a71575d51"
+      },
+      {
+        "id": "REC82-6acc3a0d30c4"
+      },
+      {
+        "id": "REC82-8e8a025d2eb4"
+      },
+      {
+        "id": "REC82-a08345e7c591"
+      },
+      {
+        "id": "REC82-c498bae01055"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC82-0af6480889bd",
+      "REC82-187c7c37b5d0",
+      "REC82-1f7457f01772",
+      "REC82-282b13c14be0",
+      "REC82-47ad39314086",
+      "REC82-65db40f80803",
+      "REC82-66f64c129279",
+      "REC82-679f44abda8a",
+      "REC82-b6438a8529f7"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_83_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_83_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 3,
+    "reference_items": [
+      {
+        "id": "REC83-2c0e99aa3053"
+      },
+      {
+        "id": "REC83-43b6979b2cdd"
+      },
+      {
+        "id": "REC83-4b81a2e27cb7"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC83-08989fa3c36c",
+      "REC83-1100e13b0f36",
+      "REC83-1f0520f8ea0c",
+      "REC83-20f93b650133",
+      "REC83-3106a02769bb",
+      "REC83-416bb25423f1",
+      "REC83-443c4351ee4e",
+      "REC83-5ddfde7a4bc7",
+      "REC83-aae1e0776334",
+      "REC83-cfee1f65a3ac",
+      "REC83-e400dd46b892",
+      "REC83-f8e2e2abca7c",
+      "REC83-fa2ec1335e25"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_84_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_84_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 4,
+    "reference_items": [
+      {
+        "id": "REC84-4f51c016e307"
+      },
+      {
+        "id": "REC84-6fce468c39c9"
+      },
+      {
+        "id": "REC84-82707c28ba4d"
+      },
+      {
+        "id": "REC84-923537c692bd"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC84-0983ada62266",
+      "REC84-49f10a50c429",
+      "REC84-586b3249e946",
+      "REC84-6002fa54a00f",
+      "REC84-6edd1b80fdf2",
+      "REC84-73ca0f89bf08",
+      "REC84-b1776fbd87d7",
+      "REC84-b597f8e2f703",
+      "REC84-dadc2d7274cc",
+      "REC84-e0b1abcd532b",
+      "REC84-e58b69a411fb",
+      "REC84-eac6e389f242"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_85_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_85_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 5,
+    "reference_items": [
+      {
+        "id": "REC85-0c343439de4f"
+      },
+      {
+        "id": "REC85-3a8cd4a25b5a"
+      },
+      {
+        "id": "REC85-5048ed27fb72"
+      },
+      {
+        "id": "REC85-5976bb6effc7"
+      },
+      {
+        "id": "REC85-ad14d45446c8"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC85-0cc6bbbf2275",
+      "REC85-13024f959dd0",
+      "REC85-39cbef089368",
+      "REC85-41fb14d51462",
+      "REC85-5196cf9b2387",
+      "REC85-54b4e4054407",
+      "REC85-760c0ac2bb7d",
+      "REC85-8611e51716d4",
+      "REC85-a014e7f4f253",
+      "REC85-bcd639e8af04",
+      "REC85-e6bada52b9c6"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_86_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_86_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 6,
+    "reference_items": [
+      {
+        "id": "REC86-094f685c4a14"
+      },
+      {
+        "id": "REC86-3f63adcc1ce0"
+      },
+      {
+        "id": "REC86-473ef5b5dd43"
+      },
+      {
+        "id": "REC86-6feef88c3897"
+      },
+      {
+        "id": "REC86-8e9624ee1a14"
+      },
+      {
+        "id": "REC86-cb4bb288b3db"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC86-20480817b53e",
+      "REC86-3038e4df8abe",
+      "REC86-5419dc7779b8",
+      "REC86-838d2e870dc0",
+      "REC86-847c43ec9ad1",
+      "REC86-9a13afc5ca58",
+      "REC86-9f1cdae65ed7",
+      "REC86-a1b4d0cc592a",
+      "REC86-b86a9b445976",
+      "REC86-cdeeb111c65b"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_87_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_87_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 2,
+    "reference_items": [
+      {
+        "id": "REC87-03921cdeb781"
+      },
+      {
+        "id": "REC87-afcfa2b1df5e"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC87-1d1f3615a560",
+      "REC87-2fa6ec705aca",
+      "REC87-3024c9032b3b",
+      "REC87-42127f11297e",
+      "REC87-5397f9134f17",
+      "REC87-6832022eb61e",
+      "REC87-68f1d1f227a2",
+      "REC87-77cd5b733741",
+      "REC87-a00f367b18a4",
+      "REC87-b4904bdddade",
+      "REC87-befd5b06e43b",
+      "REC87-d1a7e217d87c",
+      "REC87-e865dbdd082b",
+      "REC87-ee8d96f24094"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_88_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_88_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 3,
+    "reference_items": [
+      {
+        "id": "REC88-175b5de16e2b"
+      },
+      {
+        "id": "REC88-a6976a9b7d9a"
+      },
+      {
+        "id": "REC88-c47e50b557f6"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC88-1cb1bf9618c6",
+      "REC88-2b35669f4110",
+      "REC88-36a510ea1d24",
+      "REC88-5fc37a50d33c",
+      "REC88-65ee3e95cc22",
+      "REC88-722cb963c7f6",
+      "REC88-8f3442e06d9f",
+      "REC88-918baeb98906",
+      "REC88-a9b8a9d4c176",
+      "REC88-ba118a22a780",
+      "REC88-be1dc2584099",
+      "REC88-d48f08b4c42d",
+      "REC88-e0525382875f"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_89_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_89_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 5,
+    "reference_items": [
+      {
+        "id": "REC89-2784544fddee"
+      },
+      {
+        "id": "REC89-5869f6674a17"
+      },
+      {
+        "id": "REC89-7ac074c3ed90"
+      },
+      {
+        "id": "REC89-9aca57dc7740"
+      },
+      {
+        "id": "REC89-fd67ea1fb0ad"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC89-0be8693a5f7b",
+      "REC89-22043e0aa033",
+      "REC89-274cac47779c",
+      "REC89-32a67b2f046f",
+      "REC89-3e94aa63afab",
+      "REC89-46ec75aa75f1",
+      "REC89-48fedc84f802",
+      "REC89-6635c5117773",
+      "REC89-9b1adcbadceb",
+      "REC89-ac8674ad88e6",
+      "REC89-bd4ea57c49a6"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_90_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_90_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 1,
+    "reference_items": [
+      {
+        "id": "REC90-a8f1cf4a747c"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC90-01ea3e3a15f9",
+      "REC90-06c30de6a837",
+      "REC90-26bebabc0b11",
+      "REC90-2e2aeb98c170",
+      "REC90-2eab7cf21343",
+      "REC90-399f286d0ba7",
+      "REC90-440ebf8c4cb3",
+      "REC90-46ab775a8442",
+      "REC90-4f6104e917ce",
+      "REC90-8a61a2c0461c",
+      "REC90-8dd52bdcf50b",
+      "REC90-910292815db3",
+      "REC90-a1c1115f9cee",
+      "REC90-e177e6287634",
+      "REC90-ebc0a2996077"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_91_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_91_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 6,
+    "reference_items": [
+      {
+        "id": "REC91-1175ccdf4c55"
+      },
+      {
+        "id": "REC91-14dc48a4bece"
+      },
+      {
+        "id": "REC91-263ab7b90590"
+      },
+      {
+        "id": "REC91-266923705b75"
+      },
+      {
+        "id": "REC91-63933ba81acb"
+      },
+      {
+        "id": "REC91-66e188ee4058"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC91-10eb8d840b4a",
+      "REC91-26b79d54f972",
+      "REC91-3b523ec4a5df",
+      "REC91-3c77d2afdfe4",
+      "REC91-6b484ad47fcf",
+      "REC91-749d08bcc564",
+      "REC91-9fd3c4c02ac6",
+      "REC91-a474e60aaa02",
+      "REC91-ba6b91ccbc90",
+      "REC91-c51966da457c"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_92_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_92_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 3,
+    "reference_items": [
+      {
+        "id": "REC92-945b26550496"
+      },
+      {
+        "id": "REC92-9ace808b8067"
+      },
+      {
+        "id": "REC92-dff51be766f2"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC92-046f0c9009e0",
+      "REC92-2db6d11b20c2",
+      "REC92-3605feb78ddc",
+      "REC92-3a0ec0111f86",
+      "REC92-3f6558cff4bf",
+      "REC92-7730d82f076b",
+      "REC92-9c26b83c8167",
+      "REC92-a5a3f34d201e",
+      "REC92-acbc49a477cc",
+      "REC92-c4e1c77554c4",
+      "REC92-de2fc381d0fc",
+      "REC92-fb2707af6778",
+      "REC92-ff12e3c52232"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_93_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_93_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 3,
+    "reference_items": [
+      {
+        "id": "REC93-942fe130c558"
+      },
+      {
+        "id": "REC93-adb46507e62d"
+      },
+      {
+        "id": "REC93-e84489d52aa9"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC93-3c6ad6920411",
+      "REC93-40790d68396c",
+      "REC93-40bac7818fbc",
+      "REC93-559e4a0307dc",
+      "REC93-5828f92a5b35",
+      "REC93-8d4b1bdfddb4",
+      "REC93-941b775911ab",
+      "REC93-967ae5cbb38c",
+      "REC93-bd92a60f2a4e",
+      "REC93-beffcfdb3591",
+      "REC93-e08a23271ba1",
+      "REC93-f35215623587",
+      "REC93-f6ce78b3f992"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_94_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_94_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 10,
+    "reference_items": [
+      {
+        "id": "REC94-2e2775168436"
+      },
+      {
+        "id": "REC94-7fe01f76bb1f"
+      },
+      {
+        "id": "REC94-8c6823a9aa5e"
+      },
+      {
+        "id": "REC94-91d68344bd84"
+      },
+      {
+        "id": "REC94-a628be35009c"
+      },
+      {
+        "id": "REC94-b177ad9f2a70"
+      },
+      {
+        "id": "REC94-b8556f9b198b"
+      },
+      {
+        "id": "REC94-c5deb919ed28"
+      },
+      {
+        "id": "REC94-d88d733f4e72"
+      },
+      {
+        "id": "REC94-dfd9c34dbbbb"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC94-05468fa92352",
+      "REC94-2e83658fa01e",
+      "REC94-67fb66ea843a",
+      "REC94-adcc19064144",
+      "REC94-e27d756003be",
+      "REC94-f6d127206705"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_95_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_95_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 3,
+    "reference_items": [
+      {
+        "id": "REC95-63acacfd3c22"
+      },
+      {
+        "id": "REC95-cea54a0afe4b"
+      },
+      {
+        "id": "REC95-eac3cd34ea99"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC95-0777153a6f38",
+      "REC95-1b68b05ecb07",
+      "REC95-421aeea74c18",
+      "REC95-42ec8b3e2a8d",
+      "REC95-5852c9d725a9",
+      "REC95-5daf0253966e",
+      "REC95-5e58b69edf78",
+      "REC95-5eb33df118e0",
+      "REC95-6122dddb555a",
+      "REC95-83e521ae95de",
+      "REC95-aa08011acb22",
+      "REC95-ef6baaeb5098",
+      "REC95-f13fb30f0712"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_96_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_96_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 6,
+    "reference_items": [
+      {
+        "id": "REC96-2a9389ca5c91"
+      },
+      {
+        "id": "REC96-4100c819108b"
+      },
+      {
+        "id": "REC96-76cba438bd1d"
+      },
+      {
+        "id": "REC96-895eda8ba971"
+      },
+      {
+        "id": "REC96-c1f068b0d246"
+      },
+      {
+        "id": "REC96-c2016f263fab"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC96-50120cb59742",
+      "REC96-559e03050bc7",
+      "REC96-8a27bd1a7b3e",
+      "REC96-bf2680d53820",
+      "REC96-caea21b48e26",
+      "REC96-d02256ca7d1b",
+      "REC96-d201de64b213",
+      "REC96-daf948b2250b",
+      "REC96-dccdcf83a391",
+      "REC96-e25cfae623aa"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_97_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_97_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 4,
+    "reference_items": [
+      {
+        "id": "REC97-2afafd642761"
+      },
+      {
+        "id": "REC97-2e8acc1b02a2"
+      },
+      {
+        "id": "REC97-6f651e5fc967"
+      },
+      {
+        "id": "REC97-f2c86e9225c1"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC97-0b084dd90588",
+      "REC97-269bbba96e58",
+      "REC97-34a7655d0521",
+      "REC97-4ae5b24969f6",
+      "REC97-7bf2f021252a",
+      "REC97-7c7bef826173",
+      "REC97-92bfbf54a9b6",
+      "REC97-9ad5e7694437",
+      "REC97-b4645bbdbd4d",
+      "REC97-c19d7c1f56ec",
+      "REC97-d378496aaf48",
+      "REC97-f2a47d48b390"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_98_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_98_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 3,
+    "reference_items": [
+      {
+        "id": "REC98-06e37efc9445"
+      },
+      {
+        "id": "REC98-32d93b210367"
+      },
+      {
+        "id": "REC98-e7584ae33c6b"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC98-2cda166f0512",
+      "REC98-2dfc7a526741",
+      "REC98-4bd318cf7178",
+      "REC98-4da92203ee31",
+      "REC98-73f1eee9dc58",
+      "REC98-7cd72f289fbf",
+      "REC98-96e06ca8a894",
+      "REC98-999d4d55c3f4",
+      "REC98-a57e005b34a9",
+      "REC98-aaab7db13f8f",
+      "REC98-b11b503678b9",
+      "REC98-b833b677bf1d",
+      "REC98-cf673b25538b"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_99_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_99_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 13,
+    "reference_items": [
+      {
+        "id": "REC99-0fee3d6d0fec"
+      },
+      {
+        "id": "REC99-34883a7b03fb"
+      },
+      {
+        "id": "REC99-6131d0b32b7e"
+      },
+      {
+        "id": "REC99-7a86d20d4d5c"
+      },
+      {
+        "id": "REC99-7dc7f6953e22"
+      },
+      {
+        "id": "REC99-841f5b4dbff5"
+      },
+      {
+        "id": "REC99-874ed5c3461d"
+      },
+      {
+        "id": "REC99-8cbc221c0b37"
+      },
+      {
+        "id": "REC99-a04feb286ca4"
+      },
+      {
+        "id": "REC99-affb082bbdcf"
+      },
+      {
+        "id": "REC99-ba36cd3a31e7"
+      },
+      {
+        "id": "REC99-d42448dbd674"
+      },
+      {
+        "id": "REC99-f6abb764a8af"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC99-107ba2c9aa16",
+      "REC99-3b4d42f2c608",
+      "REC99-3f194641686f",
+      "REC99-433f8ca732dd",
+      "REC99-43ca6c12e308",
+      "REC99-59534cc732c1",
+      "REC99-85ed4428fbe2",
+      "REC99-95b9b80b28e9",
+      "REC99-96fd706cf8ed",
+      "REC99-a97f32812962",
+      "REC99-b0f6b3a9c9eb",
+      "REC99-bc77b44c2d3e",
+      "REC99-bd1aac47e822",
+      "REC99-bdd95f3fd184",
+      "REC99-becad728492e",
+      "REC99-d758b7201e95",
+      "REC99-e8082e1e140f",
+      "REC99-ef1bb9510f93",
+      "REC99-f407be833cd8"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_100_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_100_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 23,
+    "reference_items": [
+      {
+        "id": "REC100-00e0a95d14ca"
+      },
+      {
+        "id": "REC100-0a39b2a5e69f"
+      },
+      {
+        "id": "REC100-0be0fd0bbc86"
+      },
+      {
+        "id": "REC100-1453fbf5246d"
+      },
+      {
+        "id": "REC100-191ee098e3bf"
+      },
+      {
+        "id": "REC100-1ddffca4569d"
+      },
+      {
+        "id": "REC100-214de137ad33"
+      },
+      {
+        "id": "REC100-264e84c779ce"
+      },
+      {
+        "id": "REC100-2d94291a3a73"
+      },
+      {
+        "id": "REC100-3214fe2c9b6a"
+      },
+      {
+        "id": "REC100-3407b630f12e"
+      },
+      {
+        "id": "REC100-537fbeeeb43e"
+      },
+      {
+        "id": "REC100-629f5bdc2f47"
+      },
+      {
+        "id": "REC100-6a187a9ed1f9"
+      },
+      {
+        "id": "REC100-6cce3a17e4c2"
+      },
+      {
+        "id": "REC100-7a4813358634"
+      },
+      {
+        "id": "REC100-cc919950076c"
+      },
+      {
+        "id": "REC100-cdba2f58be9e"
+      },
+      {
+        "id": "REC100-cea2a83bf093"
+      },
+      {
+        "id": "REC100-f5bdcd677f55"
+      },
+      {
+        "id": "REC100-f6d95c4947f7"
+      },
+      {
+        "id": "REC100-f986f4458125"
+      },
+      {
+        "id": "REC100-fa64fdc56e05"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC100-163af8c28b44",
+      "REC100-2b0b71b42447",
+      "REC100-6b8e0dcada60",
+      "REC100-a08d771dd94f",
+      "REC100-a2eb2116db81",
+      "REC100-b153b047cb3d",
+      "REC100-b9131940ad89",
+      "REC100-e29a84d0419f",
+      "REC100-ed6f5b5ae520"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_101_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_101_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 14,
+    "reference_items": [
+      {
+        "id": "REC101-0e3aa8c913ef"
+      },
+      {
+        "id": "REC101-13ce3eaab9fd"
+      },
+      {
+        "id": "REC101-2a911a66e8bf"
+      },
+      {
+        "id": "REC101-44bc72366d7e"
+      },
+      {
+        "id": "REC101-51c8b79eeb8b"
+      },
+      {
+        "id": "REC101-5c8bb26c2f40"
+      },
+      {
+        "id": "REC101-66b5858cba70"
+      },
+      {
+        "id": "REC101-7eb1e6886e19"
+      },
+      {
+        "id": "REC101-8e77519ce2ef"
+      },
+      {
+        "id": "REC101-9c4f1dbfcfab"
+      },
+      {
+        "id": "REC101-cddace3ab0c3"
+      },
+      {
+        "id": "REC101-db0cd7d1fc3b"
+      },
+      {
+        "id": "REC101-ed6755c42325"
+      },
+      {
+        "id": "REC101-f57087547952"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC101-0b4307b1cd57",
+      "REC101-0c3952a998e2",
+      "REC101-27c9a7860d74",
+      "REC101-2e0f17ed4116",
+      "REC101-311ce8c77dea",
+      "REC101-51c1697f51d9",
+      "REC101-53190a125ca8",
+      "REC101-9bc4f2da0cbb",
+      "REC101-9e7cc6ffefce",
+      "REC101-a21e9166517a",
+      "REC101-b009d200d1dd",
+      "REC101-bde31aaabfcd",
+      "REC101-bfe89c693c15",
+      "REC101-d47f4c56daa1",
+      "REC101-dcb698a9e885",
+      "REC101-def698ccdee2",
+      "REC101-ec09bc96faf0",
+      "REC101-f984e4aaf005"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_102_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_102_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 5,
+    "reference_items": [
+      {
+        "id": "REC102-01e822707a43"
+      },
+      {
+        "id": "REC102-2af08fdf268c"
+      },
+      {
+        "id": "REC102-56191406ded2"
+      },
+      {
+        "id": "REC102-5bf0593432c7"
+      },
+      {
+        "id": "REC102-fe1f08d6d3ad"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC102-03fa19993ff6",
+      "REC102-1da5563f4a80",
+      "REC102-1fa098fd12fa",
+      "REC102-203d16e64edc",
+      "REC102-30daaa1423b8",
+      "REC102-3e33712af79d",
+      "REC102-44f581e843f6",
+      "REC102-460597769110",
+      "REC102-4bf22ff03e92",
+      "REC102-5581eba78aec",
+      "REC102-5af6ae87b954",
+      "REC102-65685e17e8a6",
+      "REC102-6b8a79ab0fb9",
+      "REC102-713defb6e2a1",
+      "REC102-79161e5b6a9e",
+      "REC102-7daa201b6e72",
+      "REC102-8d299bb8aabf",
+      "REC102-ab3771227e0a",
+      "REC102-ac103baf1e06",
+      "REC102-b1db3abdb436",
+      "REC102-b443541a0985",
+      "REC102-c04a0bd70126",
+      "REC102-c06ed706bcba",
+      "REC102-d57d8b808203",
+      "REC102-da5d2e1620e3",
+      "REC102-de8d69e2b050",
+      "REC102-ed47c24a0b17"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_103_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_103_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 7,
+    "reference_items": [
+      {
+        "id": "REC103-19b0582b8dbd"
+      },
+      {
+        "id": "REC103-79176fc7d772"
+      },
+      {
+        "id": "REC103-a1d0713253c3"
+      },
+      {
+        "id": "REC103-a7e103cadbb4"
+      },
+      {
+        "id": "REC103-cf75f614a10d"
+      },
+      {
+        "id": "REC103-e9e36f1cadd5"
+      },
+      {
+        "id": "REC103-f2d47b51e6a2"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC103-00d7f2017f34",
+      "REC103-15afb1e7b49e",
+      "REC103-1cf87840f2f7",
+      "REC103-23f9cb81e233",
+      "REC103-2f51ba527b31",
+      "REC103-3657c1394534",
+      "REC103-367a15d6a183",
+      "REC103-5339f2ccf730",
+      "REC103-57ac314cd713",
+      "REC103-6b0d5389713c",
+      "REC103-7a659a64ad46",
+      "REC103-7b43195f3bf4",
+      "REC103-84ae9860dfb3",
+      "REC103-956b51bc5a3d",
+      "REC103-9c0b8cd30331",
+      "REC103-9c215e025d45",
+      "REC103-a3bbbe6118c4",
+      "REC103-a4cf4746eb8e",
+      "REC103-bda5d63aca62",
+      "REC103-c29081cc475f",
+      "REC103-c39386ade91b",
+      "REC103-c42715c52378",
+      "REC103-e41b50894343",
+      "REC103-e74c4b6f0441",
+      "REC103-eef241c69fab"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_104_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_104_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 18,
+    "reference_items": [
+      {
+        "id": "REC104-27f47fcd0320"
+      },
+      {
+        "id": "REC104-2e573847d8c0"
+      },
+      {
+        "id": "REC104-37a071744d09"
+      },
+      {
+        "id": "REC104-5db0be25bdc3"
+      },
+      {
+        "id": "REC104-660f1e401aca"
+      },
+      {
+        "id": "REC104-946a7ada8f21"
+      },
+      {
+        "id": "REC104-a2d7f31ef090"
+      },
+      {
+        "id": "REC104-ba3b629b2868"
+      },
+      {
+        "id": "REC104-c1d9b70ce4dd"
+      },
+      {
+        "id": "REC104-c2a15c597210"
+      },
+      {
+        "id": "REC104-c43526f48672"
+      },
+      {
+        "id": "REC104-cc34432f2152"
+      },
+      {
+        "id": "REC104-cf88d1163943"
+      },
+      {
+        "id": "REC104-d0893ca36db8"
+      },
+      {
+        "id": "REC104-ddf0bee819e9"
+      },
+      {
+        "id": "REC104-dfb3c5f3ce72"
+      },
+      {
+        "id": "REC104-f00b5e5349b4"
+      },
+      {
+        "id": "REC104-fdb9a79c2ddc"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC104-12b6ce7ebd92",
+      "REC104-1665b3150dbc",
+      "REC104-46e93135c5eb",
+      "REC104-5a869dfbed92",
+      "REC104-80b1d676b693",
+      "REC104-9a641d96dfd9",
+      "REC104-aa8ab1e8defa",
+      "REC104-aabbee18823c",
+      "REC104-b3aa18931c18",
+      "REC104-bb003663e852",
+      "REC104-cf6649e9832f",
+      "REC104-f0b80f38f0d5",
+      "REC104-f2e53dcbd5f1",
+      "REC104-f65185172442"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_105_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_105_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 5,
+    "reference_items": [
+      {
+        "id": "REC105-34c094127945"
+      },
+      {
+        "id": "REC105-441da3a765bb"
+      },
+      {
+        "id": "REC105-89848b6e33da"
+      },
+      {
+        "id": "REC105-982f096a5960"
+      },
+      {
+        "id": "REC105-ad95617ac958"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC105-03030b7ce22a",
+      "REC105-050513db6c10",
+      "REC105-0561d20e33b2",
+      "REC105-19dbac8334f8",
+      "REC105-22e208f4251d",
+      "REC105-257866051874",
+      "REC105-3470d08d521f",
+      "REC105-3cb6b23ed884",
+      "REC105-4cf5d5a58a53",
+      "REC105-4df74e0ae3da",
+      "REC105-569644bb72cc",
+      "REC105-58944315480c",
+      "REC105-59128548a0d6",
+      "REC105-68c0b5bd5ab7",
+      "REC105-7b0b07b57422",
+      "REC105-92fc04de83dc",
+      "REC105-9448938befb5",
+      "REC105-9a889bf8db02",
+      "REC105-a36de2c4e0bb",
+      "REC105-a3a3fb597af9",
+      "REC105-b99c5181f126",
+      "REC105-ba881dfebec0",
+      "REC105-bbf453afe24c",
+      "REC105-bfabc255ad50",
+      "REC105-ccc2397e3dd1",
+      "REC105-cfe38ca0d9c3",
+      "REC105-ff29b8664674"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_106_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_106_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 2,
+    "reference_items": [
+      {
+        "id": "REC106-1a9eaa12d5ca"
+      },
+      {
+        "id": "REC106-1e324e73babd"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC106-02d067614ee3",
+      "REC106-03ebb30cb30f",
+      "REC106-04f2f4174ee0",
+      "REC106-0d4312a3773c",
+      "REC106-1b6d176ef0df",
+      "REC106-1d15ba670b7c",
+      "REC106-27b5e94698d7",
+      "REC106-30bd9e8dba75",
+      "REC106-45de0b176c76",
+      "REC106-4a3ba5fdb70c",
+      "REC106-4c588647b3e2",
+      "REC106-5a4badb75ce9",
+      "REC106-5e053f918258",
+      "REC106-5ef1a90c0997",
+      "REC106-64848c45c202",
+      "REC106-6535bf52923e",
+      "REC106-7864b1c22feb",
+      "REC106-8284a1c78aaf",
+      "REC106-86d57c8c6dc6",
+      "REC106-91a4e484ed72",
+      "REC106-a079338d6126",
+      "REC106-af4864d1bbe4",
+      "REC106-b176abaef8a8",
+      "REC106-b1dbc8573fb3",
+      "REC106-b3a4f3c46480",
+      "REC106-bf4d046c3efd",
+      "REC106-bfe8614e722d",
+      "REC106-dd6a995578a5",
+      "REC106-ecd832352d98",
+      "REC106-fd266f329fa4"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_107_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_107_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 5,
+    "reference_items": [
+      {
+        "id": "REC107-00bf01019efd"
+      },
+      {
+        "id": "REC107-278371b84009"
+      },
+      {
+        "id": "REC107-508c45526f81"
+      },
+      {
+        "id": "REC107-91ac0318051b"
+      },
+      {
+        "id": "REC107-e50e4c18b55e"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC107-0a377a001e7e",
+      "REC107-14082d860a1a",
+      "REC107-1b47c2ff0d78",
+      "REC107-1e68aa554fba",
+      "REC107-22d4785f33a1",
+      "REC107-2aa7b93aa9c8",
+      "REC107-2b7cc7207c67",
+      "REC107-39536457e667",
+      "REC107-4313125e27c5",
+      "REC107-4595b114c7cf",
+      "REC107-54bc0a8237ec",
+      "REC107-62d4e09ec499",
+      "REC107-68cddf121123",
+      "REC107-6c62fc89fef9",
+      "REC107-86cab79bd7a8",
+      "REC107-8d6bdce8cf6a",
+      "REC107-94cc9c6330dd",
+      "REC107-9571f166fb81",
+      "REC107-9ecd4d5ba2fc",
+      "REC107-a78a975ee395",
+      "REC107-b557c93c4669",
+      "REC107-cdd71172f003",
+      "REC107-e59fd01c92f7",
+      "REC107-ea6e43202d0b",
+      "REC107-ed3f212e4bda",
+      "REC107-f16f607c3f51",
+      "REC107-feb7cfd83532"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_108_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_108_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 5,
+    "reference_items": [
+      {
+        "id": "REC108-348e6f981362"
+      },
+      {
+        "id": "REC108-44de0d218e34"
+      },
+      {
+        "id": "REC108-49cb0e785782"
+      },
+      {
+        "id": "REC108-f0a0ae210dda"
+      },
+      {
+        "id": "REC108-f9233cef0518"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC108-05e46b6c59d6",
+      "REC108-079633b08392",
+      "REC108-0980d49bfa4e",
+      "REC108-0e724fa6c639",
+      "REC108-1ff083956479",
+      "REC108-266d180b093e",
+      "REC108-2f3bd50580c6",
+      "REC108-34d8b774bf44",
+      "REC108-394b052230c8",
+      "REC108-5ed15eea338c",
+      "REC108-6e915498830e",
+      "REC108-7fdcf68a49d2",
+      "REC108-8050faf237b1",
+      "REC108-885c36c596c1",
+      "REC108-a11ccbf4564e",
+      "REC108-aa90ec93664c",
+      "REC108-b0561b0b886c",
+      "REC108-b63b4aaff6bf",
+      "REC108-b887789db85c",
+      "REC108-c0f6f34fb00c",
+      "REC108-c1b4f47cd231",
+      "REC108-d30ea3e4d966",
+      "REC108-dcd446c56f2c",
+      "REC108-ed9b555b166a",
+      "REC108-eefb39f772cd",
+      "REC108-f997ed7a8b52",
+      "REC108-fbe12af1f585"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_109_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_109_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 12,
+    "reference_items": [
+      {
+        "id": "REC109-0528332c101d"
+      },
+      {
+        "id": "REC109-1e549da7bdfb"
+      },
+      {
+        "id": "REC109-3cccbe6f7d56"
+      },
+      {
+        "id": "REC109-3da63027c331"
+      },
+      {
+        "id": "REC109-4823f2002953"
+      },
+      {
+        "id": "REC109-6c0cf1cf4d9c"
+      },
+      {
+        "id": "REC109-855b3ea8759d"
+      },
+      {
+        "id": "REC109-9903dd45f031"
+      },
+      {
+        "id": "REC109-ae7ab6af23fe"
+      },
+      {
+        "id": "REC109-b601dfaea8e0"
+      },
+      {
+        "id": "REC109-e8b2d37196cf"
+      },
+      {
+        "id": "REC109-e9abaa5955cb"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC109-19bd3e79eaa5",
+      "REC109-3734bf21af82",
+      "REC109-4870c2ff019c",
+      "REC109-59de388ecd99",
+      "REC109-67259e3c50f3",
+      "REC109-702fb3a3787a",
+      "REC109-71061485c94d",
+      "REC109-7cbda8ea6bb2",
+      "REC109-98d4e7b6c1bd",
+      "REC109-9ac5651440ff",
+      "REC109-a3560c852b9d",
+      "REC109-a4c2d3b697ad",
+      "REC109-bc1da5d3dc7f",
+      "REC109-c3e7d31c1298",
+      "REC109-cc7c20c13d73",
+      "REC109-cd04e46e57c3",
+      "REC109-d44b22c12797",
+      "REC109-dceb9f8fcb96",
+      "REC109-f934e34264e2",
+      "REC109-f97712793409"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_110_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_110_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 9,
+    "reference_items": [
+      {
+        "id": "REC110-0e4992ae8264"
+      },
+      {
+        "id": "REC110-29e982565459"
+      },
+      {
+        "id": "REC110-2a8750d5fd8d"
+      },
+      {
+        "id": "REC110-488a529a5339"
+      },
+      {
+        "id": "REC110-63f6653135aa"
+      },
+      {
+        "id": "REC110-649fc988d0f5"
+      },
+      {
+        "id": "REC110-b76d61027a72"
+      },
+      {
+        "id": "REC110-c617f3d7ddec"
+      },
+      {
+        "id": "REC110-cc14a3116694"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC110-266435507d15",
+      "REC110-2d0a6b0d7fe4",
+      "REC110-2ee905b855e0",
+      "REC110-2f8604dc5cb1",
+      "REC110-3a0966a4eb3d",
+      "REC110-41d4d648ddc4",
+      "REC110-4cd73c00d29e",
+      "REC110-4ecd61b0002d",
+      "REC110-51ec17ef85ba",
+      "REC110-699af005f03f",
+      "REC110-6e01afc7f54b",
+      "REC110-9043b4c8664f",
+      "REC110-9ff21c6073df",
+      "REC110-adc7a9efe8b5",
+      "REC110-b310fb8eabd2",
+      "REC110-b34c2b2b3c2c",
+      "REC110-b9480993bcf7",
+      "REC110-c171936d0db2",
+      "REC110-c1bf560b660c",
+      "REC110-c421d3946089",
+      "REC110-cf7302a5c63c",
+      "REC110-d7538da50c81",
+      "REC110-f486cb0cfcc9"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_111_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_111_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 7,
+    "reference_items": [
+      {
+        "id": "REC111-0b004dabe364"
+      },
+      {
+        "id": "REC111-16998dfcd66e"
+      },
+      {
+        "id": "REC111-196108ef5d21"
+      },
+      {
+        "id": "REC111-4691c6be1eec"
+      },
+      {
+        "id": "REC111-5b5f410827f4"
+      },
+      {
+        "id": "REC111-646c0ae365a4"
+      },
+      {
+        "id": "REC111-e1f971028232"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC111-02a2156887f2",
+      "REC111-0482dd4979d2",
+      "REC111-09fc81317b01",
+      "REC111-19dcaa4ac133",
+      "REC111-1a118c2016ea",
+      "REC111-1ed658e1fa27",
+      "REC111-239b02aa82e9",
+      "REC111-35e7481f2225",
+      "REC111-3a435c26547d",
+      "REC111-3a5e41eb0bc3",
+      "REC111-4cc0df9bb4a6",
+      "REC111-4ec1f7ec963d",
+      "REC111-879170239ce0",
+      "REC111-8d52ebeca196",
+      "REC111-936e0effe848",
+      "REC111-94aabbb275c2",
+      "REC111-bb69d04a404a",
+      "REC111-cf94f0a47b2d",
+      "REC111-d00836965368",
+      "REC111-d9344a45d056",
+      "REC111-dd64b4c26e1f",
+      "REC111-df5ca32ae407",
+      "REC111-ea61b6a48098",
+      "REC111-f061f4ec68b0",
+      "REC111-fbc36579e32e"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_112_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_112_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 8,
+    "reference_items": [
+      {
+        "id": "REC112-236fe6ace553"
+      },
+      {
+        "id": "REC112-25d4fb89961e"
+      },
+      {
+        "id": "REC112-5491968bf3aa"
+      },
+      {
+        "id": "REC112-6c58320f7517"
+      },
+      {
+        "id": "REC112-a4054ff992b3"
+      },
+      {
+        "id": "REC112-f39d61da4871"
+      },
+      {
+        "id": "REC112-fec0b99fc4a6"
+      },
+      {
+        "id": "REC112-ffef23a964d4"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC112-0287cab8735d",
+      "REC112-311c0927bc2f",
+      "REC112-3755488a0fdf",
+      "REC112-37b29dc3566d",
+      "REC112-4154d6938922",
+      "REC112-44dabe972f9b",
+      "REC112-4834404cfc2f",
+      "REC112-49b071705467",
+      "REC112-5a56189f898b",
+      "REC112-5b7359661bd4",
+      "REC112-7a162a5e690d",
+      "REC112-865ca5567f7d",
+      "REC112-877ccecc7c0a",
+      "REC112-9b8a57b8039e",
+      "REC112-b5e1adf54f89",
+      "REC112-ca3fcf18c34f",
+      "REC112-ca4590851a87",
+      "REC112-ced327c46e23",
+      "REC112-d2c807d5c5e1",
+      "REC112-d6237df3619e",
+      "REC112-ee169354b563",
+      "REC112-f0cf97808049",
+      "REC112-f8ba779a7506",
+      "REC112-f8ce48090b18"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_113_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_113_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 19,
+    "reference_items": [
+      {
+        "id": "REC113-01eebb5da619"
+      },
+      {
+        "id": "REC113-0fdb1f6bbb85"
+      },
+      {
+        "id": "REC113-182fb6581860"
+      },
+      {
+        "id": "REC113-21ee781324b1"
+      },
+      {
+        "id": "REC113-2be923ef347c"
+      },
+      {
+        "id": "REC113-396d5944dac1"
+      },
+      {
+        "id": "REC113-46ae7e99713e"
+      },
+      {
+        "id": "REC113-4761b20cb709"
+      },
+      {
+        "id": "REC113-50ce6edcd5e6"
+      },
+      {
+        "id": "REC113-683abf061312"
+      },
+      {
+        "id": "REC113-836459005399"
+      },
+      {
+        "id": "REC113-99570d830ba5"
+      },
+      {
+        "id": "REC113-99c97960338e"
+      },
+      {
+        "id": "REC113-b884b03d0d52"
+      },
+      {
+        "id": "REC113-b8c805bdb34b"
+      },
+      {
+        "id": "REC113-bd336562c02b"
+      },
+      {
+        "id": "REC113-db85766fc4e0"
+      },
+      {
+        "id": "REC113-e8f1999beab5"
+      },
+      {
+        "id": "REC113-f612aa3f3e2e"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC113-459f31cc6946",
+      "REC113-4d95cdf0a870",
+      "REC113-56b6c9b57f44",
+      "REC113-634017a1ee51",
+      "REC113-64b446bc8b9c",
+      "REC113-7bd49dc03a04",
+      "REC113-7c8542d647c3",
+      "REC113-bec9ab598ef7",
+      "REC113-c8c08c33d217",
+      "REC113-ced71eaaad40",
+      "REC113-d244c969f1cb",
+      "REC113-f80c4f2e8aa0",
+      "REC113-ff3e94551344"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_114_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_114_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 16,
+    "reference_items": [
+      {
+        "id": "REC114-069ba6d1a3d0"
+      },
+      {
+        "id": "REC114-085c51a7c8a4"
+      },
+      {
+        "id": "REC114-0eb8b2b3688d"
+      },
+      {
+        "id": "REC114-1cf55b6cef75"
+      },
+      {
+        "id": "REC114-1fc9671f9bf6"
+      },
+      {
+        "id": "REC114-288eb21200e3"
+      },
+      {
+        "id": "REC114-4f61ddb05d5a"
+      },
+      {
+        "id": "REC114-729ec1b87c54"
+      },
+      {
+        "id": "REC114-7905b300a273"
+      },
+      {
+        "id": "REC114-7a0862cb4542"
+      },
+      {
+        "id": "REC114-93e5291f7af5"
+      },
+      {
+        "id": "REC114-be116b9845e9"
+      },
+      {
+        "id": "REC114-cb2abd73d486"
+      },
+      {
+        "id": "REC114-e1c67a393135"
+      },
+      {
+        "id": "REC114-e5050aab5a0b"
+      },
+      {
+        "id": "REC114-e6b4aa32f135"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC114-11c0f8e2b34e",
+      "REC114-1f49a6e80d7d",
+      "REC114-3824d43ccf64",
+      "REC114-38ef1a373cf4",
+      "REC114-66384356aac2",
+      "REC114-85e4668bec2b",
+      "REC114-8d9793f05f0a",
+      "REC114-9c39dd709a8d",
+      "REC114-a30d3393dfad",
+      "REC114-a6ab0b3f9eb4",
+      "REC114-bd3318482e97",
+      "REC114-c4e1b5729151",
+      "REC114-d3d68fbf2752",
+      "REC114-d9908bf89ae2",
+      "REC114-ddc23b7cbfc6",
+      "REC114-ee2af9b81fc0"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_115_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_115_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 18,
+    "reference_items": [
+      {
+        "id": "REC115-078330b3020c"
+      },
+      {
+        "id": "REC115-08340125d613"
+      },
+      {
+        "id": "REC115-0d05109b2b7f"
+      },
+      {
+        "id": "REC115-399d51d9246f"
+      },
+      {
+        "id": "REC115-5569a6e78aea"
+      },
+      {
+        "id": "REC115-5de3654f858b"
+      },
+      {
+        "id": "REC115-7607277c36c0"
+      },
+      {
+        "id": "REC115-76104bccec16"
+      },
+      {
+        "id": "REC115-7806fffa27a3"
+      },
+      {
+        "id": "REC115-8419700840f4"
+      },
+      {
+        "id": "REC115-93bf56a20484"
+      },
+      {
+        "id": "REC115-a2f9757adab2"
+      },
+      {
+        "id": "REC115-b485bf394be6"
+      },
+      {
+        "id": "REC115-d7800edb9654"
+      },
+      {
+        "id": "REC115-d8d43d7feaf4"
+      },
+      {
+        "id": "REC115-df9668381577"
+      },
+      {
+        "id": "REC115-f46ad4bae921"
+      },
+      {
+        "id": "REC115-fe5749118457"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC115-02169226d3c5",
+      "REC115-090dc75adf93",
+      "REC115-1327d3789957",
+      "REC115-1b66b4b37f13",
+      "REC115-4d0a111711ae",
+      "REC115-5a616e889a15",
+      "REC115-5b671f0213c3",
+      "REC115-747119fa9382",
+      "REC115-84f4b8a20381",
+      "REC115-ab90562ef664",
+      "REC115-c0a96f8bbb87",
+      "REC115-df8f852cc0fb",
+      "REC115-ea6a80652f22",
+      "REC115-ecb9fb1a42a4"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_116_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_116_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 11,
+    "reference_items": [
+      {
+        "id": "REC116-055e3053c2f7"
+      },
+      {
+        "id": "REC116-30a809cdec16"
+      },
+      {
+        "id": "REC116-3490e345195e"
+      },
+      {
+        "id": "REC116-480a98c8a2e9"
+      },
+      {
+        "id": "REC116-7a103f3e4096"
+      },
+      {
+        "id": "REC116-8a20d7239974"
+      },
+      {
+        "id": "REC116-a73fd8afe8d0"
+      },
+      {
+        "id": "REC116-c587c38ee91a"
+      },
+      {
+        "id": "REC116-ce422ae7b52c"
+      },
+      {
+        "id": "REC116-f89985e014f9"
+      },
+      {
+        "id": "REC116-ff2b7b85a6b6"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC116-0ff038d113e5",
+      "REC116-21caa36d2b30",
+      "REC116-4d303a438ef6",
+      "REC116-5ca6dea8e85d",
+      "REC116-68495badd18d",
+      "REC116-71212027a2b7",
+      "REC116-76131c67a267",
+      "REC116-779797452943",
+      "REC116-78d32f94b412",
+      "REC116-8388e9a4bd1c",
+      "REC116-87b435f0d73c",
+      "REC116-9059fb674620",
+      "REC116-9547a01542fb",
+      "REC116-aade65290dd5",
+      "REC116-b90b68a68758",
+      "REC116-bff52a2b8e42",
+      "REC116-cf7fe0d1e4e4",
+      "REC116-debfd054f185",
+      "REC116-e19b498e0bc8",
+      "REC116-ec645cc88b55",
+      "REC116-f3e4de63ab36"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_117_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_117_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 3,
+    "reference_items": [
+      {
+        "id": "REC117-1a3c1f572371"
+      },
+      {
+        "id": "REC117-4b227c96ba16"
+      },
+      {
+        "id": "REC117-68d4d196b2ec"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC117-0862cfa428ee",
+      "REC117-10146722c4b7",
+      "REC117-14d48ca91e5b",
+      "REC117-33604eda0305",
+      "REC117-36a13e327ea3",
+      "REC117-3736316a1212",
+      "REC117-3fdd41b82b51",
+      "REC117-4d68b0bc13fe",
+      "REC117-56b856604deb",
+      "REC117-572d25fbe62c",
+      "REC117-591df02fd414",
+      "REC117-664aea6a9041",
+      "REC117-75aae2609c67",
+      "REC117-847efdbb63cd",
+      "REC117-89071426dd9c",
+      "REC117-92bf6ad6c23f",
+      "REC117-9dbe6a32ac68",
+      "REC117-a73154d09585",
+      "REC117-ac69f9d3cc63",
+      "REC117-b1ec61dc3c1a",
+      "REC117-b47172df814d",
+      "REC117-bc75e7651c27",
+      "REC117-c966904a774c",
+      "REC117-d3120fdf99f3",
+      "REC117-da96db31e71d",
+      "REC117-ed5cae0808d5",
+      "REC117-f1401cf4e28d",
+      "REC117-faff87da9a61",
+      "REC117-fb6dcd8fc72a"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_118_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_118_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 7,
+    "reference_items": [
+      {
+        "id": "REC118-4822823b2a2d"
+      },
+      {
+        "id": "REC118-4a56615f3c47"
+      },
+      {
+        "id": "REC118-7abfbd74e6d7"
+      },
+      {
+        "id": "REC118-81bddf9e1f74"
+      },
+      {
+        "id": "REC118-a1f8351cf065"
+      },
+      {
+        "id": "REC118-d52ac17d8291"
+      },
+      {
+        "id": "REC118-f466646bcbaf"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC118-039996352426",
+      "REC118-08a030269934",
+      "REC118-14ad1aae87b4",
+      "REC118-1e7ae6e7d85b",
+      "REC118-24be933e3105",
+      "REC118-37dbea0eec27",
+      "REC118-500293af9c6a",
+      "REC118-79ea314abd2a",
+      "REC118-8aeef3c55962",
+      "REC118-92de04a255f4",
+      "REC118-9c5c1938d3fb",
+      "REC118-a10e068c9ea5",
+      "REC118-b48bdca12418",
+      "REC118-b523f1475d50",
+      "REC118-bb509ea541ea",
+      "REC118-c4e90577b5ec",
+      "REC118-c5bf6d8b4bb0",
+      "REC118-d0d37614adfe",
+      "REC118-e48c7a73a520",
+      "REC118-e9dcb9c47ad7",
+      "REC118-ef59eac3711a",
+      "REC118-f01d5cae2892",
+      "REC118-f5616678d10c",
+      "REC118-fa834529cd1e",
+      "REC118-ffc9ffd61ba0"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_119_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_119_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 19,
+    "reference_items": [
+      {
+        "id": "REC119-00c0cc3fa94a"
+      },
+      {
+        "id": "REC119-043f75b2dbd6"
+      },
+      {
+        "id": "REC119-062633c3b6dd"
+      },
+      {
+        "id": "REC119-104f9c4fc3f8"
+      },
+      {
+        "id": "REC119-12450956592c"
+      },
+      {
+        "id": "REC119-145202d57316"
+      },
+      {
+        "id": "REC119-19ac325dc477"
+      },
+      {
+        "id": "REC119-5af9ef1a38f1"
+      },
+      {
+        "id": "REC119-703ce9c2cadd"
+      },
+      {
+        "id": "REC119-72ec57204bcf"
+      },
+      {
+        "id": "REC119-82b709cf0723"
+      },
+      {
+        "id": "REC119-8dc776af5537"
+      },
+      {
+        "id": "REC119-985ceb148291"
+      },
+      {
+        "id": "REC119-9ca8359cfa1d"
+      },
+      {
+        "id": "REC119-ba3c26ca7bbc"
+      },
+      {
+        "id": "REC119-d0e2c5aa7e92"
+      },
+      {
+        "id": "REC119-df85d6573941"
+      },
+      {
+        "id": "REC119-f58580c67dd1"
+      },
+      {
+        "id": "REC119-fdb24e01a212"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC119-0e7cfa235b82",
+      "REC119-20c70454fc44",
+      "REC119-49fc63c4c319",
+      "REC119-4f82fe46b45b",
+      "REC119-627f3714719c",
+      "REC119-689ea09ee19e",
+      "REC119-728fab447207",
+      "REC119-7340483185b0",
+      "REC119-8e120ab0ec0e",
+      "REC119-ce211b603091",
+      "REC119-eca6ea85fd29",
+      "REC119-ede665fe4820",
+      "REC119-fcf9ea9f057e"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_120_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_120_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 7,
+    "reference_items": [
+      {
+        "id": "REC120-7b6e7cca0da0"
+      },
+      {
+        "id": "REC120-9995c511a670"
+      },
+      {
+        "id": "REC120-9e2718dda380"
+      },
+      {
+        "id": "REC120-a47366a4db34"
+      },
+      {
+        "id": "REC120-a7b0a31ef8b7"
+      },
+      {
+        "id": "REC120-e0a1374779df"
+      },
+      {
+        "id": "REC120-f29e3b549c9e"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC120-0957ddd8dde2",
+      "REC120-10df0eb07233",
+      "REC120-13f358162bd9",
+      "REC120-14bddafc12bf",
+      "REC120-1cdf61489195",
+      "REC120-1f73ae2675f3",
+      "REC120-23565dc3e50b",
+      "REC120-314b0c773501",
+      "REC120-353514b0b8ed",
+      "REC120-47a266b6c657",
+      "REC120-4801bf2c65e0",
+      "REC120-61325d4e205c",
+      "REC120-6afd86683db9",
+      "REC120-70f468ae9c6a",
+      "REC120-72b895b49a4a",
+      "REC120-85635d10ae94",
+      "REC120-880886ef86d5",
+      "REC120-8ef56b777935",
+      "REC120-c72798169b58",
+      "REC120-c96ad53f877b",
+      "REC120-d17e03b813d6",
+      "REC120-da0e5c8b2148",
+      "REC120-ee5a21528ff8",
+      "REC120-f157d4e1c7f9",
+      "REC120-ff6586cb8a2e"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_121_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_121_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 13,
+    "reference_items": [
+      {
+        "id": "REC121-1ad02dae5fbe"
+      },
+      {
+        "id": "REC121-23fa295f9b51"
+      },
+      {
+        "id": "REC121-2be1d53ca9ee"
+      },
+      {
+        "id": "REC121-4958622bcf62"
+      },
+      {
+        "id": "REC121-4f796fa6b24e"
+      },
+      {
+        "id": "REC121-74856669f00a"
+      },
+      {
+        "id": "REC121-96fdf9e9ffb4"
+      },
+      {
+        "id": "REC121-af66be3e0ab5"
+      },
+      {
+        "id": "REC121-b3f1f22a8cea"
+      },
+      {
+        "id": "REC121-b4c8de8fee33"
+      },
+      {
+        "id": "REC121-cb58ecabfbbd"
+      },
+      {
+        "id": "REC121-e87f7da54822"
+      },
+      {
+        "id": "REC121-f530584d4a41"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC121-11450754f298",
+      "REC121-166034767b99",
+      "REC121-16f61e830d76",
+      "REC121-1d62f1a0e9e9",
+      "REC121-311914373915",
+      "REC121-4ecc3945119d",
+      "REC121-4f44d75182d2",
+      "REC121-64eeae7b3e2e",
+      "REC121-6dd849dcf0e4",
+      "REC121-75103b55f2da",
+      "REC121-87ff77de2a7e",
+      "REC121-9028d4c132ab",
+      "REC121-9732cae2c78b",
+      "REC121-a04c6225f65e",
+      "REC121-a46eed292c68",
+      "REC121-a536244c4aa0",
+      "REC121-c8a8203d9844",
+      "REC121-e184500f71cd",
+      "REC121-fe64293f6990"
+    ],
+    "output_mode": "structured_objects"
+  },
+  {
+    "task_id": "text_122_application_register",
+    "task_type": "record_extraction",
+    "task_family": "application_register",
+    "source_path": "task/text-extraction/sources/text_122_application_register.txt",
+    "extraction_instruction": "Select only the APPLICATION records eligible at cutoff minute 60.\nAll minutes are integers on the same day. Document order has no meaning.\nAn APPLICATION fixes its case and group; select that original APPLICATION line,\nnot an UPDATE, PERMIT, or CONTROL line. All other lines supply evidence only.\nFor each case, discard UPDATEs after minute 60. An UPDATE is authorized only if\nthere is a PERMIT for its signer AND the application's group with\nstart <= UPDATE minute < end. Permits authorize updates at their event time;\nthey need not still be active at minute 60. Unauthorized updates have no effect.\nAmong remaining updates choose the largest (minute, serial) pair, comparing\nminute first and serial only to break equal-minute ties. Each update completely\nreplaces the earlier status and units; a rejected update does not permanently\ncancel a case. A case with no authorized update is ineligible.\nFor its group choose the CONTROL with largest (minute, serial) among controls\nat or before minute 60. Controls need no permit. No control means ineligible.\nA case is eligible exactly when its chosen UPDATE has status approved, its\nchosen CONTROL has gate open, and UPDATE units <= CONTROL cap. Equality passes.\nIgnore future controls. Units and caps are nonnegative integers. Case, signer,\nand group identifiers match exactly. There are no implicit rules or facts.\nResolve and return every eligible APPLICATION record, and no other records.",
+    "reference_item_count": 12,
+    "reference_items": [
+      {
+        "id": "REC122-07b9ae29dcbe"
+      },
+      {
+        "id": "REC122-26c88ecbf145"
+      },
+      {
+        "id": "REC122-450094e583ea"
+      },
+      {
+        "id": "REC122-4c01400aeb45"
+      },
+      {
+        "id": "REC122-6328e506e1a0"
+      },
+      {
+        "id": "REC122-66b7e5eb9176"
+      },
+      {
+        "id": "REC122-7b11e739d839"
+      },
+      {
+        "id": "REC122-932e5315d14e"
+      },
+      {
+        "id": "REC122-99048c4ad1ba"
+      },
+      {
+        "id": "REC122-a5196b093eb0"
+      },
+      {
+        "id": "REC122-cc7fcf264d5a"
+      },
+      {
+        "id": "REC122-d6bb0f54cee3"
+      }
+    ],
+    "invalid_item_markers": [
+      "REC122-04bef4119f01",
+      "REC122-07f3ebd4e710",
+      "REC122-197c6e18dd61",
+      "REC122-2382e6229c79",
+      "REC122-26f06924869a",
+      "REC122-39bdd7d5b19b",
+      "REC122-48d8bcb0bc7b",
+      "REC122-5ca64702e033",
+      "REC122-6ffe02db779b",
+      "REC122-86979f3c7fd9",
+      "REC122-9d3922b41d20",
+      "REC122-a9cc3c0c05ad",
+      "REC122-b162e5479ca4",
+      "REC122-b493f826fe18",
+      "REC122-cacc52526907",
+      "REC122-d09bc62ba1fc",
+      "REC122-d0f9d994e8cb",
+      "REC122-dd02489ede7f",
+      "REC122-e7535793bfad",
+      "REC122-ed36881e3018"
+    ],
+    "output_mode": "structured_objects"
+  }
+]
