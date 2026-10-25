@@ -44,6 +44,8 @@ class EpisodeRunConfig:
     prompt_wording: str = DEFAULT_PROMPT_WORDING
     # Arm E: offer the unable_to_verify verdict, scored as reject.
     escalation_verdict: bool = False
+    # Sprint: "constant" (default) or upstream "phase" tool lists; see tool_schemas.
+    tool_list: str = "constant"
     # Arm B: verdict-review wording ("accuracy" is upstream).
     verdict_review_style: str = "accuracy"
     controlled_bob_verdict: str = ""

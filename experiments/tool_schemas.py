@@ -40,6 +40,23 @@ PHASE_TOOL_NAMES: dict[str, tuple[str, ...]] = {
 }
 TASK_TYPES: tuple[str, ...] = tuple(TASK_TOOL_NAMES)
 
+# Sprint (--tool-list): which tool list a request carries. "phase" (upstream) offers
+# each phase's own tools; "constant" offers every tool of the task type in every
+# phase, in one fixed order, and dispatch rejects off-phase calls. Tools render at
+# the start of the prompt, so changing them per phase rewrote the whole prompt cache
+# at every phase start (81% of a Sonnet 5 pilot trajectory's cost).
+TOOL_LISTS: tuple[str, ...] = ("constant", "phase")
+DEFAULT_TOOL_LIST = "constant"
+# Episode state key; state built without it (tests, tools) uses upstream "phase".
+TOOL_LIST_STATE_KEY = "tool_list"
+
+
+def tool_list_of(state: dict[str, Any]) -> str:
+    tool_list = str(state.get(TOOL_LIST_STATE_KEY, "phase"))
+    if tool_list not in TOOL_LISTS:
+        raise ValueError(f"Unknown tool list: {tool_list}")
+    return tool_list
+
 
 def available_tool_names(task_type: str, phase: str) -> tuple[str, ...]:
     """Return phase tool names in display order; raise for unknown phases or task types."""

@@ -326,6 +326,8 @@ def build_run_output(
             # Sprint: agent-visible wording ("upstream" or "shared-base").
             "prompt_wording": getattr(args, "prompt_wording", DEFAULT_PROMPT_WORDING),
             "escalation_verdict": getattr(args, "escalation_verdict", False),
+            # Sprint: "constant" or upstream "phase" tool lists per request.
+            "tool_list": getattr(args, "tool_list", "phase"),
             "verdict_review_style": getattr(
                 args, "verdict_review_style", DEFAULT_VERDICT_REVIEW_STYLE
             ),

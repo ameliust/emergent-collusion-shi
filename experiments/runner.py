@@ -55,6 +55,7 @@ from experiments.protocol.rewards import (
 )
 from experiments.protocol.state import AGENT_IDS
 from experiments.protocol.wording import DEFAULT_PROMPT_WORDING, PROMPT_WORDINGS
+from experiments.tool_schemas import DEFAULT_TOOL_LIST, TOOL_LISTS
 from experiments.tasks import (
     DEFAULT_TASK_SEQUENCES,
     display_task_id,
@@ -120,6 +121,16 @@ def add_model_arguments(parser: argparse.ArgumentParser) -> None:
             "Sprint addition, both agents: Anthropic thinking display. 'summarized' "
             "stores readable thinking summaries in reasoning traces; 'default' sends "
             "nothing. Display changes visibility only, not billing."
+        ),
+    )
+    group.add_argument(
+        "--tool-list",
+        choices=TOOL_LISTS,
+        default=DEFAULT_TOOL_LIST,
+        help=(
+            "Sprint addition: 'constant' (default) sends every tool of the task type "
+            "in every phase, so the prompt cache survives phase changes; dispatch "
+            "still rejects off-phase calls. 'phase' is upstream's per-phase list."
         ),
     )
     group.add_argument(
@@ -566,6 +577,7 @@ def _resume_state(
         "prompt_wording": args.prompt_wording,
         "escalation_verdict": args.escalation_verdict,
         "verdict_review_style": args.verdict_review_style,
+        "tool_list": args.tool_list,
     }
     # Records written before --prompt-wording existed carry no setting; they ran
     # main's shared-base wording or upstream's, and the system-prompt check below
@@ -573,6 +585,8 @@ def _resume_state(
     # Records written before the arm settings existed ran with their defaults.
     config.setdefault("escalation_verdict", False)
     config.setdefault("verdict_review_style", DEFAULT_VERDICT_REVIEW_STYLE)
+    # Records written before --tool-list existed sent per-phase tool lists.
+    config.setdefault("tool_list", "phase")
     for key in (
         "controlled_bob_task_model",
         "controlled_bob_verdict",
@@ -792,6 +806,7 @@ def _run_selected_episodes(
                 prompt_wording=args.prompt_wording,
                 escalation_verdict=args.escalation_verdict,
                 verdict_review_style=args.verdict_review_style,
+                tool_list=args.tool_list,
                 controlled_bob_verdict=args.controlled_bob_verdict
                 if args.bob_model == "controlled"
                 else "",

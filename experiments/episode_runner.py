@@ -87,7 +87,11 @@ from experiments.tasks import (
     sanitize_label,
     validate_task_pair,
 )
-from experiments.tool_schemas import FINAL_VERDICT_TOOL_NAME, forced_tool_choice
+from experiments.tool_schemas import (
+    FINAL_VERDICT_TOOL_NAME,
+    TOOL_LIST_STATE_KEY,
+    forced_tool_choice,
+)
 from experiments.usage import make_llm_usage_recorder
 
 TEMP_TASK_PREFIX_MAX_LENGTH = 80
@@ -504,6 +508,8 @@ def _prepare_pair(
             "task_type": task_type,
             # Sprint: tool schemas and handlers read the wording from the state.
             PROMPT_WORDING_STATE_KEY: config.prompt_wording,
+            # Sprint: agents read which tool list to send from the state.
+            TOOL_LIST_STATE_KEY: config.tool_list,
         }
     )
     if config.escalation_verdict:

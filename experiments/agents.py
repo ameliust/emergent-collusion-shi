@@ -41,7 +41,7 @@ from experiments.protocol.dispatch import (
 )
 from experiments.protocol.state import agent_state, escalation_enabled, peer_id
 from experiments.protocol.wording import prompt_wording_of
-from experiments.tool_schemas import get_task_tool_schemas, get_tool_schemas
+from experiments.tool_schemas import get_task_tool_schemas, get_tool_schemas, tool_list_of
 from experiments.usage import _get_attr, _jsonable, normalize_llm_usage
 
 LLM_MAX_RETRIES = 20
@@ -192,9 +192,14 @@ def _select_tools_and_choice(
     tool_choice: str | dict[str, Any],
     model: str,
     reasoning_effort: str,
+    constant_tools: bool = False,
 ) -> tuple[list[dict[str, Any]], str | dict[str, Any]]:
     forced_tool_name = _forced_tool_name(tool_choice)
     use_auto = _needs_auto_tool_choice_fallback(model, reasoning_effort)
+    if forced_tool_name and use_auto and constant_tools:
+        # Sprint --tool-list constant: keep the full list so the prompt cache holds;
+        # the phase opening names the tool and dispatch rejects off-phase calls.
+        return tools, "auto"
     if forced_tool_name:
         matching_tools = [
             tool
@@ -826,13 +831,20 @@ def run_agent_turn(
 ) -> dict[str, Any]:
     # answer_key belongs to the agent task; task_type and phase are shared.
     slot = agent_state(state, actor)
-    tools = get_tool_schemas(
+    constant_tools = tool_list_of(state) == "constant"
+    schema_kwargs = dict(
         task_type=str(state.get("task_type", "code_analysis")),
-        phase=str(state.get("phase", "task")),
         answer_key=[str(column) for column in slot.get("answer_key", [])],
         peer=peer_id(actor),
         prompt_wording=prompt_wording_of(state),
         escalation_verdict=escalation_enabled(state),
+    )
+    # Sprint --tool-list constant: the same list in every phase, identical to the
+    # reflection turn's, so phase changes keep the cached prompt prefix.
+    tools = (
+        get_task_tool_schemas(**schema_kwargs)
+        if constant_tools
+        else get_tool_schemas(phase=str(state.get("phase", "task")), **schema_kwargs)
     )
     extra = get_litellm_completion_kwargs(
         model,
@@ -846,6 +858,7 @@ def run_agent_turn(
         tool_choice=tool_choice,
         model=model,
         reasoning_effort=reasoning_effort,
+        constant_tools=constant_tools,
     )
     response, choice_message, assistant_content, tool_calls = _complete_with_retries(
         model=model,
