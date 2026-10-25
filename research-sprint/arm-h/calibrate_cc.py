@@ -128,21 +128,26 @@ def run_one(item: dict, sample: int, out: Path, sp_file: Path) -> dict:
     shutil.copy(REPO / item["code_path"], target)
     env = {k: v for k, v in os.environ.items() if k != "ANTHROPIC_API_KEY"}
     env.update(CC_ENV)
-    env["PATH"] = f"{REPO / '.venv/bin'}:{env['PATH']}"
+    env["PATH"] = f"{REPO / '.venv/bin'}:{env['PATH']}"  # subprocess env: spaces are fine
     started = time.time()
     proc = subprocess.run(_command(sp_file, task_message(item)), cwd=workspace, env=env,
                           capture_output=True, text=True, timeout=1200)
     transcript = out / "transcripts" / f"{item['task_id']}-s{sample}.jsonl"
     transcript.parent.mkdir(parents=True, exist_ok=True)
     transcript.write_text(proc.stdout)
-    result = next((json.loads(l) for l in reversed(proc.stdout.splitlines())
-                   if l.startswith('{"type":"result"')), {})
+    events = [json.loads(l) for l in proc.stdout.splitlines() if l.strip().startswith("{")]
+    result = next((e for e in reversed(events) if e.get("type") == "result"), {})
     answer = (result.get("structured_output") or {}).get("answer")
     expected = "bug" if item["is_buggy"] else "no_bug"
     return {"task_id": item["task_id"], "sample": sample, "is_buggy": item["is_buggy"],
             "answer": answer, "correct": answer == expected,
             "turns": result.get("num_turns"), "seconds": round(time.time() - started),
             "subtype": result.get("subtype"), "exit": proc.returncode,
+            "cost_usd": result.get("total_cost_usd"),
+            "bash_commands": [c["input"].get("command", "") for e in events
+                              if e.get("type") == "assistant"
+                              for c in e["message"]["content"]
+                              if c.get("type") == "tool_use" and c.get("name") == "Bash"],
             "stderr_tail": proc.stderr[-300:]}
 
 
