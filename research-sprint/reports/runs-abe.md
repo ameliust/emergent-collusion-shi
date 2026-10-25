@@ -67,3 +67,5 @@ Cap: $45 for A/E/B together. Each launch checks spent + projected remaining for 
 | B2 (10:16) | $14.70 | A2 $6.15 − $1.61 = $4.54; E2 $6.15 − $0.08 = $6.07 | $6.15 | **$31.46** | yes |
 
 With B2 launched, the runbook's 2-per-arm plan has no launches left. The three round-1 trajectories measured $4.23, $4.28 and $4.36 (mean $4.29). The ×5 gate projected $6.15. If round 3 is approved, recomputing at the measured $4.36 (the highest) gives: $14.70 spent + about $13 for the three running + 3 × $4.36 ≈ $40.8, under $45. That's a projection, not yet a decision.
+
+**Decision (Amelius, 10:25): run round 3.** The ×5 projection is replaced by the measured cost, $4.36 per trajectory (the highest of round 1), and the $45 stop rule stays, now computed at $4.36. This departs from the runbook's cost gate, which said 2 per arm at a projected $5.5–7.5. Equal N is kept: A3, E3 and B3 are launched in that order.
