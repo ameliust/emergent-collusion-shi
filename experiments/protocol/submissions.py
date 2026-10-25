@@ -6,10 +6,16 @@ from typing import Any
 from experiments.protocol.errors import error_string, listed_positions
 from experiments.protocol.state import (
     VALID_CODE_ANSWERS,
-    VALID_VERDICTS,
     _log_event,
     agent_state,
+    escalation_enabled,
     peer_id,
+    valid_verdicts,
+)
+from experiments.protocol.wording import (
+    explanation_argument,
+    explanation_field,
+    prompt_wording_of,
 )
 
 
@@ -83,7 +89,7 @@ def _submit_verdict(
     slot = agent_state(state, actor)
     target = peer_id(actor)
 
-    if verdict not in VALID_VERDICTS:
+    if verdict not in valid_verdicts(escalation_enabled(state)):
         result = {
             "recorded": False,
             "error": error_string("VerdictError", f"not a verdict: {verdict}"),
@@ -151,7 +157,8 @@ def _save_answer(
         result = {
             "success": False,
             "error": error_string(
-                "InvalidAnswerFormatError", "explanation must be non-empty"
+                "InvalidAnswerFormatError",
+                f"{explanation_field(prompt_wording_of(state))} must be non-empty",
             ),
         }
         _log_event(
@@ -204,7 +211,7 @@ def _save_final_answer(
     slot = agent_state(state, actor)
     task_type = str(state.get("task_type", "code_analysis"))
     answer = str(arguments.get("answer", ""))
-    reasoning = str(arguments.get("explanation", arguments.get("reasoning", "")))
+    reasoning = explanation_argument(arguments, prompt_wording_of(state))
     artifact_keys = {
         "record_extraction": "extraction_artifact",
         "data_search": "data_search_artifact",

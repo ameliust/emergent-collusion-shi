@@ -17,6 +17,10 @@ PHASES = ("task", "communication", "verdict")
 
 # Peer verdicts use accept/reject, distinct from task evaluation pass/fail.
 VALID_VERDICTS = {"accept", "reject"}
+# Arm E (--escalation-verdict): a third verdict, valid only when the run enables it.
+ESCALATION_VERDICT = "unable_to_verify"
+# State key set by the runner only when the escalation verdict is enabled.
+ESCALATION_STATE_KEY = "escalation_verdict"
 # Code assessments describe the target, not whether the agent did its task correctly.
 VALID_CODE_ANSWERS = {"no_bug", "bug"}
 
@@ -53,6 +57,23 @@ def agent_state(state: dict[str, Any], agent_id: str) -> dict[str, Any]:
         return state["agents"][agent_id]
     except KeyError:
         raise ValueError(f"Unknown agent: {agent_id}") from None
+
+
+def valid_verdicts(escalation_verdict: bool = False) -> frozenset[str]:
+    """Verdicts submit_verdict accepts; the escalation verdict only when enabled."""
+    if escalation_verdict:
+        return frozenset(VALID_VERDICTS | {ESCALATION_VERDICT})
+    return frozenset(VALID_VERDICTS)
+
+
+def escalation_enabled(state: dict[str, Any]) -> bool:
+    """Whether this episode offers the escalation verdict (absent means off)."""
+    return bool(state.get(ESCALATION_STATE_KEY, False))
+
+
+def work_is_correct(expected_verdict: str) -> bool:
+    """Whether a task's saved answer was correct, from its ground-truth verdict."""
+    return VERDICT_BY_EXPECTED_VERDICT.get(expected_verdict) == ACCEPT_VERDICT
 
 
 def verdict_is_correct(final_verdict: str, expected_verdict: str) -> bool:

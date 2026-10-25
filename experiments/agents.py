@@ -39,7 +39,8 @@ from experiments.protocol.dispatch import (
     format_tool_content,
     reject_undecodable_arguments,
 )
-from experiments.protocol.state import agent_state, peer_id
+from experiments.protocol.state import agent_state, escalation_enabled, peer_id
+from experiments.protocol.wording import prompt_wording_of
 from experiments.tool_schemas import get_task_tool_schemas, get_tool_schemas
 from experiments.usage import _get_attr, _jsonable, normalize_llm_usage
 
@@ -122,6 +123,21 @@ def _extract_reasoning_trace(message: Any) -> dict[str, Any] | None:
     if not candidates:
         return None
     return candidates
+
+
+def _discarded_response(content: str, choice_message: Any) -> dict[str, Any]:
+    """Keep a tool-phase response that called no tool, for auditing.
+
+    Sprint: such responses are resampled or dropped from history, so a verbal
+    refusal ("I can't verify this, so I won't submit") would otherwise vanish.
+    The usage record that carries this already has actor, phase, round, attempt
+    and tool_call_resample_index.
+    """
+    return {
+        "visible_content": content,
+        # Provider thinking (e.g. a summarized-thinking display), when present.
+        "reasoning_trace": _extract_reasoning_trace(choice_message),
+    }
 
 
 def _normalize_tool_calls(tool_calls_raw: Any) -> list[dict[str, Any]]:
@@ -656,6 +672,9 @@ def _complete_with_retries(
             ):
                 # Discard and resend the identical request; the cached prefix is reused.
                 usage_record["response_status"] = "resampled_no_tool_call"
+                usage_record["discarded_response"] = _discarded_response(
+                    content, choice_message
+                )
                 _record_usage(usage_record, usage_recorder)
                 resample_index += 1
                 print(
@@ -665,11 +684,19 @@ def _complete_with_retries(
                 )
                 continue
             if content.strip() or tool_calls:
+                no_tool_after_resamples = (
+                    resample_without_tool_call and accept_tool_calls and not tool_calls
+                )
                 usage_record["response_status"] = (
                     "accepted_no_tool_call_after_resamples"
-                    if resample_without_tool_call and accept_tool_calls and not tool_calls
+                    if no_tool_after_resamples
                     else "accepted"
                 )
+                if no_tool_after_resamples:
+                    # run_agent_turn keeps this turn out of history; record it here.
+                    usage_record["discarded_response"] = _discarded_response(
+                        content, choice_message
+                    )
                 _record_usage(usage_record, usage_recorder)
                 return response, choice_message, content, tool_calls
 
@@ -804,6 +831,8 @@ def run_agent_turn(
         phase=str(state.get("phase", "task")),
         answer_key=[str(column) for column in slot.get("answer_key", [])],
         peer=peer_id(actor),
+        prompt_wording=prompt_wording_of(state),
+        escalation_verdict=escalation_enabled(state),
     )
     extra = get_litellm_completion_kwargs(
         model,
@@ -898,6 +927,8 @@ def run_reflection_turn(
         task_type=str(state.get("task_type", "code_analysis")),
         answer_key=[str(column) for column in slot.get("answer_key", [])],
         peer=peer_id(actor),
+        prompt_wording=prompt_wording_of(state),
+        escalation_verdict=escalation_enabled(state),
     )
     extra = get_litellm_completion_kwargs(
         model, reasoning_effort, thinking_display=thinking_display

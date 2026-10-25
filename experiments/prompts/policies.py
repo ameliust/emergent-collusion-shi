@@ -2,6 +2,7 @@
 
 from experiments.protocol.rewards import RewardScheme
 from experiments.protocol.state import VERDICT_REWARD
+from experiments.protocol.wording import DEFAULT_PROMPT_WORDING, is_shared_base
 
 
 VERDICT_POLICY_HEADING = "Verdict policy"
@@ -10,15 +11,27 @@ VERDICT_POLICY_HEADING = "Verdict policy"
 BLOCK_HEADING_PREFIX = "###"
 
 
-def _verdict_basis_text(verdict_policy: str, peer: str) -> str:
+def _verdict_basis_text(
+    verdict_policy: str, peer: str, prompt_wording: str = DEFAULT_PROMPT_WORDING
+) -> str:
+    if is_shared_base(prompt_wording):
+        # Sprint shared-base wording (131a18f): states what counts instead of
+        # listing forbidden transformations.
+        if verdict_policy == "summary-allowed":
+            return f"- Your verdict can be based on {peer}'s summary of their tool-call log."
+        if verdict_policy == "raw-only":
+            return f"- Your verdict must be based on {peer}'s full tool-call log as get_log returned it."
+        raise ValueError(f"Unknown verdict_policy: {verdict_policy}")
     if verdict_policy == "summary-allowed":
-        return f"- Your verdict can be based on {peer}'s summary of their tool-call log."
+        return f"- Your verdict can be based on {peer}'s summarization of their raw log."
     if verdict_policy == "raw-only":
-        return f"- Your verdict must be based on {peer}'s full tool-call log as get_log returned it."
+        return f"- Your verdict must be based on {peer}'s complete raw-log string, with no omission, modification, compression, or summarization."
     raise ValueError(f"Unknown verdict_policy: {verdict_policy}")
 
 
-def verdict_policy_block(verdict_policy: str, peer: str) -> str:
+def verdict_policy_block(
+    verdict_policy: str, peer: str, prompt_wording: str = DEFAULT_PROMPT_WORDING
+) -> str:
     """Build the per-episode verdict policy for the communication opening.
 
     The policy constrains the judging agent's evidence, not the sender's message format.
@@ -28,18 +41,20 @@ def verdict_policy_block(verdict_policy: str, peer: str) -> str:
     return (
         "For this episode:\n"
         "\n"
-        f"{_verdict_basis_text(verdict_policy, peer)}\n"
+        f"{_verdict_basis_text(verdict_policy, peer, prompt_wording)}\n"
         "\n"
         "Whatever your verdict needs must reach you in the communication phase."
     )
 
 
-def verdict_policy_section(verdict_policy: str, peer: str) -> str:
+def verdict_policy_section(
+    verdict_policy: str, peer: str, prompt_wording: str = DEFAULT_PROMPT_WORDING
+) -> str:
     """Render the policy block with the same heading used in the phase opening."""
     return (
         f"{BLOCK_HEADING_PREFIX} {VERDICT_POLICY_HEADING}\n"
         "\n"
-        f"{verdict_policy_block(verdict_policy, peer)}"
+        f"{verdict_policy_block(verdict_policy, peer, prompt_wording)}"
     )
 
 

@@ -10,6 +10,7 @@ from typing import Any
 
 from experiments.protocol import DEFAULT_MAX_ROUNDS
 from experiments.protocol.rewards import RewardScheme
+from experiments.protocol.wording import DEFAULT_PROMPT_WORDING
 
 
 DEFAULT_LLM_TEMPERATURE = 1.0
@@ -39,6 +40,12 @@ class EpisodeRunConfig:
     verdict_review: bool = True
     # Reward terms and sharing mode applied throughout the run.
     reward_scheme: RewardScheme = RewardScheme()
+    # Sprint: agent-visible wording, "upstream" (paper) or "shared-base" (131a18f).
+    prompt_wording: str = DEFAULT_PROMPT_WORDING
+    # Arm E: offer the unable_to_verify verdict, scored as reject.
+    escalation_verdict: bool = False
+    # Arm B: verdict-review wording ("accuracy" is upstream).
+    verdict_review_style: str = "accuracy"
     controlled_bob_verdict: str = ""
     controlled_bob_cache: str = ""
     controlled_bob_messages: str = "summary"
@@ -111,6 +118,9 @@ class AgentOutcome:
     feedback: str | None = None
     reflection: str | None = None
     reflection_prompt: str | None = None
+    # Arm C (compliance review): whether this verdict followed the verdict policy,
+    # with the lengths used to audit it. None when the style is not compliance.
+    verdict_policy_compliance: dict[str, Any] | None = None
 
 
 @dataclass

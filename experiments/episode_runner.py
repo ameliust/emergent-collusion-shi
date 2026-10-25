@@ -61,9 +61,11 @@ from experiments.protocol import (
     TASK_ATTEMPTS,
     VERDICT_ATTEMPTS,
 )
+from experiments.protocol.compliance import verdict_policy_compliance
 from experiments.protocol.rewards import episode_rewards
 from experiments.protocol.state import (
     AGENT_IDS,
+    ESCALATION_STATE_KEY,
     agent_state,
     create_channel_state,
     deliver_runner_notice,
@@ -72,6 +74,10 @@ from experiments.protocol.state import (
     reset_message_delivery,
     set_phase,
     verdict_is_correct,
+)
+from experiments.protocol.wording import (
+    LOG_CHARS_RESULT_KEYS,
+    PROMPT_WORDING_STATE_KEY,
 )
 from experiments.tasks import (
     task_file_path,
@@ -164,9 +170,13 @@ def _summarize_turn(turn_result: dict[str, Any]) -> str:
         name = call.get("tool_name", "?")
         res = call.get("result") or {}
         suffix = ""
-        # Measure test output length; get_log already reports its payload size.
-        if isinstance(res.get("tool_call_log_chars"), int):
-            suffix = f", tool_call_log_chars={res['tool_call_log_chars']}"
+        # Measure test output length; get_log already reports its payload size
+        # (under either wording's key).
+        chars_key = next(
+            (k for k in LOG_CHARS_RESULT_KEYS if isinstance(res.get(k), int)), None
+        )
+        if chars_key is not None:
+            suffix = f", {chars_key}={res[chars_key]}"
         elif isinstance(res.get("toolchain_output"), str):
             suffix = f", toolchain_output_chars={len(res['toolchain_output'])}"
         if res.get("success") is True or res.get("recorded") is True:
@@ -411,6 +421,7 @@ def _prepare_agent_task(
                 display_id=display_id,
                 function_name=function_name,
                 verdict_policy=config.verdict_policy,
+                prompt_wording=config.prompt_wording,
             ),
             verdict_prompt=verdict_prompt,
         )
@@ -435,6 +446,7 @@ def _prepare_agent_task(
                 display_id=display_id,
                 extraction_instruction=instruction,
                 verdict_policy=config.verdict_policy,
+                prompt_wording=config.prompt_wording,
             ),
             verdict_prompt=verdict_prompt,
         )
@@ -463,6 +475,7 @@ def _prepare_agent_task(
                 search_prompt=search_prompt,
                 answer_key=answer_key,
                 verdict_policy=config.verdict_policy,
+                prompt_wording=config.prompt_wording,
             ),
             verdict_prompt=verdict_prompt,
         )
@@ -489,8 +502,13 @@ def _prepare_pair(
         {
             "repo_root": str(repo_root),
             "task_type": task_type,
+            # Sprint: tool schemas and handlers read the wording from the state.
+            PROMPT_WORDING_STATE_KEY: config.prompt_wording,
         }
     )
+    if config.escalation_verdict:
+        # Arm E: the key is absent when off, so default state is unchanged.
+        state[ESCALATION_STATE_KEY] = True
     prepared = PreparedPair(task_type=task_type, state=state)
     for agent_id, task in zip(AGENT_IDS, (first, second)):
         prepared.agents[agent_id] = _prepare_agent_task(
@@ -857,6 +875,25 @@ def _process_episode_outcomes(
             verdict_reasoning=str(verdicts[agent_id].get("reasoning", "")),
             verdict_forced=bool(verdicts[agent_id].get("forced", False)),
         )
+        if config.verdict_review_style == "compliance":
+            # Arm C: grade once here; feedback and resume read the stored flag.
+            outcomes.agents[agent_id].verdict_policy_compliance = (
+                verdict_policy_compliance(
+                    state=state,
+                    judge=agent_id,
+                    judged=peer,
+                    verdict=own_verdict,
+                    verdict_policy=config.verdict_policy,
+                    char_limit=config.char_limit,
+                    max_rounds=config.max_rounds,
+                )
+            )
+    compliance = {
+        agent_id: (
+            outcomes.agents[agent_id].verdict_policy_compliance or {}
+        ).get("verdict_policy_compliant")
+        for agent_id in AGENT_IDS
+    }
 
     # With neither reward feedback nor verdict review, add only the internal memory marker.
     for agent_id in AGENT_IDS:
@@ -881,6 +918,9 @@ def _process_episode_outcomes(
                         reward=config.reward,
                         verdict_evaluation=config.verdict_evaluation,
                         reward_scheme=config.reward_scheme,
+                        verdict_review_style=config.verdict_review_style,
+                        own_verdict_compliant=compliance[agent_id],
+                        peer_verdict_compliant=compliance[peer],
                     )
                     + "\n\n"
                 )
@@ -912,6 +952,9 @@ def _process_episode_outcomes(
             reward=config.reward,
             verdict_evaluation=config.verdict_evaluation,
             reward_scheme=config.reward_scheme,
+            verdict_review_style=config.verdict_review_style,
+            own_verdict_compliant=compliance[agent_id],
+            peer_verdict_compliant=compliance[peer],
         )
 
     if config.reflection:
@@ -987,6 +1030,8 @@ def run_one_episode(
                 max_rounds=config.max_rounds,
                 reward_objective=config.reward,
                 reward_scheme=config.reward_scheme,
+                prompt_wording=config.prompt_wording,
+                escalation_verdict=config.escalation_verdict,
             )
             for agent_id in AGENT_IDS
         }
@@ -998,7 +1043,9 @@ def run_one_episode(
             )
         if not config.controlled_bob_cache:
             raise ValueError("Controlled Bob needs a cache directory")
-        agent_messages["bob"] = initial_agent_messages(agent_id="bob", max_rounds=5)
+        agent_messages["bob"] = initial_agent_messages(
+            agent_id="bob", max_rounds=5, prompt_wording=config.prompt_wording
+        )
     _append_episode_open_context(
         prepared=prepared,
         agent_messages=agent_messages,

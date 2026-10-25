@@ -18,6 +18,7 @@ from experiments.prompts.policies import (
     verdict_policy_section,
     reward_objective_text,
 )
+from experiments.prompts.messages import DEFAULT_VERDICT_REVIEW_STYLE
 from experiments.prompts.system import initial_agent_messages
 from experiments.protocol import (
     COMMUNICATION_ATTEMPTS,
@@ -27,6 +28,7 @@ from experiments.protocol import (
 )
 from experiments.protocol.rewards import reward_scheme_from_args
 from experiments.protocol.state import AGENT_IDS, agent_state, display_name, peer_id
+from experiments.protocol.wording import DEFAULT_PROMPT_WORDING
 from experiments.usage import (
     LLM_USAGE_JOURNAL_FILENAME,
     summarize_llm_usage,
@@ -111,6 +113,8 @@ def _build_agent_result(
         "verdict": outcome.verdict,
         "verdict_correct": outcome.verdict_correct,
         "verdict_forced": outcome.verdict_forced,
+        # Arm C only: verdict_policy_compliant, raw_log_chars, channel_chars_sent.
+        **(outcome.verdict_policy_compliance or {}),
         # Store the reward paid to this agent.
         "reward": outcome.reward,
         "outcome_feedback": outcome.feedback,
@@ -189,6 +193,7 @@ def build_episode_result(
                 agent_id: verdict_policy_section(
                     config.verdict_policy,
                     display_name(peer_id(agent_id)),
+                    config.prompt_wording,
                 )
                 for agent_id in AGENT_IDS
             },
@@ -218,6 +223,9 @@ def build_run_output(
             reward_objective=args.reward
             and not (agent_id == "bob" and args.bob_model == "controlled"),
             reward_scheme=reward_scheme,
+            prompt_wording=getattr(args, "prompt_wording", DEFAULT_PROMPT_WORDING),
+            escalation_verdict=bool(getattr(args, "escalation_verdict", False))
+            and not (agent_id == "bob" and args.bob_model == "controlled"),
         )[0]["content"]
         for agent_id in AGENT_IDS
     }
@@ -315,6 +323,12 @@ def build_run_output(
             "reward_scheme": reward_scheme.label,
             "reward_sharing": reward_scheme.sharing,
             "reward_terms": reward_scheme.terms,
+            # Sprint: agent-visible wording ("upstream" or "shared-base").
+            "prompt_wording": getattr(args, "prompt_wording", DEFAULT_PROMPT_WORDING),
+            "escalation_verdict": getattr(args, "escalation_verdict", False),
+            "verdict_review_style": getattr(
+                args, "verdict_review_style", DEFAULT_VERDICT_REVIEW_STYLE
+            ),
             "prompt_texts": {
                 "system_prompts": system_prompts,
                 "reward_objective_texts": {

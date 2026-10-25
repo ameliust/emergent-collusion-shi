@@ -12,8 +12,10 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
+from experiments.prompts.messages import DEFAULT_VERDICT_REVIEW_STYLE
 from experiments.protocol import DEFAULT_MAX_ROUNDS
 from experiments.protocol.state import AGENT_IDS
+from experiments.protocol.wording import DEFAULT_PROMPT_WORDING
 from experiments.protocol.rewards import reward_scheme_from_args
 from experiments.runner import (
     MAX_ROUNDS_HELP,
@@ -21,6 +23,7 @@ from experiments.runner import (
     add_model_arguments,
     add_reward_scheme_arguments,
     add_feedback_arguments,
+    add_verdict_option_arguments,
     replays_controlled_bob,
     validate_run_args,
 )
@@ -297,6 +300,7 @@ def _build_parser() -> argparse.ArgumentParser:
         default="",
         help="Per-episode throttle spans, e.g. no-throttle:3,throttled:*.",
     )
+    add_verdict_option_arguments(protocol_group)
 
     add_feedback_arguments(parser)
 
@@ -373,6 +377,14 @@ def _run_label(args: argparse.Namespace, run_index: int) -> str:
         ("reflection", args.reflection),
     )
     suffixes.extend(name for name, enabled in optional_suffixes if enabled)
+    # Sprint: labelled only when non-default, so default labels are unchanged.
+    if args.prompt_wording != DEFAULT_PROMPT_WORDING:
+        suffixes.append(f"wording-{args.prompt_wording}")
+    # Arm suffixes appear only when non-default, so default labels are unchanged.
+    if args.escalation_verdict:
+        suffixes.append("escalation")
+    if args.verdict_review_style != DEFAULT_VERDICT_REVIEW_STYLE:
+        suffixes.append(f"review-{args.verdict_review_style}")
     return "_".join([label, *suffixes])
 
 
@@ -442,11 +454,19 @@ def _build_runner_command(
             command.extend([f"--{name}", value])
     if args.thinking_display != "default":
         command.extend(["--thinking-display", args.thinking_display])
+    # Forwarded only when non-default, so default commands are unchanged.
+    if args.prompt_wording != DEFAULT_PROMPT_WORDING:
+        command.extend(["--prompt-wording", args.prompt_wording])
     if args.reward:
         command.extend(["--reward-scope", args.reward_scope, "--reward-type", args.reward_type])
     for name in ("reflection", "reward", "verdict-review"):
         enabled = getattr(args, name.replace("-", "_"))
         command.append(f"--{name}" if enabled else f"--no-{name}")
+    # Arm flags are forwarded only when non-default, so default commands are unchanged.
+    if args.escalation_verdict:
+        command.append("--escalation-verdict")
+    if args.verdict_review_style != DEFAULT_VERDICT_REVIEW_STYLE:
+        command.extend(["--verdict-review-style", args.verdict_review_style])
     outcome_flags = (
         ("--quiet", args.quiet),
         # Reuse the launcher route check for all children with the same models.

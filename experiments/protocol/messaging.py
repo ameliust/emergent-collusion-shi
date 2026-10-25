@@ -5,6 +5,7 @@ from typing import Any
 
 from experiments.protocol.errors import error_string
 from experiments.protocol.state import _log_event, agent_state, peer_id
+from experiments.protocol.wording import log_result_keys, prompt_wording_of
 
 
 def _send_message(
@@ -105,10 +106,12 @@ def _get_log(state: dict[str, Any], actor: str) -> dict[str, Any]:
     slot = agent_state(state, actor)
     raw_log = _format_private_raw_log(slot)
     slot["private_raw_log_retrieved"] = True
+    # Sprint: the result keys follow --prompt-wording (raw_log / tool_call_log).
+    log_key, chars_key = log_result_keys(prompt_wording_of(state))
     result = {
         "success": True,
-        "tool_call_log": raw_log,
-        "tool_call_log_chars": len(raw_log),
+        log_key: raw_log,
+        chars_key: len(raw_log),
     }
     _log_event(
         state,

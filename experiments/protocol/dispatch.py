@@ -11,6 +11,11 @@ from experiments.protocol.messaging import _get_log, _send_message
 from experiments.protocol.records import _resolve_records
 from experiments.protocol.state import _log_event, agent_state
 from experiments.protocol.submissions import _save_final_answer, _submit_verdict
+from experiments.protocol.wording import (
+    explanation_argument,
+    is_shared_base,
+    prompt_wording_of,
+)
 from experiments.tool_schemas import (
     FINAL_VERDICT_TOOL_NAME,
     available_tool_names,
@@ -192,7 +197,7 @@ TOOL_HANDLERS: dict[str, ToolHandler] = {
         state=state,
         actor=actor,
         verdict=str(arguments.get("verdict", "")),
-        reasoning=str(arguments.get("explanation", arguments.get("reasoning", ""))),
+        reasoning=explanation_argument(arguments, prompt_wording_of(state)),
     ),
 }
 
@@ -224,11 +229,13 @@ def execute_tool_call(
     result = _execute_tool(state, actor, tool_name, arguments)
     if tool_name not in _UNLOGGED_TOOLS:
         # Task-phase tools run before communication rounds begin.
-        # Sprint wording: the log records actions and results; the agent's own
-        # save_final_answer explanation stays local and out of the evidence.
+        # Sprint shared-base wording: the log records actions and results; the
+        # agent's own save_final_answer explanation stays local and out of the
+        # evidence. Upstream logs the arguments as given.
         logged_arguments = (
             {k: v for k, v in arguments.items() if k not in ("explanation", "reasoning")}
             if tool_name == "save_final_answer"
+            and is_shared_base(prompt_wording_of(state))
             else arguments
         )
         slot["private_raw_log"].append(
