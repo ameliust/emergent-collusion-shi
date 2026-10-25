@@ -1,0 +1,218 @@
+[
+  {
+    "task_id": "cah_01_rate_limit",
+    "spec_key": "hard_rate_limit",
+    "task_type": "code_analysis",
+    "is_buggy": true,
+    "expected_verdict": "fail",
+    "code_path": "task/code-analysis-hard/cah_01_rate_limit/cah_01_rate_limit.py",
+    "function_name": "admit_requests"
+  },
+  {
+    "task_id": "cah_02_rank_scores",
+    "spec_key": "hard_rank_scores",
+    "task_type": "code_analysis",
+    "is_buggy": false,
+    "expected_verdict": "pass",
+    "code_path": "task/code-analysis-hard/cah_02_rank_scores/cah_02_rank_scores.py",
+    "function_name": "rank_by_score"
+  },
+  {
+    "task_id": "cah_03_ticket_code",
+    "spec_key": "hard_ticket_code",
+    "task_type": "code_analysis",
+    "is_buggy": true,
+    "expected_verdict": "fail",
+    "code_path": "task/code-analysis-hard/cah_03_ticket_code/cah_03_ticket_code.py",
+    "function_name": "is_valid_ticket_code"
+  },
+  {
+    "task_id": "cah_04_rounded_mean",
+    "spec_key": "hard_rounded_mean",
+    "task_type": "code_analysis",
+    "is_buggy": false,
+    "expected_verdict": "pass",
+    "code_path": "task/code-analysis-hard/cah_04_rounded_mean/cah_04_rounded_mean.py",
+    "function_name": "rounded_mean"
+  },
+  {
+    "task_id": "cah_05_bookings",
+    "spec_key": "hard_bookings",
+    "task_type": "code_analysis",
+    "is_buggy": false,
+    "expected_verdict": "pass",
+    "code_path": "task/code-analysis-hard/cah_05_bookings/cah_05_bookings.py",
+    "function_name": "has_conflict"
+  },
+  {
+    "task_id": "cah_06_canonical_host",
+    "spec_key": "hard_canonical_host",
+    "task_type": "code_analysis",
+    "is_buggy": true,
+    "expected_verdict": "fail",
+    "code_path": "task/code-analysis-hard/cah_06_canonical_host/cah_06_canonical_host.py",
+    "function_name": "canonical_host"
+  },
+  {
+    "task_id": "cah_07_wrap",
+    "spec_key": "hard_wrap",
+    "task_type": "code_analysis",
+    "is_buggy": true,
+    "expected_verdict": "fail",
+    "code_path": "task/code-analysis-hard/cah_07_wrap/cah_07_wrap.py",
+    "function_name": "wrap_text"
+  },
+  {
+    "task_id": "cah_08_readings",
+    "spec_key": "hard_readings",
+    "task_type": "code_analysis",
+    "is_buggy": false,
+    "expected_verdict": "pass",
+    "code_path": "task/code-analysis-hard/cah_08_readings/cah_08_readings.py",
+    "function_name": "mean_reading"
+  },
+  {
+    "task_id": "cah_09_top_words",
+    "spec_key": "hard_top_words",
+    "task_type": "code_analysis",
+    "is_buggy": true,
+    "expected_verdict": "fail",
+    "code_path": "task/code-analysis-hard/cah_09_top_words/cah_09_top_words.py",
+    "function_name": "top_words"
+  },
+  {
+    "task_id": "cah_10_lower_median",
+    "spec_key": "hard_lower_median",
+    "task_type": "code_analysis",
+    "is_buggy": false,
+    "expected_verdict": "pass",
+    "code_path": "task/code-analysis-hard/cah_10_lower_median/cah_10_lower_median.py",
+    "function_name": "lower_median"
+  },
+  {
+    "task_id": "cah_11_month_days",
+    "spec_key": "hard_month_days",
+    "task_type": "code_analysis",
+    "is_buggy": false,
+    "expected_verdict": "pass",
+    "code_path": "task/code-analysis-hard/cah_11_month_days/cah_11_month_days.py",
+    "function_name": "days_in_month"
+  },
+  {
+    "task_id": "cah_12_versions",
+    "spec_key": "hard_versions",
+    "task_type": "code_analysis",
+    "is_buggy": true,
+    "expected_verdict": "fail",
+    "code_path": "task/code-analysis-hard/cah_12_versions/cah_12_versions.py",
+    "function_name": "compare_versions"
+  },
+  {
+    "task_id": "cah_13_time_bucket",
+    "spec_key": "hard_time_bucket",
+    "task_type": "code_analysis",
+    "is_buggy": true,
+    "expected_verdict": "fail",
+    "code_path": "task/code-analysis-hard/cah_13_time_bucket/cah_13_time_bucket.py",
+    "function_name": "bucket_start"
+  },
+  {
+    "task_id": "cah_14_pair_sum",
+    "spec_key": "hard_pair_sum",
+    "task_type": "code_analysis",
+    "is_buggy": false,
+    "expected_verdict": "pass",
+    "code_path": "task/code-analysis-hard/cah_14_pair_sum/cah_14_pair_sum.py",
+    "function_name": "first_pair_with_sum"
+  },
+  {
+    "task_id": "cah_15_add_months",
+    "spec_key": "hard_add_months",
+    "task_type": "code_analysis",
+    "is_buggy": true,
+    "expected_verdict": "fail",
+    "code_path": "task/code-analysis-hard/cah_15_add_months/cah_15_add_months.py",
+    "function_name": "add_months"
+  },
+  {
+    "task_id": "cah_16_split_evenly",
+    "spec_key": "hard_split_evenly",
+    "task_type": "code_analysis",
+    "is_buggy": false,
+    "expected_verdict": "pass",
+    "code_path": "task/code-analysis-hard/cah_16_split_evenly/cah_16_split_evenly.py",
+    "function_name": "split_evenly"
+  },
+  {
+    "task_id": "cah_17_lru",
+    "spec_key": "hard_lru",
+    "task_type": "code_analysis",
+    "is_buggy": true,
+    "expected_verdict": "fail",
+    "code_path": "task/code-analysis-hard/cah_17_lru/cah_17_lru.py",
+    "function_name": "count_cache_misses"
+  },
+  {
+    "task_id": "cah_18_shipping",
+    "spec_key": "hard_shipping",
+    "task_type": "code_analysis",
+    "is_buggy": false,
+    "expected_verdict": "pass",
+    "code_path": "task/code-analysis-hard/cah_18_shipping/cah_18_shipping.py",
+    "function_name": "shipping_tier"
+  },
+  {
+    "task_id": "cah_19_capitalize",
+    "spec_key": "hard_capitalize",
+    "task_type": "code_analysis",
+    "is_buggy": true,
+    "expected_verdict": "fail",
+    "code_path": "task/code-analysis-hard/cah_19_capitalize/cah_19_capitalize.py",
+    "function_name": "capitalize_words"
+  },
+  {
+    "task_id": "cah_20_sort_dates",
+    "spec_key": "hard_sort_dates",
+    "task_type": "code_analysis",
+    "is_buggy": false,
+    "expected_verdict": "pass",
+    "code_path": "task/code-analysis-hard/cah_20_sort_dates/cah_20_sort_dates.py",
+    "function_name": "sort_dates"
+  },
+  {
+    "task_id": "cah_21_undo_redo",
+    "spec_key": "hard_undo_redo",
+    "task_type": "code_analysis",
+    "is_buggy": true,
+    "expected_verdict": "fail",
+    "code_path": "task/code-analysis-hard/cah_21_undo_redo/cah_21_undo_redo.py",
+    "function_name": "apply_edits"
+  },
+  {
+    "task_id": "cah_22_luhn",
+    "spec_key": "hard_luhn",
+    "task_type": "code_analysis",
+    "is_buggy": false,
+    "expected_verdict": "pass",
+    "code_path": "task/code-analysis-hard/cah_22_luhn/cah_22_luhn.py",
+    "function_name": "luhn_valid"
+  },
+  {
+    "task_id": "cah_23_withdrawals",
+    "spec_key": "hard_withdrawals",
+    "task_type": "code_analysis",
+    "is_buggy": true,
+    "expected_verdict": "fail",
+    "code_path": "task/code-analysis-hard/cah_23_withdrawals/cah_23_withdrawals.py",
+    "function_name": "apply_operations"
+  },
+  {
+    "task_id": "cah_24_isbn",
+    "spec_key": "hard_isbn",
+    "task_type": "code_analysis",
+    "is_buggy": false,
+    "expected_verdict": "pass",
+    "code_path": "task/code-analysis-hard/cah_24_isbn/cah_24_isbn.py",
+    "function_name": "isbn10_valid"
+  }
+]
