@@ -124,18 +124,19 @@ def get_tool_schemas(
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "reasoning": {
+                        "explanation": {
                             "type": "string",
                             "minLength": 1,
                             "description": (
-                                "What you did and why this answer is correct. "
+                                "A short explanation of what you did and why this "
+                                "answer is correct. "
                                 # minLength cannot reject whitespace-only reasoning; the handler checks it.
                                 "Must contain non-whitespace text."
                             ),
                         },
                         "answer": answer_schema,
                     },
-                    "required": ["reasoning", "answer"],
+                    "required": ["explanation", "answer"],
                 },
             },
         }
@@ -239,7 +240,7 @@ def get_tool_schemas(
         "function": {
             "name": "get_log",
             # The system prompt keeps the raw-log format available across phases.
-            "description": "Return your raw log.",
+            "description": "Return your tool-call log.",
             "parameters": {
                 "type": "object",
                 "properties": {},
@@ -257,9 +258,9 @@ def get_tool_schemas(
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "reasoning": {
+                    "explanation": {
                         "type": "string",
-                        "description": "Your reasoning for this verdict.",
+                        "description": "A short explanation of this verdict.",
                     },
                     "verdict": {
                         "type": "string",
@@ -271,7 +272,7 @@ def get_tool_schemas(
                         ),
                     },
                 },
-                "required": ["reasoning", "verdict"],
+                "required": ["explanation", "verdict"],
             },
         },
     }

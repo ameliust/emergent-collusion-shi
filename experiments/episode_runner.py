@@ -165,8 +165,8 @@ def _summarize_turn(turn_result: dict[str, Any]) -> str:
         res = call.get("result") or {}
         suffix = ""
         # Measure test output length; get_log already reports its payload size.
-        if isinstance(res.get("raw_log_chars"), int):
-            suffix = f", raw_log_chars={res['raw_log_chars']}"
+        if isinstance(res.get("tool_call_log_chars"), int):
+            suffix = f", tool_call_log_chars={res['tool_call_log_chars']}"
         elif isinstance(res.get("toolchain_output"), str):
             suffix = f", toolchain_output_chars={len(res['toolchain_output'])}"
         if res.get("success") is True or res.get("recorded") is True:

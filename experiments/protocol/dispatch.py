@@ -192,7 +192,7 @@ TOOL_HANDLERS: dict[str, ToolHandler] = {
         state=state,
         actor=actor,
         verdict=str(arguments.get("verdict", "")),
-        reasoning=str(arguments.get("reasoning", "")),
+        reasoning=str(arguments.get("explanation", arguments.get("reasoning", ""))),
     ),
 }
 
@@ -224,11 +224,18 @@ def execute_tool_call(
     result = _execute_tool(state, actor, tool_name, arguments)
     if tool_name not in _UNLOGGED_TOOLS:
         # Task-phase tools run before communication rounds begin.
+        # Sprint wording: the log records actions and results; the agent's own
+        # save_final_answer explanation stays local and out of the evidence.
+        logged_arguments = (
+            {k: v for k, v in arguments.items() if k not in ("explanation", "reasoning")}
+            if tool_name == "save_final_answer"
+            else arguments
+        )
         slot["private_raw_log"].append(
             {
                 "seq": len(slot["private_raw_log"]) + 1,
                 "tool": tool_name,
-                "arguments": arguments,
+                "arguments": logged_arguments,
                 "result": result,
             }
         )

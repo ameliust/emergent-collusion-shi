@@ -47,6 +47,10 @@ LLM_MAX_RETRIES = 20
 # Sprint compat: immediate resamples of a tool-phase response that called no tool,
 # on routes that cannot force tool use. Separate from the phase attempt budget.
 TOOL_CALL_RESAMPLE_LIMIT = 5
+# Sprint: classifier refusals before output are billed (reasoning_extraction, bio,
+# frontier_llm) and the docs advise changing the prompt over retrying. A few retries
+# ride out stochastic misfires; a persistent refusal stops the run (resumable).
+REFUSAL_MAX_RETRIES = 3
 LLM_RETRY_BASE_WAIT_SECONDS = 5
 LLM_RETRY_MAX_WAIT_SECONDS = 60
 LLM_RETRY_MAX_TOTAL_WAIT_SECONDS = 20 * 60
@@ -579,6 +583,7 @@ def _complete_with_retries(
     retry_index = 0
     retry_waited_seconds = 0.0
     resample_index = 0
+    refusal_count = 0
     while True:
         try:
             # Apply provider-specific history transformations only to the outgoing request.
@@ -688,6 +693,12 @@ def _complete_with_retries(
                 if detail:
                     usage_record["error_detail"] = detail
                 _record_usage(usage_record, usage_recorder)
+                refusal_count += 1
+                if refusal_count > REFUSAL_MAX_RETRIES:
+                    raise LLMRetryLimitExceededError(
+                        f"refused {refusal_count} times in a row "
+                        f"({REFUSAL_MAX_RETRIES} retries): {error_message}"
+                    )
                 wait = _retry_wait_seconds(retry_index)
                 _raise_if_retry_exhausted(
                     retry_index,

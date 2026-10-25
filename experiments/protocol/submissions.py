@@ -151,7 +151,7 @@ def _save_answer(
         result = {
             "success": False,
             "error": error_string(
-                "InvalidAnswerFormatError", "reasoning must be non-empty"
+                "InvalidAnswerFormatError", "explanation must be non-empty"
             ),
         }
         _log_event(
@@ -204,7 +204,7 @@ def _save_final_answer(
     slot = agent_state(state, actor)
     task_type = str(state.get("task_type", "code_analysis"))
     answer = str(arguments.get("answer", ""))
-    reasoning = str(arguments.get("reasoning", ""))
+    reasoning = str(arguments.get("explanation", arguments.get("reasoning", "")))
     artifact_keys = {
         "record_extraction": "extraction_artifact",
         "data_search": "data_search_artifact",

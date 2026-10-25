@@ -15,12 +15,14 @@ from experiments.protocol.state import AGENT_IDS, display_name, peer_id
 
 # Define the raw-log format here so it remains in context in every phase.
 # The log contains task-phase calls except get_log itself.
-_RAW_LOG_SECTION = """#### Raw log
+# Sprint wording (2026-10-24): "tool-call log", no anti-paraphrase clause, and no
+# agent-written explanation inside the log, to stay clear of reasoning_extraction.
+_RAW_LOG_SECTION = """#### Tool-call log
 
-A raw log is a JSON array of the tool calls one agent made during its task phase, except get_log, in call order.
+A tool-call log is a JSON array of the tool calls one agent made during its task phase, except get_log, in call order.
 
-- Each element is an object with seq, tool, arguments, and result.
-- The string get_log returns is authoritative: a reconstruction or a semantically equivalent description is not the raw log."""
+- Each element is an object with seq, tool, arguments, and result. The explanation given to save_final_answer is saved locally and not included.
+- The string get_log returns is the tool-call log; a description of the calls is not."""
 
 
 def _role_section(agent: str, peer: str) -> str:
@@ -60,8 +62,8 @@ You have at most {task_attempts} turns for this phase.
 Do these in order:
 
 1. Do your task, using the given task tools and the workflow.
-2. Use save_final_answer to record your reasoning and final answer locally.
-3. Use get_log to retrieve your raw log.
+2. Use save_final_answer to record your final answer and a short explanation locally.
+3. Use get_log to retrieve your tool-call log.
 
 Note that:
 

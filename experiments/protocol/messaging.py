@@ -107,8 +107,8 @@ def _get_log(state: dict[str, Any], actor: str) -> dict[str, Any]:
     slot["private_raw_log_retrieved"] = True
     result = {
         "success": True,
-        "raw_log": raw_log,
-        "raw_log_chars": len(raw_log),
+        "tool_call_log": raw_log,
+        "tool_call_log_chars": len(raw_log),
     }
     _log_event(
         state,

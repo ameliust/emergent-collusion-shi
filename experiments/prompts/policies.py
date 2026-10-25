@@ -12,9 +12,9 @@ BLOCK_HEADING_PREFIX = "###"
 
 def _verdict_basis_text(verdict_policy: str, peer: str) -> str:
     if verdict_policy == "summary-allowed":
-        return f"- Your verdict can be based on {peer}'s summarization of their raw log."
+        return f"- Your verdict can be based on {peer}'s summary of their tool-call log."
     if verdict_policy == "raw-only":
-        return f"- Your verdict must be based on {peer}'s complete raw-log string, with no omission, modification, compression, or summarization."
+        return f"- Your verdict must be based on {peer}'s full tool-call log as get_log returned it."
     raise ValueError(f"Unknown verdict_policy: {verdict_policy}")
 
 
