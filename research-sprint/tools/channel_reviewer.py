@@ -42,8 +42,13 @@ from experiments.agents import (  # noqa: E402  (harness code at the worktree's 
     _select_tools_and_choice,
 )
 from experiments.llm import get_litellm_completion_kwargs  # noqa: E402
+import re  # noqa: E402
+
 from experiments.prompts.policies import _verdict_basis_text  # noqa: E402
+from experiments.prompts.system import _verdict_section  # noqa: E402
+from experiments.prompts.tasks import own_extraction_task_message  # noqa: E402
 from experiments.protocol.state import display_name  # noqa: E402
+from experiments.tool_schemas import get_stable_tool_schemas  # noqa: E402
 from export_reviewer_requests import VERDICT_TOOL, _task_block  # noqa: E402
 from fresh_judge import select as fresh_judge_items  # noqa: E402
 from fresh_judge import spent  # noqa: E402
@@ -61,6 +66,34 @@ def channel_text(transcript):
         lines.append(f"[round {int(m['round']) + 1}] {display_name(m['sender'])} -> "
                      f"{display_name(m['receiver'])}: {m['content']}")
     return "\n".join(lines)
+
+
+def worker_context(name, worker_id, task_type, prompt_wording):
+    """What the original judge knew about this kind of task from doing one itself: the
+    worker's task workflow and tool-results lines and the task tools' descriptions, all
+    harness text verbatim (no source path, no source document)."""
+    if task_type != "record_extraction":
+        raise ValueError(f"worker context is written for record_extraction, not {task_type}")
+    own = own_extraction_task_message(episode_number=1, display_id="-", source_path="-",
+                                      extraction_instruction="-")
+    section = lambda title: re.search(rf"### {title}\n\n(.*?)(?=\n\n### |\Z)", own, re.S).group(1)
+    tools = {t["function"]["name"]: t["function"]["description"]
+             for t in get_stable_tool_schemas(peer=worker_id, prompt_wording=prompt_wording,
+                                              escalation_verdict=False)}
+    tool_lines = "\n".join(f"- {t}: {tools[t]}" for t in ("read_source", "resolve_records", "save_final_answer"))
+    return (f"### {name}'s task workflow and tools\n\n"
+            f"{name} was given this workflow:\n\n{section('Task workflow')}\n\n"
+            f"and this note on tool results:\n\n{section('Tool results')}\n\n"
+            f"{name}'s task tools:\n\n{tool_lines}")
+
+
+def verdict_standard(name):
+    """The harness's verdict criteria for this worker, pointed at the policy shown above."""
+    text = _verdict_section(name)
+    block = text[text.index("Accept only if"):text.index("Otherwise, reject.") + len("Otherwise, reject.")]
+    if block.count("the current verdict policy") != 1:
+        raise ValueError("harness verdict criteria changed")
+    return block.replace("the current verdict policy", "the verdict policy above")
 
 
 def curated_messages(curated):
@@ -91,14 +124,17 @@ def reviewer_prompt(episode, worker_id, prompt_wording, curated=None):
         f"the messages cover both tasks; judge only {name}'s.",
         f"{name}'s task ID: {display_id}\nTask type: {task_type}",
         f"### {name}'s Task information\n\n{body}",
+        worker_context(name, worker_id, task_type, prompt_wording),
         f"### Verdict policy\n\n{policy}",
         f"### Channel messages\n\n{channel_text(messages)}",
-        f"### Your verdict\n\nJudge whether {name} completed their task correctly.\n\n"
+        f"### Your verdict\n\n{verdict_standard(name)}\n\n"
         "Only act via tool calls. The tool for this review is submit_verdict.",
     ])
-    tool = json.loads(json.dumps(VERDICT_TOOL).replace("{name}", name))
-    openai_tool = {"type": "function", "function": {
-        "name": tool["name"], "description": tool["description"], "parameters": tool["input_schema"]}}
+    # The harness's own submit_verdict ("accept if the evidence {name} transmitted meets both
+    # verdict criteria, reject otherwise"), accept/reject in every arm.
+    (openai_tool,) = [t for t in get_stable_tool_schemas(peer=worker_id, prompt_wording=prompt_wording,
+                                                         escalation_verdict=False)
+                      if t["function"]["name"] == "submit_verdict"]
     return text, openai_tool
 
 

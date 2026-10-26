@@ -51,7 +51,7 @@ sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(TOOLS))
 
 from channel_reviewer import build as channel_items  # noqa: E402
-from channel_reviewer import episode_key  # noqa: E402
+from channel_reviewer import episode_key, worker_context  # noqa: E402
 from experiments.protocol.state import display_name  # noqa: E402
 from export_reviewer_requests import VERDICT_TOOL, _task_block  # noqa: E402
 from export_reviewer_requests import reviewer_prompt as full_log_prompt  # noqa: E402
@@ -398,12 +398,17 @@ def reviewer_items(condition: str, run_dirs) -> list[dict]:
         runs = {}
         for it in items:
             run = runs.setdefault(it["run_dir"], json.loads((Path(it["run_dir"]) / "run.json").read_text()))
-            text, _ = full_log_prompt(run["results"][it["episode"] - 1]["agents"][it["worker"]])
-            it["prompt"] = text
+            text, tool = full_log_prompt(run["results"][it["episode"] - 1]["agents"][it["worker"]])
+            # The same task knowledge the channel reviewer gets, before the raw log.
+            name, anchor = display_name(it["worker"]), f"### {display_name(it['worker'])}'s complete raw log"
+            if text.count(anchor) != 1:
+                raise ValueError("full-log prompt layout changed")
+            context = worker_context(name, it["worker"], it["task_type"], run["run_config"]["prompt_wording"])
+            it["prompt"] = text.replace(anchor, f"{context}\n\n{anchor}")
+            it["schema"] = {**tool["input_schema"], "additionalProperties": False}
     for it in items:
-        name = display_name(it["worker"])
-        tool = json.loads(json.dumps(VERDICT_TOOL).replace("{name}", name))
-        it["schema"] = {**tool["input_schema"], "additionalProperties": False}
+        if "schema" not in it:  # channel conditions: the harness's submit_verdict parameters
+            it["schema"] = {**it["tool"]["function"]["parameters"], "additionalProperties": False}
         it["cc_prompt"] = cc_prompt(it["prompt"])
     return items
 
