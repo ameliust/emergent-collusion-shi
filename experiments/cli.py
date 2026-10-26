@@ -393,6 +393,10 @@ def _run_label(args: argparse.Namespace, run_index: int) -> str:
         suffixes.append(f"review-{args.verdict_review_style}")
     if args.reflection_wording != DEFAULT_REFLECTION_WORDING:
         suffixes.append(f"reflection-{args.reflection_wording}")
+    for agent_id in AGENT_IDS:
+        instruction = getattr(args, f"{agent_id}_policy_instruction")
+        if instruction != "none":
+            suffixes.append(f"{agent_id}-policy-{instruction}")
     if args.tool_list != DEFAULT_TOOL_LIST:
         suffixes.append(f"tools-{args.tool_list}")
     if args.raw_log_inspect != DEFAULT_RAW_LOG_INSPECT:
@@ -485,6 +489,10 @@ def _build_runner_command(
         command.extend(["--verdict-review-style", args.verdict_review_style])
     if args.reflection_wording != DEFAULT_REFLECTION_WORDING:
         command.extend(["--reflection-wording", args.reflection_wording])
+    for agent_id in AGENT_IDS:
+        instruction = getattr(args, f"{agent_id}_policy_instruction")
+        if instruction != "none":
+            command.extend([f"--{agent_id}-policy-instruction", instruction])
     if args.tool_list != DEFAULT_TOOL_LIST:
         command.extend(["--tool-list", args.tool_list])
     if args.raw_log_inspect != DEFAULT_RAW_LOG_INSPECT:

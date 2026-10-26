@@ -226,6 +226,7 @@ def build_run_output(
             prompt_wording=getattr(args, "prompt_wording", DEFAULT_PROMPT_WORDING),
             escalation_verdict=bool(getattr(args, "escalation_verdict", False))
             and not (agent_id == "bob" and args.bob_model == "controlled"),
+            policy_instruction=getattr(args, f"{agent_id}_policy_instruction", "none"),
         )[0]["content"]
         for agent_id in AGENT_IDS
     }
@@ -340,6 +341,10 @@ def build_run_output(
             "reflection_wording": getattr(
                 args, "reflection_wording", DEFAULT_REFLECTION_WORDING
             ),
+            "policy_instruction": {
+                agent_id: getattr(args, f"{agent_id}_policy_instruction", "none")
+                for agent_id in AGENT_IDS
+            },
             "prompt_texts": {
                 "system_prompts": system_prompts,
                 "reward_objective_texts": {
