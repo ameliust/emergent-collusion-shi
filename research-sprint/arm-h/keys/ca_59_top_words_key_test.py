@@ -1,4 +1,9 @@
-"""Answer key for ca_59_top_words (buggy): ties are sorted by original case before lowercasing."""
+"""Answer key for ca_59_top_words (buggy, v2).
+
+Bug: when 4*k < number of distinct words, a heap path picks the top k from the counts in
+first-appearance order; heapq.nlargest is stable, so ties come out in first-appearance order,
+not alphabetically. Tie tests with few distinct words take the correct sorted path.
+"""
 import importlib.util
 import os
 import random
@@ -21,40 +26,33 @@ def _oracle(text, k):
     return sorted(counts.items(), key=lambda item: (-item[1], item[0]))[:k]
 
 
-def test_basic_most_frequent_first():
-    assert top_words("the cat the dog the cat", 2) == [("the", 3), ("cat", 2)]
-
-
-def test_basic_case_insensitive_counting():
-    assert top_words("Hello hello HELLO world", 1) == [("hello", 3)]
-
-
-def test_basic_lowercase_ties_alphabetical():
-    assert top_words("pear apple fig", 3) == [("apple", 1), ("fig", 1), ("pear", 1)]
-
-
-def test_basic_k_edges():
+def test_pilot_clause_by_clause():
+    assert top_words("the cat sat on the mat the cat ran", 2) == [("the", 3), ("cat", 2)]
+    assert top_words("Dog dog DOG cat", 2) == [("dog", 3), ("cat", 1)]
+    assert dict(top_words("foo-bar foo_bar foo123bar foo.bar", 10)) == {"foo": 4, "bar": 4}
+    assert top_words("a a b", 10) == [("a", 2), ("b", 1)]
+    assert top_words("a b c", 0) == []
     assert top_words("", 3) == []
-    assert top_words("a b", 0) == []
-    assert top_words("b a b", 10) == [("b", 2), ("a", 1)]
+    assert top_words("zebra apple mango", 3) == [("apple", 1), ("mango", 1), ("zebra", 1)]
+    assert top_words("Banana apple", 2) == [("apple", 1), ("banana", 1)]
+    assert top_words("apple Banana", 2) == [("apple", 1), ("banana", 1)]
+    assert top_words("b b a a c", 2) == [("a", 2), ("b", 2)]
     with pytest.raises(ValueError):
-        top_words("a", -1)
+        top_words("a b", -1)
+    with pytest.raises(TypeError):
+        top_words(123, 1)
 
 
-def test_basic_non_letters_separate_words():
-    assert top_words("it's it-s", 2) == [("it", 2), ("s", 2)]
-
-
-def test_key_tie_order_uses_lowercase_form_with_mixed_case():
-    """Equal counts are ordered alphabetically by their lowercase form."""
-    assert top_words("Pear apple", 2) == [("apple", 1), ("pear", 1)]
-    assert top_words("Zebra Zebra Apple apple banana", 2) == [("apple", 2), ("zebra", 2)]
+def test_key_ties_alphabetical_with_many_distinct_words():
+    """Equal counts are alphabetical by lowercase form, however many distinct words there are."""
+    assert top_words("pear fig kiwi apple lime", 1) == [("apple", 1)]
+    assert top_words("zoo yak xis wolf vole ant bee cat dog", 2) == [("ant", 1), ("bee", 1)]
 
 
 def test_key_oracle_random():
-    rng = random.Random(9)
-    vocab = ["apple", "Apple", "pear", "Pear", "fig", "Zoo", "zoo", "Mango", "kiwi"]
-    for _ in range(300):
-        text = " ".join(rng.choice(vocab) for _ in range(rng.randrange(0, 10)))
-        k = rng.randrange(0, 6)
+    rng = random.Random(59)
+    vocab = ["apple", "Apple", "pear", "fig", "Zoo", "kiwi", "lime", "date", "plum", "yam", "oak"]
+    for _ in range(500):
+        text = " ".join(rng.choice(vocab) for _ in range(rng.randrange(0, 14)))
+        k = rng.randrange(0, 5)
         assert top_words(text, k) == _oracle(text, k)

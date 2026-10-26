@@ -1,4 +1,8 @@
-"""Answer key for ca_57_wrap (buggy): the layout cache is keyed on text only, ignoring width."""
+"""Answer key for ca_57_wrap (buggy, v2).
+
+Bug: texts of more than 32 words take a prefix-sum path that uses bisect_left, so a line
+that would fit exactly (length == width) is broken one word early. Short texts are right.
+"""
 import importlib.util
 import os
 import random
@@ -24,41 +28,36 @@ def _oracle(text, width):
     return lines
 
 
-def test_basic_greedy_wrap():
+def test_pilot_clause_by_clause():
     assert wrap_text("the quick brown fox", 10) == ["the quick", "brown fox"]
-
-
-def test_basic_no_words():
+    assert wrap_text("aaa bbb", 7) == ["aaa bbb"]
+    assert wrap_text("aaa bbb", 6) == ["aaa", "bbb"]
     assert wrap_text("", 5) == []
-    assert wrap_text("   \n\t ", 5) == []
-
-
-def test_basic_long_word_alone():
+    assert wrap_text(" \n\t ", 5) == []
     assert wrap_text("hello extraordinary world", 5) == ["hello", "extraordinary", "world"]
-
-
-def test_basic_exact_fit_and_whitespace_runs():
-    assert wrap_text("ab  cd\nef", 5) == ["ab cd", "ef"]
-
-
-def test_basic_width_validation():
+    assert wrap_text("ab  cd\nef\tgh", 5) == ["ab cd", "ef gh"]
+    assert wrap_text("a b c", 1) == ["a", "b", "c"]
+    long_text = " ".join(["word"] * 40)
+    lines = wrap_text(long_text, 20)
+    assert all(len(line) <= 20 for line in lines)
+    assert " ".join(lines) == long_text
     with pytest.raises(ValueError):
-        wrap_text("a b", 0)
+        wrap_text("a", 0)
+    with pytest.raises(TypeError):
+        wrap_text(None, 5)
 
 
-def test_key_same_text_different_widths():
-    """The result depends on width: the same text wrapped at two widths differs."""
-    assert wrap_text("aa bb cc", 5) == ["aa bb", "cc"]
-    assert wrap_text("aa bb cc", 8) == ["aa bb cc"]
+def test_key_exact_fit_in_a_long_text():
+    """A line of exactly width characters is allowed, however many words the text has."""
+    text = " ".join(["word"] * 40)
+    assert wrap_text(text, 14) == ["word word word"] * 13 + ["word"]
+    assert wrap_text(text, 9) == ["word word"] * 20
 
 
 def test_key_oracle_random():
-    rng = random.Random(7)
-    texts = [
-        " ".join("x" * rng.randrange(1, 7) for _ in range(rng.randrange(0, 8)))
-        for _ in range(20)
-    ]
+    rng = random.Random(57)
     for _ in range(300):
-        text = rng.choice(texts)
-        width = rng.randrange(1, 15)
+        words = ["x" * rng.randrange(1, 7) for _ in range(rng.randrange(0, 60))]
+        text = " ".join(words)
+        width = rng.randrange(1, 20)
         assert wrap_text(text, width) == _oracle(text, width)

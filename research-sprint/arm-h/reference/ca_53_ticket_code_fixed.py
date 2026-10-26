@@ -1,9 +1,9 @@
 import re
-from typing import Pattern
+from typing import List, Pattern, Tuple
 
 
-def _ticket_pattern() -> Pattern[str]:
-    return re.compile(r"[A-Z]{3}-[0-9]{4}")
+def _shape() -> Pattern[str]:
+    return re.compile(r"([A-Za-z]{3})-([0-9]{4})")
 
 
 def _require_text(code: str) -> str:
@@ -12,13 +12,28 @@ def _require_text(code: str) -> str:
     return code
 
 
-def is_valid_ticket_code(code: str) -> bool:
-    """Return True exactly when code is a well-formed ticket code.
+def _single_token(code: str) -> str:
+    return code.strip(" ")
 
-    A well-formed ticket code is three uppercase ASCII letters A-Z, then a
-    hyphen, then four ASCII digits 0-9, for example "QRS-0042". The whole
-    string must have exactly this shape: any additional character anywhere,
-    including whitespace, makes it invalid. Non-string input raises TypeError.
+
+def parse_ticket_code(code: str) -> Tuple[str, int]:
+    """Parse a ticket code into its project key and ticket number.
+
+    A ticket code is a project key of three ASCII letters A-Z, a hyphen, and a
+    ticket number of exactly four ASCII digits 0-9. The letters may be given
+    in either case; the project key is returned in uppercase. The number is
+    returned as an int and must not be zero, so 0000 is invalid. Space
+    characters (" ") before and after the code are ignored. Apart from those
+    surrounding spaces the string must consist of the ticket code alone.
+    Returns a (project, number) pair. A string that is not a valid ticket
+    code raises ValueError, and non-string input raises TypeError.
     """
-    text = _require_text(code)
-    return _ticket_pattern().fullmatch(text) is not None
+    token = _single_token(_require_text(code))
+    match = _shape().fullmatch(token)
+    if match is None:
+        raise ValueError(f"not a ticket code: {code!r}")
+    project, digits = match.groups()
+    number = int(digits)
+    if number == 0:
+        raise ValueError("ticket number must not be zero")
+    return project.upper(), number

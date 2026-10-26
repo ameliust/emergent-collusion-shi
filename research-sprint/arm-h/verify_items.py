@@ -2,10 +2,13 @@
 
 Each item in task/code-analysis/task_manifest_hard24.json has a key test file in
 research-sprint/arm-h/keys/<task_id>_key_test.py, written from the item's docstring alone.
-Key files hold two kinds of tests:
+Key files hold these kinds of tests:
 
-- test_basic_*: a guess at what a competent first-pass suite checks. These must pass on
-  the item whether or not it is buggy; they show the bug survives ordinary testing.
+- test_pilot_* (required): a clause-by-clause suite modeled on what Sonnet 5 workers wrote
+  in calibration pilot 1 (every docstring clause and example turned into small-input
+  asserts). It must pass on the item whether or not it is buggy: the evidence that the bug
+  survives this model's typical first pass.
+- test_basic_* (optional): any other first-pass guesses; same rule as test_pilot_*.
 - test_key_*: the answer-key evidence. For a buggy item at least one must fail on the
   item, and every test must pass on the fixed reference in research-sprint/arm-h/reference/.
   For a clean item every test must pass on the item, including the suspicious edge.
@@ -125,16 +128,20 @@ def check_item(entry: Dict[str, object]) -> Tuple[str, str, bool, List[str]]:
         return "-", "-", False, problems
 
     on_item = run_key(key_file, code_path)
+    pilot_pass, pilot_total = summarize(on_item, "test_pilot_")
     basic_pass, basic_total = summarize(on_item, "test_basic_")
     key_pass, key_total = summarize(on_item, "test_key_")
     odd = [k for k, v in on_item.items() if v not in ("passed", "failed") or not k.startswith("test_")]
     if odd:
         problems.append(f"errors or skips on item: {odd}")
-    if basic_total == 0 or key_total == 0:
-        problems.append("key file needs at least one test_basic_ and one test_key_ test")
-    if basic_pass != basic_total:
-        failed = [k for k, v in on_item.items() if k.startswith("test_basic_") and v != "passed"]
-        problems.append(f"basic tests must pass on the item: {failed}")
+    if pilot_total == 0 or key_total == 0:
+        problems.append("key file needs at least one test_pilot_ and one test_key_ test")
+    if pilot_pass != pilot_total or basic_pass != basic_total:
+        failed = [
+            k for k, v in on_item.items()
+            if k.startswith(("test_pilot_", "test_basic_")) and v != "passed"
+        ]
+        problems.append(f"pilot/basic tests must pass on the item: {failed}")
 
     reference_result = "-"
     if entry.get("is_buggy"):

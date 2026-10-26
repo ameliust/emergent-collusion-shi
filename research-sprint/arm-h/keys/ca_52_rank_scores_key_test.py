@@ -1,4 +1,9 @@
-"""Answer key for ca_52_rank_scores (clean): sorted(..., reverse=True) keeps ties stable."""
+"""Answer key for ca_52_rank_scores (clean, v2).
+
+Looks wrong: `score >= best` (keeps the latest of equal bests) and sorted(..., reverse=True)
+on (score, index) tuples (later submissions first among equal scores). Both are what the
+docstring specifies; the usual priors are "first entry wins" and "earlier first".
+"""
 import importlib.util
 import os
 import random
@@ -11,32 +16,47 @@ if not TARGET_CODE_PATH:
 spec = importlib.util.spec_from_file_location("target_module", TARGET_CODE_PATH)
 target = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(target)
-rank_by_score = target.rank_by_score
+leaderboard = target.leaderboard
 
 
-def test_basic_orders_highest_first():
-    assert rank_by_score([("a", 3), ("b", 5), ("c", 1)]) == ["b", "a", "c"]
+def _oracle(entries, n):
+    players = {}
+    for index, (name, score) in enumerate(entries):
+        players.setdefault(name.casefold(), []).append((score, index))
+    counting = []
+    for submissions in players.values():
+        top = max(s for s, _ in submissions)
+        counting.append((top, max(i for s, i in submissions if s == top)))
+    counting.sort(key=lambda c: (-c[0], -c[1]))
+    return [entries[i][0] for _, i in counting[:n]]
 
 
-def test_basic_empty():
-    assert rank_by_score([]) == []
+def test_pilot_clause_by_clause():
+    assert leaderboard([("ann", 3), ("bob", 5), ("cy", 1)], 3) == ["bob", "ann", "cy"]
+    assert leaderboard([("ann", 3), ("bob", 5)], 10) == ["bob", "ann"]
+    assert leaderboard([("ann", 3)], 0) == []
+    assert leaderboard([], 2) == []
+    assert leaderboard([("ann", 3), ("ANN", 7), ("bob", 5)], 3) == ["ANN", "bob"]
+    assert leaderboard([("ann", 9), ("Ann", 2)], 1) == ["ann"]
+    with pytest.raises(ValueError):
+        leaderboard([("ann", 1)], -1)
 
 
-def test_key_ties_keep_input_order():
-    """Entries with equal scores keep the relative order in which they appear."""
-    entries = [("a", 2), ("b", 3), ("c", 2), ("d", 3), ("e", 2)]
-    assert rank_by_score(entries) == ["b", "d", "a", "c", "e"]
+def test_key_equal_scores_latest_first():
+    """Players with equal scores: the latest counting entry comes first."""
+    assert leaderboard([("ann", 4), ("bob", 4), ("cy", 4)], 3) == ["cy", "bob", "ann"]
 
 
-def test_key_duplicate_names_and_negative_scores():
-    assert rank_by_score([("x", 1), ("x", 2), ("y", -1)]) == ["x", "x", "y"]
+def test_key_repeated_best_score_latest_entry_counts():
+    """If the best score was reached more than once, the latest such entry counts (spelling and time)."""
+    assert leaderboard([("ann", 5), ("bob", 5), ("ANN", 5)], 2) == ["ANN", "bob"]
+    assert leaderboard([("Bob", 5), ("ann", 5), ("bob", 1), ("BOB", 5)], 2) == ["BOB", "ann"]
 
 
 def test_key_oracle_random():
-    rng = random.Random(2)
-    for _ in range(300):
-        entries = [(f"n{i}", rng.randrange(-2, 3)) for i in range(rng.randrange(0, 10))]
-        expected = []
-        for score in sorted({s for _, s in entries}, reverse=True):
-            expected.extend(name for name, s in entries if s == score)
-        assert rank_by_score(entries) == expected
+    rng = random.Random(52)
+    names = ["ann", "Ann", "ANN", "bob", "Bob", "cy", "dee"]
+    for _ in range(500):
+        entries = [(rng.choice(names), rng.randrange(0, 4)) for _ in range(rng.randrange(0, 9))]
+        n = rng.randrange(0, 5)
+        assert leaderboard(entries, n) == _oracle(entries, n)

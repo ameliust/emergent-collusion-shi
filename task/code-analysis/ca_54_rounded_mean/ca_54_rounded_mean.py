@@ -12,15 +12,26 @@ def _require_values(values: List[int]) -> List[int]:
     return values
 
 
-def rounded_mean(values: List[int]) -> int:
-    """Return the arithmetic mean of values rounded to the nearest integer.
+def _trimmed(values: List[int]) -> List[int]:
+    ordered = sorted(values)
+    if len(ordered) >= 5:
+        return ordered[1:-1]
+    return ordered
 
-    values is a non-empty list of integers, which may be negative. When the
-    exact mean lies exactly halfway between two integers, it is rounded toward
-    positive infinity (so a mean of 2.5 gives 3). An empty list raises
-    ValueError.
+
+def rounded_mean(values: List[int]) -> int:
+    """Return the trimmed mean of values, rounded to an integer.
+
+    values is a non-empty list of integers; they may be negative and have no
+    bound on their size. When there are five or more values, one copy of the
+    smallest value and one copy of the largest value are dropped first; with
+    fewer than five values, nothing is dropped. The arithmetic mean of the
+    remaining values is then rounded to the nearest integer, and a mean lying
+    exactly halfway between two integers is rounded toward positive infinity.
+    The result is exact for all inputs. An empty list raises ValueError and
+    non-integer values raise TypeError. The input list is not modified.
     """
-    values = _require_values(values)
-    total = sum(values)
-    count = len(values)
+    kept = _trimmed(_require_values(values))
+    total = sum(kept)
+    count = len(kept)
     return (2 * total + count) // (2 * count)

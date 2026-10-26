@@ -1,6 +1,8 @@
-from typing import Dict, List
+from bisect import bisect_left
+from itertools import accumulate
+from typing import List
 
-_LAYOUTS: Dict[str, List[str]] = {}
+_SHORT_TEXT_WORDS = 32
 
 
 def _require_width(width: int) -> int:
@@ -17,7 +19,7 @@ def _require_text(text: str) -> str:
     return text
 
 
-def _greedy_lines(words: List[str], width: int) -> List[str]:
+def _wrap_short(words: List[str], width: int) -> List[str]:
     lines: List[str] = []
     current = ""
     for word in words:
@@ -33,24 +35,32 @@ def _greedy_lines(words: List[str], width: int) -> List[str]:
     return lines
 
 
-def _layout(text: str, width: int) -> List[str]:
-    lines = _LAYOUTS.get(text)
-    if lines is None:
-        lines = _greedy_lines(text.split(), width)
-        _LAYOUTS[text] = lines
+def _wrap_long(words: List[str], width: int) -> List[str]:
+    offsets = [0] + list(accumulate(len(word) + 1 for word in words))
+    lines: List[str] = []
+    start = 0
+    while start < len(words):
+        bound = offsets[start] + width + 1
+        end = max(bisect_left(offsets, bound, start + 1) - 1, start + 1)
+        lines.append(" ".join(words[start:end]))
+        start = end
     return lines
 
 
 def wrap_text(text: str, width: int) -> List[str]:
     """Greedily wrap text into lines of at most width characters.
 
-    Words are the maximal runs of non-whitespace characters in text. Words are
-    placed in order: each word joins the current line, separated by a single
-    space, if the line stays at most width characters long; otherwise the word
-    starts a new line. A word longer than width sits alone on its own line,
-    unbroken. Text with no words gives an empty list. Returns a new list of
-    lines. An integer width less than 1 raises ValueError.
+    Words are the maximal runs of non-whitespace characters in text; all
+    whitespace, including newlines, only separates words. Words keep their
+    order, and the words on a line are joined by single spaces, so no line
+    starts or ends with a space. Lines are filled greedily: each word goes on
+    the current line if the line, with the word added, is at most width
+    characters long, and otherwise the word starts a new line. A word longer
+    than width is never split; it sits alone on its own line. Text with no
+    words gives an empty list. An integer width below 1 raises ValueError.
     """
-    text = _require_text(text)
+    words = _require_text(text).split()
     width = _require_width(width)
-    return list(_layout(text, width))
+    if len(words) <= _SHORT_TEXT_WORDS:
+        return _wrap_short(words, width)
+    return _wrap_long(words, width)

@@ -1,3 +1,4 @@
+import heapq
 import re
 from collections import Counter
 from typing import List, Tuple
@@ -14,11 +15,17 @@ def _require_k(k: int) -> int:
 def _words(text: str) -> List[str]:
     if not isinstance(text, str):
         raise TypeError("text must be a string")
-    return re.findall(r"[A-Za-z]+", text)
+    return [word.lower() for word in re.findall(r"[A-Za-z]+", text)]
 
 
-def _tally(words: List[str]) -> Counter:
-    return Counter(word.lower() for word in sorted(words))
+def _rank_all(counts: Counter, k: int) -> List[Tuple[str, int]]:
+    ranked = sorted(counts.items(), key=lambda item: (-item[1], item[0]))
+    return ranked[:k]
+
+
+def _rank_few(counts: Counter, k: int) -> List[Tuple[str, int]]:
+    chosen = heapq.nlargest(k, counts, key=counts.__getitem__)
+    return [(word, counts[word]) for word in chosen]
 
 
 def top_words(text: str, k: int) -> List[Tuple[str, int]]:
@@ -27,9 +34,15 @@ def top_words(text: str, k: int) -> List[Tuple[str, int]]:
     Words are maximal runs of ASCII letters; every other character separates
     words. Words are counted case-insensitively and reported in lowercase.
     The result is a list of (word, count) pairs ordered by count, highest
-    first; words with equal counts are ordered alphabetically by their
+    first, and words with equal counts are ordered alphabetically by their
     lowercase form. If there are fewer than k distinct words, all of them are
-    returned. A negative integer k raises ValueError.
+    returned, and k = 0 gives an empty list. A negative integer k raises
+    ValueError; non-string text raises TypeError.
     """
     k = _require_k(k)
-    return _tally(_words(text)).most_common(k)
+    counts = Counter(_words(text))
+    if k == 0:
+        return []
+    if 4 * k < len(counts):
+        return _rank_few(counts, k)
+    return _rank_all(counts, k)

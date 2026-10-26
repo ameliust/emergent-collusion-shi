@@ -39,24 +39,23 @@ import pytest
 spec = importlib.util.spec_from_file_location("target_module", os.environ["TARGET_CODE_PATH"])
 target = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(target)
-add_months = target.add_months
-from datetime import date
+roman_to_int = target.roman_to_int
 '''
 ORDINARY = HEADER + '''
 def test_basic():
-    assert add_months(date(2024, 1, 15), 1) == date(2024, 2, 15)
+    assert roman_to_int("III") == 3
 
-def test_leap():
-    assert add_months(date(2023, 1, 31), 13) == date(2024, 2, 29)
+def test_subtractive():
+    assert roman_to_int("IV") == 4
 
 def test_type():
     with pytest.raises(TypeError):
-        add_months("x", 1)
+        roman_to_int(4)
 '''
 SNOOP = HEADER + '''
 import sys, urllib.request
 def test_snoop():
-    add_months
+    roman_to_int
     print("UP", sorted(os.listdir("..")), "ROOT", sorted(os.listdir("/")))
     print("HOME", [(d, sorted(os.listdir("/home/" + d))) for d in os.listdir("/home")])
     print("ENV", dict(os.environ), sys.executable)
@@ -73,9 +72,10 @@ def test_snoop():
 
 
 def _run(mode, content, run_id):
+    # The paper's pool: a fixture that H item revisions can't change (ca_03 is buggy).
     man = {t["task_id"]: t for t in json.loads(
-        (REPO / "task/code-analysis/task_manifest_hard24.json").read_text())}
-    prepared = _prepare_pair(pair=(man["ca_65_add_months"], man["ca_53_ticket_code"]),
+        (REPO / "task/code-analysis/task_manifest_code50.json").read_text())}
+    prepared = _prepare_pair(pair=(man["ca_03_roman"], man["ca_37_buckets"]),
                              repo_root=REPO,
                              config=EpisodeRunConfig(test_sandbox=mode, temp_run_id=run_id))
     state = prepared.state
