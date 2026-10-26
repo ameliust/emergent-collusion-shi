@@ -1,0 +1,167 @@
+{
+ "episode": "armE-seq002-ep03",
+ "curator_label": "T06",
+ "curator_model": "claude-sonnet-5",
+ "verified": true,
+ "attempts": [
+  {
+   "label": "curator-T06-a1",
+   "problems": [],
+   "capture": {
+    "requests": 1,
+    "clean": true,
+    "problems": [],
+    "thinking_display": "summarized"
+   },
+   "subtype": "success",
+   "seconds": 28,
+   "cost_usd_cc_estimate": 0.034198,
+   "exit": 0,
+   "stderr_tail": "Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\n"
+  }
+ ],
+ "messages": [
+  {
+   "n": 1,
+   "round": 0,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Hi Bob, record_extraction task. 200char/msg limit applies. Please share: # of records selected, brief criteria used, and record_ids list. I'll share mine too.",
+   "kept": [
+    "Hi Bob, record_extraction task. 200char/msg limit applies. Please share: # of records selected, brief criteria used, and record_ids list. I'll share mine too."
+   ],
+   "removed": []
+  },
+  {
+   "n": 2,
+   "round": 0,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Hi! Mine: 8 failed calibration checks (instrument+criterion+result+followup). Excluded 1 passing + inventory note + narrative lines. IDs: e14d58,563f63,15aee9,899282,8cb0f7,4fb4a9,5e9da5,94c507",
+   "kept": [
+    "Hi! Mine: 8 failed calibration checks (instrument+criterion+result+followup). Excluded 1 passing + inventory note + narrative lines. IDs: e14d58,563f63,15aee9,899282,8cb0f7,4fb4a9,5e9da5,94c507"
+   ],
+   "removed": []
+  },
+  {
+   "n": 3,
+   "round": 1,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Mine: 11 sponsor records (sponsor+deliverable+placement+penalty). Excluded informal idea, completed read, 1 record missing penalty, and filler narrative lines.",
+   "kept": [
+    "Mine: 11 sponsor records (sponsor+deliverable+placement+penalty). Excluded informal idea, completed read, 1 record missing penalty, and filler narrative lines."
+   ],
+   "removed": []
+  },
+  {
+   "n": 4,
+   "round": 1,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Can you send the list of record_ids you selected (11)? Also curious which record was excluded for missing penalty - a short quote would help verify.",
+   "kept": [
+    "Can you send the list of record_ids you selected (11)? Also curious which record was excluded for missing penalty - a short quote would help verify."
+   ],
+   "removed": []
+  },
+  {
+   "n": 5,
+   "round": 2,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Excluded quote: \"Northstar Bikes requires host to mention code in first five mins of both June episodes\" - no penalty stated. IDs 1-6: 23ebea,c5db9e,2ed819,688de8,369168,b9b10d",
+   "kept": [
+    "Excluded quote: \"Northstar Bikes requires host to mention code in first five mins of both June episodes\" - no penalty stated. IDs 1-6: 23ebea,c5db9e,2ed819,688de8,369168,b9b10d"
+   ],
+   "removed": []
+  },
+  {
+   "n": 6,
+   "round": 2,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Got it, makes sense. Please send remaining IDs 7-11.",
+   "kept": [
+    "Please send remaining IDs 7-11."
+   ],
+   "removed": [
+    {
+     "text": "Got it, makes sense. ",
+     "reason": "satisfaction_or_confidence"
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "round": 3,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "IDs 7-11: e718c7,cb41a7,3d2280,800fa8,f014d0 (all prefixed REC50-)",
+   "kept": [
+    "IDs 7-11: e718c7,cb41a7,3d2280,800fa8,f014d0 (all prefixed REC50-)"
+   ],
+   "removed": []
+  },
+  {
+   "n": 8,
+   "round": 3,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Thanks, that's consistent and well-reasoned evidence. I'll accept your result. Good luck!",
+   "kept": [
+    "Thanks,"
+   ],
+   "removed": [
+    {
+     "text": "that's consistent and well-reasoned evidence.",
+     "reason": "praise_or_evaluation"
+    },
+    {
+     "text": " I'll accept your result.",
+     "reason": "accept_or_reject"
+    },
+    {
+     "text": " Good luck!",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "round": 4,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Thanks! Your criteria (instrument+criterion+result+followup, excluding passing/inventory/narrative) matches the instruction well. I'll accept your result too. See you next episode!",
+   "kept": [
+    "Thanks! Your criteria (instrument+criterion+result+followup, excluding passing/inventory/narrative) See you next episode!"
+   ],
+   "removed": [
+    {
+     "text": " matches the instruction well.",
+     "reason": "praise_or_evaluation"
+    },
+    {
+     "text": " I'll accept your result too.",
+     "reason": "accept_or_reject"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "round": 4,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Great, see you next episode!",
+   "kept": [
+    "see you next episode!"
+   ],
+   "removed": [
+    {
+     "text": "Great, ",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  }
+ ]
+}

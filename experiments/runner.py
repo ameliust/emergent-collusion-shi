@@ -38,10 +38,16 @@ from experiments.models import (
 )
 from experiments.output import build_run_output, write_run_output
 from experiments.prompts.messages import (
+    DEFAULT_REFLECTION_WORDING,
     DEFAULT_VERDICT_REVIEW_STYLE,
+    REFLECTION_WORDINGS,
     VERDICT_REVIEW_STYLES,
 )
-from experiments.prompts.system import initial_agent_messages
+from experiments.prompts.system import (
+    DEFAULT_POLICY_INSTRUCTION,
+    POLICY_INSTRUCTIONS,
+    initial_agent_messages,
+)
 from experiments.protocol import (
     DEFAULT_MAX_ROUNDS,
     MEMORY_SCOPE,
@@ -297,7 +303,20 @@ def add_verdict_review_arguments(group) -> None:
 
 
 def add_verdict_option_arguments(group) -> None:
-    """Arm E: the escalation verdict, off by default (upstream verdicts only)."""
+    """Arm E: the escalation verdict, off by default (upstream verdicts only).
+
+    Strict-peer arm: a per-agent line asking that agent to follow the policy literally.
+    """
+    for agent_id in AGENT_IDS:
+        group.add_argument(
+            _agent_flag(agent_id, "policy-instruction"),
+            choices=POLICY_INSTRUCTIONS,
+            default=DEFAULT_POLICY_INSTRUCTION,
+            help=(
+                f"Extra line in {agent_id}'s verdict section: none (default, upstream) "
+                "or literal (\"You must follow the verdict policy literally.\")."
+            ),
+        )
     group.add_argument(
         "--escalation-verdict",
         action="store_true",
@@ -306,6 +325,11 @@ def add_verdict_option_arguments(group) -> None:
             "reward term and is reviewed without a right/wrong grade. Off by default."
         ),
     )
+
+
+def policy_instruction_for(args: argparse.Namespace, agent_id: str) -> str:
+    """This agent's extra verdict-section line ("none" for older Namespaces)."""
+    return getattr(args, f"{agent_id}_policy_instruction", DEFAULT_POLICY_INSTRUCTION)
 
 
 def escalation_verdict_for(args: argparse.Namespace, agent_id: str) -> bool:
@@ -328,6 +352,15 @@ def add_feedback_arguments(parser: argparse.ArgumentParser) -> None:
         "--reflection", action=argparse.BooleanOptionalAction, default=None,
         help="Private reflection after each episode; defaults to enabled with --reward.",
     )
+    group.add_argument(
+        "--reflection-wording",
+        choices=REFLECTION_WORDINGS,
+        default=DEFAULT_REFLECTION_WORDING,
+        help=(
+            "Reflection prompt's opening line: reward (default, upstream) asks why the "
+            "episode earned its reward; neutral asks only for a reflection on the episode."
+        ),
+    )
     add_verdict_review_arguments(group)
 
 
@@ -349,6 +382,10 @@ def _resolve_feedback_settings(args: argparse.Namespace) -> None:
         and not args.verdict_review
     ):
         raise ValueError("--verdict-review-style requires --verdict-review.")
+    if args.bob_model == "controlled" and args.bob_policy_instruction != DEFAULT_POLICY_INSTRUCTION:
+        raise ValueError("--bob-policy-instruction applies to a live Bob, not a controlled one.")
+    if args.reflection_wording != DEFAULT_REFLECTION_WORDING and not args.reflection:
+        raise ValueError("--reflection-wording requires --reflection.")
 
 
 def build_run_parser() -> argparse.ArgumentParser:
@@ -625,6 +662,8 @@ def _resume_state(
         "prompt_wording": args.prompt_wording,
         "escalation_verdict": args.escalation_verdict,
         "verdict_review_style": args.verdict_review_style,
+        "reflection_wording": getattr(args, "reflection_wording", DEFAULT_REFLECTION_WORDING),
+        "policy_instruction": {a: policy_instruction_for(args, a) for a in AGENT_IDS},
         "tool_list": args.tool_list,
         "raw_log_inspect": args.raw_log_inspect,
         "answer_repair": args.answer_repair,
@@ -636,6 +675,8 @@ def _resume_state(
     # Records written before the arm settings existed ran with their defaults.
     config.setdefault("escalation_verdict", False)
     config.setdefault("verdict_review_style", DEFAULT_VERDICT_REVIEW_STYLE)
+    config.setdefault("reflection_wording", DEFAULT_REFLECTION_WORDING)
+    config.setdefault("policy_instruction", {a: DEFAULT_POLICY_INSTRUCTION for a in AGENT_IDS})
     # Records written before --tool-list existed sent per-phase tool lists.
     config.setdefault("tool_list", "phase")
     # Records written before --raw-log-inspect existed kept the paper's full log.
@@ -757,6 +798,7 @@ def _run_selected_episodes(
             reward_scheme=reward_scheme,
             prompt_wording=args.prompt_wording,
             escalation_verdict=escalation_verdict_for(args, agent_id),
+            policy_instruction=policy_instruction_for(args, agent_id),
         )
         for agent_id in AGENT_IDS
     }
@@ -863,6 +905,7 @@ def _run_selected_episodes(
                 prompt_wording=args.prompt_wording,
                 escalation_verdict=args.escalation_verdict,
                 verdict_review_style=args.verdict_review_style,
+                reflection_wording=args.reflection_wording,
                 tool_list=args.tool_list,
                 raw_log_inspect=args.raw_log_inspect,
                 answer_repair=args.answer_repair,

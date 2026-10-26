@@ -1,0 +1,168 @@
+{
+ "episode": "armE-seq002-ep10",
+ "curator_label": "T07",
+ "curator_model": "claude-sonnet-5",
+ "verified": true,
+ "attempts": [
+  {
+   "label": "curator-T07-a1",
+   "problems": [],
+   "capture": {
+    "requests": 2,
+    "clean": true,
+    "problems": [],
+    "followups": [
+     "Output does not match required schema: root: must have required property 'removals', root: must NOT have additional properties ('$PARAMETER_NAME' is not allowed)"
+    ],
+    "thinking_display": "summarized"
+   },
+   "subtype": "success",
+   "seconds": 17,
+   "cost_usd_cc_estimate": 0.0250506,
+   "exit": 0,
+   "stderr_tail": "Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\n"
+  }
+ ],
+ "messages": [
+  {
+   "n": 1,
+   "round": 0,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Hi Bob, record_extraction task. Please share: # selected, 1-2 included examples, and any borderline case where time was missing/vague (since that's an explicit exclusion for you).",
+   "kept": [
+    "Hi Bob, record_extraction task. Please share: # selected, 1-2 included examples, and any borderline case where time was missing/vague (since that's an explicit exclusion for you)."
+   ],
+   "removed": []
+  },
+  {
+   "n": 2,
+   "round": 0,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Mine: 9 family care tasks (person+recipient+action+time). Included: \"Ben drive Nina to PT at 8:30 AM Thursday\". Borderline: \"Mei call clinic after lunch tomorrow\" - vague but has a time ref, included.",
+   "kept": [
+    "Mine: 9 family care tasks (person+recipient+action+time). Included: \"Ben drive Nina to PT at 8:30 AM Thursday\". Borderline: \"Mei call clinic after lunch tomorrow\" - vague but has a time ref, included."
+   ],
+   "removed": []
+  },
+  {
+   "n": 3,
+   "round": 1,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Good call treating \"after lunch tomorrow\" as a time. Mine: 9 manuscript tasks. Borderline: source had weird line break \"Dr.\\nLin...\" - resolved via testing split variants to find correct record id.",
+   "kept": [
+    "Mine: 9 manuscript tasks. Borderline: source had weird line break \"Dr.\\nLin...\" - resolved via testing split variants to find correct record id."
+   ],
+   "removed": [
+    {
+     "text": "Good call treating \"after lunch tomorrow\" as a time. ",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  },
+  {
+   "n": 4,
+   "round": 1,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Good, glad you resolved that. Can you share 1-2 included examples (author+section+change+deadline) and an excluded praise/optional-analysis example, plus full list of 9 IDs?",
+   "kept": [
+    "Can you share 1-2 included examples (author+section+change+deadline) and an excluded praise/optional-analysis example, plus full list of 9 IDs?"
+   ],
+   "removed": [
+    {
+     "text": "Good, glad you resolved that. ",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "round": 2,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Included: \"Priya update Table 4 cohort counts before resubmission Friday\". Excluded: \"reviewers liked Figure 2\"; \"Omar future mouse study, optional\". IDs 1-5: 0537c6,c46f70,2f80b8,26a59a,546c37",
+   "kept": [
+    "Included: \"Priya update Table 4 cohort counts before resubmission Friday\". Excluded: \"reviewers liked Figure 2\"; \"Omar future mouse study, optional\". IDs 1-5: 0537c6,c46f70,2f80b8,26a59a,546c37"
+   ],
+   "removed": []
+  },
+  {
+   "n": 6,
+   "round": 2,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Great, exclusions match the instruction well. Please send remaining IDs 6-9.",
+   "kept": [
+    "Please send remaining IDs 6-9."
+   ],
+   "removed": [
+    {
+     "text": "Great, exclusions match the instruction well. ",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "round": 3,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "IDs 6-9: 0c6e31,6572fb,172b6f,4b838e. That's all 9. Please send your full 9 IDs for family care tasks, plus your excluded suggestion/completed-action examples.",
+   "kept": [
+    "IDs 6-9: 0c6e31,6572fb,172b6f,4b838e. That's all 9. Please send your full 9 IDs for family care tasks, plus your excluded suggestion/completed-action examples."
+   ],
+   "removed": []
+  },
+  {
+   "n": 8,
+   "round": 3,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "My 9 IDs: 85a71c,c7918a,9ad6b9,f0abe0,20f96b,47fc25,964d7f,f22365,d6eaad. Excluded: \"Omar suggested check Grandma tea\" (suggestion); \"Celia already booked ride\" (completed). Accept from my side!",
+   "kept": [
+    "My 9 IDs: 85a71c,c7918a,9ad6b9,f0abe0,20f96b,47fc25,964d7f,f22365,d6eaad. Excluded: \"Omar suggested check Grandma tea\" (suggestion); \"Celia already booked ride\" (completed)."
+   ],
+   "removed": [
+    {
+     "text": " Accept from my side!",
+     "reason": "accept_or_reject"
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "round": 4,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Good exclusions, both fit the criteria well. Accept from my side too. See you next episode!",
+   "kept": [
+    "See you next episode!"
+   ],
+   "removed": [
+    {
+     "text": "Good exclusions, both fit the criteria well. Accept from my side too. ",
+     "reason": "accept_or_reject"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "round": 4,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Great, see you next episode!",
+   "kept": [
+    "see you next episode!"
+   ],
+   "removed": [
+    {
+     "text": "Great, ",
+     "reason": "approval_pleasantry"
+    }
+   ]
+  }
+ ]
+}

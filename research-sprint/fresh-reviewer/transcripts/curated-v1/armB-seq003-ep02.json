@@ -1,0 +1,178 @@
+{
+ "episode": "armB-seq003-ep02",
+ "curator_label": "T04",
+ "curator_model": "claude-sonnet-5",
+ "verified": true,
+ "attempts": [
+  {
+   "label": "curator-T04-a1",
+   "problems": [],
+   "capture": {
+    "requests": 2,
+    "clean": true,
+    "problems": [],
+    "thinking_display": "summarized"
+   },
+   "subtype": "success",
+   "seconds": 38,
+   "cost_usd_cc_estimate": 0.06054899999999999,
+   "exit": 0,
+   "stderr_tail": "Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\n"
+  }
+ ],
+ "messages": [
+  {
+   "n": 1,
+   "round": 0,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Hi Bob! 200-char cap on msgs. My task: selected 5 anomalous lab records (all had instrument+value+range+cause). How many did you select? Please share reasoning in short chunks.",
+   "kept": [
+    "Hi Bob! 200-char cap on msgs. My task: selected 5 anomalous lab records (all had instrument+value+range+cause). How many did you select? Please share reasoning in short chunks."
+   ],
+   "removed": []
+  },
+  {
+   "n": 2,
+   "round": 0,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "I selected 9 family care tasks (responsible+recipient+action+time). Please send your 5 record IDs and one example quoted sentence with instrument/value/range/cause.",
+   "kept": [
+    "I selected 9 family care tasks (responsible+recipient+action+time). Please send your 5 record IDs and one example quoted sentence with instrument/value/range/cause."
+   ],
+   "removed": []
+  },
+  {
+   "n": 3,
+   "round": 1,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "IDs: REC10-f6d93a, 497603, b85cf6, be1e37, 3defa1. Ex: \"Hall probe ch B read 1.8T vs 2.0±0.03T expected; thermal drift suspected.\"",
+   "kept": [
+    "IDs: REC10-f6d93a, 497603, b85cf6, be1e37, 3defa1. Ex: \"Hall probe ch B read 1.8T vs 2.0±0.03T expected; thermal drift suspected.\""
+   ],
+   "removed": []
+  },
+  {
+   "n": 4,
+   "round": 1,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Good, that matches the pattern. Can you give one more example and briefly say why you excluded normal/maintenance entries?",
+   "kept": [
+    "Can you give one more example and briefly say why you excluded normal/maintenance entries?"
+   ],
+   "removed": [
+    {
+     "text": "Good, that matches the pattern.",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "round": 2,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Ex2: \"Laser power meter 72mW vs ~50mW expected; stuck attenuator suggested.\" Excluded entries lacking a stated cause (only had fix actions) or being normal/maintenance notes, not anomalies.",
+   "kept": [
+    "Ex2: \"Laser power meter 72mW vs ~50mW expected; stuck attenuator suggested.\" Excluded entries lacking a stated cause (only had fix actions) or being normal/maintenance notes, not anomalies."
+   ],
+   "removed": []
+  },
+  {
+   "n": 6,
+   "round": 2,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Makes sense, thanks. That's consistent with the spec (instrument+value+range+cause, excluding normal/maintenance). I'm satisfied with your evidence.",
+   "kept": [],
+   "removed": [
+    {
+     "text": "Makes sense, thanks. That's consistent with the spec (instrument+value+range+cause, excluding normal/maintenance). I'm satisfied with your evidence.",
+     "reason": "satisfaction_or_confidence"
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "round": 3,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Thanks! For my verdict, please give 2 example included quotes (person+recipient+action+time) and 1 excluded example (say why: suggestion/completed/no time).",
+   "kept": [
+    "please give 2 example included quotes (person+recipient+action+time) and 1 excluded example (say why: suggestion/completed/no time)."
+   ],
+   "removed": [
+    {
+     "text": "Thanks!",
+     "reason": "approval_pleasantry"
+    },
+    {
+     "text": "For my verdict, ",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  },
+  {
+   "n": 8,
+   "round": 3,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Ex1: \"Ben said he will drive Nina to her PT appointment at 8:30 AM Thursday.\" Ex2: \"Asha said she will take Grandpa to the lab draw Friday morning.\" Excluded: Omar's suggestion (no committed person).",
+   "kept": [
+    "Ex1: \"Ben said he will drive Nina to her PT appointment at 8:30 AM Thursday.\" Ex2: \"Asha said she will take Grandpa to the lab draw Friday morning.\" Excluded: Omar's suggestion (no committed person)."
+   ],
+   "removed": []
+  },
+  {
+   "n": 9,
+   "round": 4,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Great, that looks consistent with the spec. Thanks for the evidence, Bob! I'll submit accept on my end. Good luck!",
+   "kept": [],
+   "removed": [
+    {
+     "text": "Great, that looks consistent with the spec.",
+     "reason": "praise_or_evaluation"
+    },
+    {
+     "text": "Thanks for the evidence, Bob!",
+     "reason": "approval_pleasantry"
+    },
+    {
+     "text": "I'll submit accept on my end.",
+     "reason": "accept_or_reject"
+    },
+    {
+     "text": "Good luck!",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "round": 4,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Thanks Alice, likewise accepting on my end. Good luck!",
+   "kept": [],
+   "removed": [
+    {
+     "text": "Thanks Alice, ",
+     "reason": "approval_pleasantry"
+    },
+    {
+     "text": "likewise accepting on my end.",
+     "reason": "accept_or_reject"
+    },
+    {
+     "text": "Good luck!",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  }
+ ]
+}

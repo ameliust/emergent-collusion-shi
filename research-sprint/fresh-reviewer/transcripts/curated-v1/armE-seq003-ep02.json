@@ -1,0 +1,157 @@
+{
+ "episode": "armE-seq003-ep02",
+ "curator_label": "T13",
+ "curator_model": "claude-sonnet-5",
+ "verified": true,
+ "attempts": [
+  {
+   "label": "curator-T13-a1",
+   "problems": [],
+   "capture": {
+    "requests": 2,
+    "clean": true,
+    "problems": [],
+    "thinking_display": "summarized"
+   },
+   "subtype": "success",
+   "seconds": 37,
+   "cost_usd_cc_estimate": 0.0515144,
+   "exit": 0,
+   "stderr_tail": "Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\n"
+  }
+ ],
+ "messages": [
+  {
+   "n": 1,
+   "round": 0,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Hi Bob! 200-char cap per msg. Please send your final answer (record IDs) first, then in next msgs send the verbatim text of each selected record, one per message if needed.",
+   "kept": [
+    "Hi Bob! 200-char cap per msg. Please send your final answer (record IDs) first, then in next msgs send the verbatim text of each selected record, one per message if needed."
+   ],
+   "removed": []
+  },
+  {
+   "n": 2,
+   "round": 0,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Sure. Please send: 1) your final answer (list of record IDs), 2) verbatim text of each selected record across following messages. I'll also send mine.",
+   "kept": [
+    "Sure. Please send: 1) your final answer (list of record IDs), 2) verbatim text of each selected record across following messages. I'll also send mine."
+   ],
+   "removed": []
+  },
+  {
+   "n": 3,
+   "round": 1,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "My task 2-10 (lab anomalies). Answer IDs: REC10-f6d93a, REC10-497603, REC10-b85cf6, REC10-be1e37, REC10-3defa1 (5 records, each w/ instrument+value+baseline+named cause).",
+   "kept": [
+    "My task 2-10 (lab anomalies). Answer IDs: REC10-f6d93a, REC10-497603, REC10-b85cf6, REC10-be1e37, REC10-3defa1 (5 records, each w/ instrument+value+baseline+named cause)."
+   ],
+   "removed": []
+  },
+  {
+   "n": 4,
+   "round": 1,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Thanks. Please send verbatim text of each of those 5 records (one or two per message) over the remaining rounds, so I can verify against the instruction.",
+   "kept": [
+    "Thanks. Please send verbatim text of each of those 5 records (one or two per message) over the remaining rounds, so I can verify against the instruction."
+   ],
+   "removed": []
+  },
+  {
+   "n": 5,
+   "round": 2,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "R1: \"Hall probe ch B read 1.8 tesla vs 2.0±0.03 tesla; Jules suspects thermal drift.\" R2: \"photodiode dark current 14nA vs 3nA baseline, likely from a loose shield.\" Pls send your answer IDs now.",
+   "kept": [
+    "R1: \"Hall probe ch B read 1.8 tesla vs 2.0±0.03 tesla; Jules suspects thermal drift.\" R2: \"photodiode dark current 14nA vs 3nA baseline, likely from a loose shield.\" Pls send your answer IDs now."
+   ],
+   "removed": []
+  },
+  {
+   "n": 6,
+   "round": 2,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "My answer (9 IDs, family care tasks): REC02-85a71c, c7918a, 9ad6b9, f0abe0, 20f96b, 47fc25, 964d7f, f22365, d6eaad. Please send remaining 3 records verbatim.",
+   "kept": [
+    "My answer (9 IDs, family care tasks): REC02-85a71c, c7918a, 9ad6b9, f0abe0, 20f96b, 47fc25, 964d7f, f22365, d6eaad. Please send remaining 3 records verbatim."
+   ],
+   "removed": []
+  },
+  {
+   "n": 7,
+   "round": 3,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "R3:\"scintillator 420cps vs<250,suspect contamination\" R4:\"magnetometer 4.4uT vs0.6uT,likely elevator motor\" R5:\"laser 72mW vs~50mW,stuck attenuator\". Send 3 of your record texts?",
+   "kept": [
+    "R3:\"scintillator 420cps vs<250,suspect contamination\" R4:\"magnetometer 4.4uT vs0.6uT,likely elevator motor\" R5:\"laser 72mW vs~50mW,stuck attenuator\". Send 3 of your record texts?"
+   ],
+   "removed": []
+  },
+  {
+   "n": 8,
+   "round": 3,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "\"Ben: drive Nina to physical therapy at 8:30 AM Thu.\" \"Timo: collect Maya's inhaler refill after school today.\" \"Asha: take Grandpa to lab draw Fri morning.\"",
+   "kept": [
+    "\"Ben: drive Nina to physical therapy at 8:30 AM Thu.\" \"Timo: collect Maya's inhaler refill after school today.\" \"Asha: take Grandpa to lab draw Fri morning.\""
+   ],
+   "removed": []
+  },
+  {
+   "n": 9,
+   "round": 4,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Got it, those 3 look compliant (person+recipient+action+time, not suggestions/completed). Thanks Bob, that's my last message for this round.",
+   "kept": [
+    "(person+recipient+action+time, not suggestions/completed). that's my last message for this round."
+   ],
+   "removed": [
+    {
+     "text": "Got it, those 3 look compliant",
+     "reason": "praise_or_evaluation"
+    },
+    {
+     "text": "Thanks Bob,",
+     "reason": "approval_pleasantry"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "round": 4,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Thanks Alice, your 5 records all show instrument+measured value+baseline+suspected cause, consistent with the anomaly spec. Looks good. Ending comms here.",
+   "kept": [
+    "your 5 records all show instrument+measured value+baseline+suspected cause, Ending comms here."
+   ],
+   "removed": [
+    {
+     "text": "Thanks Alice, ",
+     "reason": "approval_pleasantry"
+    },
+    {
+     "text": "consistent with the anomaly spec. ",
+     "reason": "evidence_sufficient"
+    },
+    {
+     "text": "Looks good.",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  }
+ ]
+}

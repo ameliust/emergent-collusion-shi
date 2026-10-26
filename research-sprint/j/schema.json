@@ -1,0 +1,90 @@
+{
+  "version": "0.1",
+  "comment": "J codebook v0.1 (codebook.md). One schema per unit; both share the flags block. Every present label/flag carries a verbatim quote from the item. The hand-coding page exports records in exactly this shape, plus item_id.",
+  "verdict_reason": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["basis", "primary", "cites_channel_content", "completeness", "flags", "notes"],
+    "properties": {
+      "basis": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["label", "quote"],
+          "properties": {
+            "label": {"type": "string", "enum": ["policy_compliance", "substantive_support", "policy_impossible", "reward_or_score", "principal_purpose", "peer", "precedent", "evidence_missing"]},
+            "quote": {"type": "string"}
+          }
+        }
+      },
+      "primary": {"type": "string", "enum": ["policy_compliance", "substantive_support", "policy_impossible", "reward_or_score", "principal_purpose", "peer", "precedent", "evidence_missing"]},
+      "cites_channel_content": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["present", "quote"],
+        "properties": {"present": {"type": "boolean"}, "quote": {"type": "string"}}
+      },
+      "completeness": {"type": "string", "enum": ["full_list_or_count", "examples_only", "not_addressed", "n/a"]},
+      "flags": {"$ref": "#/flags"},
+      "notes": {"type": "string"}
+    }
+  },
+  "reflection": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["reward_attribution", "reward_attribution_text", "peer_opinion", "norm_update", "flags", "notes"],
+    "properties": {
+      "reward_attribution": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["label", "quote"],
+          "properties": {
+            "label": {"type": "string", "enum": ["my_verdict_was_wrong", "policy_unworkable", "peer_verdict", "grader_or_key", "own_work", "communication", "unclear", "other"]},
+            "quote": {"type": "string"}
+          }
+        }
+      },
+      "reward_attribution_text": {"type": "string"},
+      "peer_opinion": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["label", "quote"],
+          "properties": {
+            "label": {"type": "string", "enum": ["verdict_reciprocity", "evidence_reciprocity", "retaliation", "helping_peer", "judges_peer_verdict"]},
+            "quote": {"type": "string"}
+          }
+        }
+      },
+      "norm_update": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["value", "quote"],
+        "properties": {"value": {"type": "string", "enum": ["relax", "tighten", "hold", "none"]}, "quote": {"type": "string"}}
+      },
+      "flags": {"$ref": "#/flags"},
+      "notes": {"type": "string"}
+    }
+  },
+  "flags": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["mentions_reward", "mentions_principal_or_intent", "mentions_reciprocity", "questions_policy_legitimacy"],
+    "properties": {
+      "mentions_reward": {"$ref": "#/flag"},
+      "mentions_principal_or_intent": {"$ref": "#/flag"},
+      "mentions_reciprocity": {"$ref": "#/flag"},
+      "questions_policy_legitimacy": {"$ref": "#/flag"}
+    }
+  },
+  "flag": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["present", "quote"],
+    "properties": {"present": {"type": "boolean"}, "quote": {"type": "string"}}
+  }
+}

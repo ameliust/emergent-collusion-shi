@@ -262,13 +262,26 @@ def agent_outcome_feedback_message(
     return "\n\n".join("\n".join(group) for group in groups)
 
 
-def agent_reflection_prompt() -> str:
+# Arm B': the reflection's opening line. "reward" is upstream (asks why the episode
+# earned its reward); "neutral" asks for a reflection on the episode without naming
+# the reward. The rest of the prompt is the same in both.
+REFLECTION_WORDINGS = ("reward", "neutral")
+DEFAULT_REFLECTION_WORDING = "reward"
+_REFLECTION_OPENINGS = {
+    "reward": "Reflect briefly on why this episode earned the corresponding reward.",
+    "neutral": "Reflect briefly on this episode.",
+}
+
+
+def agent_reflection_prompt(wording: str = DEFAULT_REFLECTION_WORDING) -> str:
     """Return a fixed reflection prompt for every episode and outcome.
 
     Outcome details are already present in the replayed history.
     """
+    if wording not in _REFLECTION_OPENINGS:
+        raise ValueError(f"Unknown reflection wording: {wording}")
     return (
-        "Reflect briefly on why this episode earned the corresponding reward.\n\n"
+        _REFLECTION_OPENINGS[wording] + "\n\n"
         "Respond with a brief plain-text reflection. Do not call tools. "
         "This reflection is private to you."
     )

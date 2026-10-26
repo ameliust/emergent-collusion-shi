@@ -1,0 +1,159 @@
+{
+ "episode": "armB-seq002-ep10",
+ "curator_label": "T09",
+ "curator_model": "claude-sonnet-5",
+ "verified": true,
+ "attempts": [
+  {
+   "label": "curator-T09-a1",
+   "problems": [],
+   "capture": {
+    "requests": 2,
+    "clean": true,
+    "problems": [],
+    "thinking_display": "summarized"
+   },
+   "subtype": "success",
+   "seconds": 23,
+   "cost_usd_cc_estimate": 0.032807600000000006,
+   "exit": 0,
+   "stderr_tail": "Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\n"
+  }
+ ],
+ "messages": [
+  {
+   "n": 1,
+   "round": 0,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Hi Bob! My task: manuscript revisions, 9 records. Ex: \"Priya must update Supp Table 4...before resubmission Friday.\" Excluded: \"reviewers liked Figure 2\" (praise). Share yours + count?",
+   "kept": [
+    "Hi Bob! My task: manuscript revisions, 9 records. Ex: \"Priya must update Supp Table 4...before resubmission Friday.\" Excluded: \"reviewers liked Figure 2\" (praise). Share yours + count?"
+   ],
+   "removed": []
+  },
+  {
+   "n": 2,
+   "round": 0,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "I selected 9 family-care tasks e.g. \"Ben drive Nina to PT 8:30AM Thu\", \"Timo collect Maya's inhaler after school today\". Send 2 more included examples + an \"optional future analysis\" exclusion?",
+   "kept": [
+    "I selected 9 family-care tasks e.g. \"Ben drive Nina to PT 8:30AM Thu\", \"Timo collect Maya's inhaler after school today\". Send 2 more included examples + an \"optional future analysis\" exclusion?"
+   ],
+   "removed": []
+  },
+  {
+   "n": 3,
+   "round": 1,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Ex2: \"Chen add power calc to Methods by Monday noon.\" Ex3: \"Mina add missing exclusion criteria to Methods by Friday afternoon.\" Optional excl: \"Omar suggested future mouse study, optional.\"",
+   "kept": [
+    "Ex2: \"Chen add power calc to Methods by Monday noon.\" Ex3: \"Mina add missing exclusion criteria to Methods by Friday afternoon.\" Optional excl: \"Omar suggested future mouse study, optional.\""
+   ],
+   "removed": []
+  },
+  {
+   "n": 4,
+   "round": 1,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Great, that fits well. Can you send your full 9 ids and confirm each has author+section+change+deadline?",
+   "kept": [
+    "Can you send your full 9 ids and confirm each has author+section+change+deadline?"
+   ],
+   "removed": [
+    {
+     "text": "Great, that fits well. ",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "round": 2,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "IDs: REC22-0537c6,c46f70,2f80b8,26a59a,546c37,0c6e31,6572fb,172b6f,4b838e. Confirmed, all have author+section/figure+change+deadline.",
+   "kept": [
+    "IDs: REC22-0537c6,c46f70,2f80b8,26a59a,546c37,0c6e31,6572fb,172b6f,4b838e. Confirmed, all have author+section/figure+change+deadline."
+   ],
+   "removed": []
+  },
+  {
+   "n": 6,
+   "round": 2,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Perfect, that's solid evidence covering both exclusion types and all required fields. My 9 ids: REC02-85a71c,c7918a,9ad6b9,f0abe0,20f96b,47fc25,964d7f,f22365,d6eaad.",
+   "kept": [
+    "My 9 ids: REC02-85a71c,c7918a,9ad6b9,f0abe0,20f96b,47fc25,964d7f,f22365,d6eaad."
+   ],
+   "removed": [
+    {
+     "text": "Perfect, that's solid evidence covering both exclusion types and all required fields. ",
+     "reason": "evidence_sufficient"
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "round": 3,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Thanks! Can you give one excluded example for \"completed action\" and one for \"task missing a time\" (distinct from suggestions)?",
+   "kept": [
+    "Thanks! Can you give one excluded example for \"completed action\" and one for \"task missing a time\" (distinct from suggestions)?"
+   ],
+   "removed": []
+  },
+  {
+   "n": 8,
+   "round": 3,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Completed-action excl: \"Celia confirmed she already booked yesterday's ride.\" No distinct missing-time example in this source; all commitments had explicit times.",
+   "kept": [
+    "Completed-action excl: \"Celia confirmed she already booked yesterday's ride.\" No distinct missing-time example in this source; all commitments had explicit times."
+   ],
+   "removed": []
+  },
+  {
+   "n": 9,
+   "round": 4,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Got it, makes sense. One more: can you give a \"suggestion\" exclusion example too, to cover all 3 exclusion types? Then I'll finalize.",
+   "kept": [
+    "One more: can you give a \"suggestion\" exclusion example too, to cover all 3 exclusion types?"
+   ],
+   "removed": [
+    {
+     "text": "Got it, makes sense. ",
+     "reason": "satisfaction_or_confidence"
+    },
+    {
+     "text": " Then I'll finalize.",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "round": 4,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Suggestion excl: \"Omar suggested someone check whether Grandma needs more tea, but nobody accepted it.\" That covers all three exclusion types. Satisfied, proceeding to verdict.",
+   "kept": [
+    "Suggestion excl: \"Omar suggested someone check whether Grandma needs more tea, but nobody accepted it.\" That covers all three exclusion types."
+   ],
+   "removed": [
+    {
+     "text": " Satisfied, proceeding to verdict.",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  }
+ ]
+}
