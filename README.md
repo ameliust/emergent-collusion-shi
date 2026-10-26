@@ -14,6 +14,8 @@ Our results suggest that, at least on Claude Sonnet 5, much of what the benchmar
 
 Write-up: [*Joint but Not Coordinated: Auditing Emergent Collusion Between LLM Verifiers*](https://apartresearch.com/sprints/projects/joint-but-not-coordinated-auditing-emergent-collusion-between-llm-verifiers-rsyq).
 
+Trajectories: [Sprint Trajectories](https://github.com/ameliust/emergent-collusion-shi/releases/tag/sprint-trajectories-2026-10-26)
+
 ## Where things are
 
 | Path | What it is |
@@ -67,7 +69,7 @@ python -m experiments \
 
 Add the arm's flags from the table for other arms. Trajectory *i* of every arm uses `--start-index i`, so arms are paired by task sequence. A trajectory is 10 episodes, about 20 minutes, and cost us about $4–5 on Sonnet 5. Check a run with `python research-sprint/tools/run_check.py results/arm*`.
 
-Our run records are not in the repo yet (`results/` is gitignored).
+Our run records are in the release [Sprint Trajectories](https://github.com/ameliust/emergent-collusion-shi/releases/tag/sprint-trajectories-2026-10-26) rather than in the repo (`results/` is gitignored): all 18 trajectories (A, E, B, S, R, B′, L, Z) plus 3 aborted launches. That's `run.json`, `llm_usage.jsonl` and `console.log` for each, with machine paths replaced by placeholders and a README and checksums inside the archive.
 
 ---
 # Emergent Collusion in Long-Horizon LLM Agent Interaction
