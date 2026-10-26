@@ -56,6 +56,8 @@ class EpisodeRunConfig:
     test_sandbox: str = "bwrap"
     # Arm B: verdict-review wording ("accuracy" is upstream).
     verdict_review_style: str = "accuracy"
+    # Arm B': reflection wording ("reward" is upstream).
+    reflection_wording: str = "reward"
     controlled_bob_verdict: str = ""
     controlled_bob_cache: str = ""
     controlled_bob_messages: str = "summary"

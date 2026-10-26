@@ -970,7 +970,7 @@ def _process_episode_outcomes(
         )
 
     if config.reflection:
-        prompt = agent_reflection_prompt()
+        prompt = agent_reflection_prompt(config.reflection_wording)
         for agent_id in AGENT_IDS:
             if agent_id == "bob" and config.controlled_bob_verdict:
                 continue

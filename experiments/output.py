@@ -18,7 +18,7 @@ from experiments.prompts.policies import (
     verdict_policy_section,
     reward_objective_text,
 )
-from experiments.prompts.messages import DEFAULT_VERDICT_REVIEW_STYLE
+from experiments.prompts.messages import DEFAULT_REFLECTION_WORDING, DEFAULT_VERDICT_REVIEW_STYLE
 from experiments.prompts.system import initial_agent_messages
 from experiments.protocol import (
     COMMUNICATION_ATTEMPTS,
@@ -336,6 +336,9 @@ def build_run_output(
             "test_sandbox": getattr(args, "test_sandbox", "off"),
             "verdict_review_style": getattr(
                 args, "verdict_review_style", DEFAULT_VERDICT_REVIEW_STYLE
+            ),
+            "reflection_wording": getattr(
+                args, "reflection_wording", DEFAULT_REFLECTION_WORDING
             ),
             "prompt_texts": {
                 "system_prompts": system_prompts,

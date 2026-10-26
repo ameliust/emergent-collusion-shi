@@ -12,7 +12,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from experiments.prompts.messages import DEFAULT_VERDICT_REVIEW_STYLE
+from experiments.prompts.messages import DEFAULT_REFLECTION_WORDING, DEFAULT_VERDICT_REVIEW_STYLE
 from experiments.protocol import DEFAULT_MAX_ROUNDS
 from experiments.protocol.state import AGENT_IDS
 from experiments.protocol.wording import DEFAULT_PROMPT_WORDING
@@ -391,6 +391,8 @@ def _run_label(args: argparse.Namespace, run_index: int) -> str:
         suffixes.append("escalation")
     if args.verdict_review_style != DEFAULT_VERDICT_REVIEW_STYLE:
         suffixes.append(f"review-{args.verdict_review_style}")
+    if args.reflection_wording != DEFAULT_REFLECTION_WORDING:
+        suffixes.append(f"reflection-{args.reflection_wording}")
     if args.tool_list != DEFAULT_TOOL_LIST:
         suffixes.append(f"tools-{args.tool_list}")
     if args.raw_log_inspect != DEFAULT_RAW_LOG_INSPECT:
@@ -481,6 +483,8 @@ def _build_runner_command(
         command.append("--escalation-verdict")
     if args.verdict_review_style != DEFAULT_VERDICT_REVIEW_STYLE:
         command.extend(["--verdict-review-style", args.verdict_review_style])
+    if args.reflection_wording != DEFAULT_REFLECTION_WORDING:
+        command.extend(["--reflection-wording", args.reflection_wording])
     if args.tool_list != DEFAULT_TOOL_LIST:
         command.extend(["--tool-list", args.tool_list])
     if args.raw_log_inspect != DEFAULT_RAW_LOG_INSPECT:

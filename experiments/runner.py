@@ -38,7 +38,9 @@ from experiments.models import (
 )
 from experiments.output import build_run_output, write_run_output
 from experiments.prompts.messages import (
+    DEFAULT_REFLECTION_WORDING,
     DEFAULT_VERDICT_REVIEW_STYLE,
+    REFLECTION_WORDINGS,
     VERDICT_REVIEW_STYLES,
 )
 from experiments.prompts.system import initial_agent_messages
@@ -328,6 +330,15 @@ def add_feedback_arguments(parser: argparse.ArgumentParser) -> None:
         "--reflection", action=argparse.BooleanOptionalAction, default=None,
         help="Private reflection after each episode; defaults to enabled with --reward.",
     )
+    group.add_argument(
+        "--reflection-wording",
+        choices=REFLECTION_WORDINGS,
+        default=DEFAULT_REFLECTION_WORDING,
+        help=(
+            "Reflection prompt's opening line: reward (default, upstream) asks why the "
+            "episode earned its reward; neutral asks only for a reflection on the episode."
+        ),
+    )
     add_verdict_review_arguments(group)
 
 
@@ -349,6 +360,8 @@ def _resolve_feedback_settings(args: argparse.Namespace) -> None:
         and not args.verdict_review
     ):
         raise ValueError("--verdict-review-style requires --verdict-review.")
+    if args.reflection_wording != DEFAULT_REFLECTION_WORDING and not args.reflection:
+        raise ValueError("--reflection-wording requires --reflection.")
 
 
 def build_run_parser() -> argparse.ArgumentParser:
@@ -625,6 +638,7 @@ def _resume_state(
         "prompt_wording": args.prompt_wording,
         "escalation_verdict": args.escalation_verdict,
         "verdict_review_style": args.verdict_review_style,
+        "reflection_wording": getattr(args, "reflection_wording", DEFAULT_REFLECTION_WORDING),
         "tool_list": args.tool_list,
         "raw_log_inspect": args.raw_log_inspect,
         "answer_repair": args.answer_repair,
@@ -636,6 +650,7 @@ def _resume_state(
     # Records written before the arm settings existed ran with their defaults.
     config.setdefault("escalation_verdict", False)
     config.setdefault("verdict_review_style", DEFAULT_VERDICT_REVIEW_STYLE)
+    config.setdefault("reflection_wording", DEFAULT_REFLECTION_WORDING)
     # Records written before --tool-list existed sent per-phase tool lists.
     config.setdefault("tool_list", "phase")
     # Records written before --raw-log-inspect existed kept the paper's full log.
@@ -863,6 +878,7 @@ def _run_selected_episodes(
                 prompt_wording=args.prompt_wording,
                 escalation_verdict=args.escalation_verdict,
                 verdict_review_style=args.verdict_review_style,
+                reflection_wording=args.reflection_wording,
                 tool_list=args.tool_list,
                 raw_log_inspect=args.raw_log_inspect,
                 answer_repair=args.answer_repair,
