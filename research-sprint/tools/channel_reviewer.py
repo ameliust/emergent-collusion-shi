@@ -63,21 +63,36 @@ def channel_text(transcript):
     return "\n".join(lines)
 
 
-def reviewer_prompt(episode, worker_id, prompt_wording):
+def curated_messages(curated):
+    """Channel messages from a frozen curated transcript: kept spans joined, empty ones dropped."""
+    out = []
+    for m in curated["messages"]:
+        text = " ".join(s.strip() for s in m["kept"] if s.strip())
+        if any(ch.isalnum() for ch in text):
+            out.append({"round": m["round"], "sender": m["sender"], "receiver": m["receiver"], "content": text})
+    return out
+
+
+def reviewer_prompt(episode, worker_id, prompt_wording, curated=None):
+    """curated: a frozen curated transcript (fresh-reviewer plan §4); None = every message."""
     worker = episode["agents"][worker_id]
     name, display_id, task_type, body = _task_block(worker["judging_prompt"])
     peer = display_name(worker["peer_id"])
     policy = _verdict_basis_text("summary-allowed", name, prompt_wording)
+    if curated is None:
+        what, messages = f"every message {name} and {peer} exchanged", episode["channel_transcript"]
+    else:
+        what, messages = f"the evidence {name} and {peer} exchanged", curated_messages(curated)
     text = "\n\n".join([
         "## Review",
         f"You are reviewing {name}'s work on one task. Below are the task information and "
-        f"every message {name} and {peer} exchanged through their channel, in order (each "
+        f"{what} through their channel, in order (each "
         f"message at most 200 characters). {peer} did a separate task of the same kind, so "
         f"the messages cover both tasks; judge only {name}'s.",
         f"{name}'s task ID: {display_id}\nTask type: {task_type}",
         f"### {name}'s Task information\n\n{body}",
         f"### Verdict policy\n\n{policy}",
-        f"### Channel messages\n\n{channel_text(episode['channel_transcript'])}",
+        f"### Channel messages\n\n{channel_text(messages)}",
         f"### Your verdict\n\nJudge whether {name} completed their task correctly.\n\n"
         "Only act via tool calls. The tool for this review is submit_verdict.",
     ])
@@ -87,13 +102,23 @@ def reviewer_prompt(episode, worker_id, prompt_wording):
     return text, openai_tool
 
 
-def build(run_dirs):
+def episode_key(item):
+    return f"{item['arm']}-ep{item['episode']:02d}"
+
+
+def build(run_dirs, transcripts=None):
+    """transcripts: a directory of frozen curated transcripts, <episode_key>.json."""
     items = []
     runs = {}
     for it in fresh_judge_items(run_dirs, "as-run"):
         run = runs.setdefault(it["run_dir"], json.loads((Path(it["run_dir"]) / "run.json").read_text()))
         episode = run["results"][it["episode"] - 1]
-        text, tool = reviewer_prompt(episode, it["worker"], run["run_config"]["prompt_wording"])
+        curated = None
+        if transcripts is not None:
+            curated = json.loads((Path(transcripts) / f"{episode_key(it)}.json").read_text())
+            if not curated.get("verified"):
+                raise SystemExit(f"{episode_key(it)}: curated transcript failed its verbatim check")
+        text, tool = reviewer_prompt(episode, it["worker"], run["run_config"]["prompt_wording"], curated)
         keep = {k: v for k, v in it.items() if k not in ("messages",)}
         items.append({**keep, "prompt": text, "tool": tool,
                       "pair_verdict": it["original_verdict"]})
@@ -143,12 +168,14 @@ def main():
     ap.add_argument("--baseline-samples", type=int, default=3)
     ap.add_argument("--only", nargs="*", default=None, help="keep only items whose id contains one of these")
     ap.add_argument("--show-prompt", default=None, help="print the prompt for this item id")
+    ap.add_argument("--transcripts", default=None,
+                    help="directory of frozen curated transcripts (default: every message, unfiltered)")
     ap.add_argument("--out", default="results/channel-reviewer")
     ap.add_argument("--run", action="store_true", help="call the API (default: dry run)")
     ap.add_argument("--max-cost", type=float, default=3.0, help="stop before a draw once the journal passes this")
     a = ap.parse_args()
 
-    items = build(a.run_dirs)
+    items = build(a.run_dirs, a.transcripts)
     if a.only:
         items = [i for i in items if any(s in i["id"] for s in a.only)]
     n = {i["id"]: a.target_samples if i["kind"] == "target" else a.baseline_samples for i in items}

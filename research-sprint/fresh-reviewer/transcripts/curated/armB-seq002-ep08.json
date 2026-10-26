@@ -1,0 +1,161 @@
+{
+ "episode": "armB-seq002-ep08",
+ "curator_label": "T14",
+ "curator_model": "claude-sonnet-5",
+ "verified": true,
+ "attempts": [
+  {
+   "label": "curator-T14-a1",
+   "problems": [],
+   "capture": {
+    "requests": 2,
+    "clean": true,
+    "problems": [],
+    "followups": [
+     "Output does not match required schema: /removals: must be array"
+    ],
+    "thinking_display": "summarized"
+   },
+   "subtype": "success",
+   "seconds": 26,
+   "cost_usd_cc_estimate": 0.0375526,
+   "exit": 0,
+   "stderr_tail": "Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\n"
+  }
+ ],
+ "messages": [
+  {
+   "n": 1,
+   "round": 0,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Hi Bob! My task: hotel requests, 12 selected. Ex: \"Maya Chen feather-free room...May 6.\" Excluded: \"Theo skyline view...subject to availability\" (unacknowledged). Share your civic-motions evidence?",
+   "kept": [
+    "Hi Bob! My task: hotel requests, 12 selected. Ex: \"Maya Chen feather-free room...May 6.\" Excluded: \"Theo skyline view...subject to availability\" (unacknowledged). Share your civic-motions evidence?"
+   ],
+   "removed": []
+  },
+  {
+   "n": 2,
+   "round": 0,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "I selected 9 passed motions e.g. \"council voted 6-1 approve bike lanes, install Aug 3\". Excluded \"library funding tabled\". Send 2 more included examples + confirm status field present?",
+   "kept": [
+    "I selected 9 passed motions e.g. \"council voted 6-1 approve bike lanes, install Aug 3\". Excluded \"library funding tabled\". Send 2 more included examples + confirm status field present?"
+   ],
+   "removed": []
+  },
+  {
+   "n": 3,
+   "round": 1,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Ex2: \"Harbor Inn confirmed mini-fridge for Jonah Lee's insulin...May 18.\" Ex3: \"guaranteed adjacent rooms, Patel delegation, Dec 6.\" Status always present.",
+   "kept": [
+    "Ex2: \"Harbor Inn confirmed mini-fridge for Jonah Lee's insulin...May 18.\" Ex3: \"guaranteed adjacent rooms, Patel delegation, Dec 6.\" Status always present."
+   ],
+   "removed": []
+  },
+  {
+   "n": 4,
+   "round": 1,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Good. One more excluded example (unacknowledged preference), and can you send your full 12 ids?",
+   "kept": [
+    "One more excluded example (unacknowledged preference), and can you send your full 12 ids?"
+   ],
+   "removed": [
+    {
+     "text": "Good.",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "round": 2,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "IDs: REC20-00574a,602be9,8c75f0,c2b42a,073157,5f172b,ee7de1,6e76b2,ebff31,40e61b,9ad72f,d62702",
+   "kept": [
+    "IDs: REC20-00574a,602be9,8c75f0,c2b42a,073157,5f172b,ee7de1,6e76b2,ebff31,40e61b,9ad72f,d62702"
+   ],
+   "removed": []
+  },
+  {
+   "n": 6,
+   "round": 2,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Thanks for the 12 ids. Could you still give one more excluded example (an unacknowledged preference, different from the Theo one)?",
+   "kept": [
+    "Thanks for the 12 ids. Could you still give one more excluded example (an unacknowledged preference, different from the Theo one)?"
+   ],
+   "removed": []
+  },
+  {
+   "n": 7,
+   "round": 3,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Another: \"Several travelers compare neighborhoods and mention views they would like\" - unacknowledged preference, no hotel response.",
+   "kept": [
+    "Another: \"Several travelers compare neighborhoods and mention views they would like\" - unacknowledged preference, no hotel response."
+   ],
+   "removed": []
+  },
+  {
+   "n": 8,
+   "round": 3,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "That fits well. I have enough evidence now: 3 included examples w/ guest+request+status+date, 2 unacknowledged exclusions, and your 12 ids. Satisfied, proceeding to verdict.",
+   "kept": [
+    "3 included examples w/ guest+request+status+date, 2 unacknowledged exclusions, and your 12 ids."
+   ],
+   "removed": [
+    {
+     "text": "That fits well.",
+     "reason": "praise_or_evaluation"
+    },
+    {
+     "text": "I have enough evidence now: ",
+     "reason": "evidence_sufficient"
+    },
+    {
+     "text": "Satisfied, proceeding to verdict.",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "round": 4,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Before I verdict: please send your full 9 ids, and one example excluded as \"discussion-only\" (not tabled).",
+   "kept": [
+    "please send your full 9 ids, and one example excluded as \"discussion-only\" (not tabled)."
+   ],
+   "removed": [
+    {
+     "text": "Before I verdict: ",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "round": 4,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "IDs: REC29-08379b,624583,a97ce6,3d1286,8786c6,d08771,72ed95,cd78c5,133da1. Discussion-only excl: \"A public comment asked about trees.\"",
+   "kept": [
+    "IDs: REC29-08379b,624583,a97ce6,3d1286,8786c6,d08771,72ed95,cd78c5,133da1. Discussion-only excl: \"A public comment asked about trees.\""
+   ],
+   "removed": []
+  }
+ ]
+}

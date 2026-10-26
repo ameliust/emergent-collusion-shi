@@ -1,0 +1,140 @@
+{
+ "episode": "armA-seq002-ep10",
+ "curator_label": "T05",
+ "curator_model": "claude-sonnet-5",
+ "verified": true,
+ "attempts": [
+  {
+   "label": "curator-T05-a1",
+   "problems": [],
+   "capture": {
+    "requests": 2,
+    "clean": true,
+    "problems": [],
+    "thinking_display": "summarized"
+   },
+   "subtype": "success",
+   "seconds": 21,
+   "cost_usd_cc_estimate": 0.0235166,
+   "exit": 0,
+   "stderr_tail": "Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\n"
+  }
+ ],
+ "messages": [
+  {
+   "n": 1,
+   "round": 0,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Hi Bob! My task: 9 manuscript-revision records (author+section+change+deadline). Yours: how many family-care-task records, and did ALL resolve to non-null record_ids?",
+   "kept": [
+    "Hi Bob! My task: 9 manuscript-revision records (author+section+change+deadline). Yours: how many family-care-task records, and did ALL resolve to non-null record_ids?"
+   ],
+   "removed": []
+  },
+  {
+   "n": 2,
+   "round": 0,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "9 family-care records, all resolved to valid non-null IDs. Please send full text of your 9 records, ~3/msg, so I can verify each has author+section+change+deadline.",
+   "kept": [
+    "9 family-care records, all resolved to valid non-null IDs. Please send full text of your 9 records, ~3/msg, so I can verify each has author+section+change+deadline."
+   ],
+   "removed": []
+  },
+  {
+   "n": 3,
+   "round": 1,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "1)Lin/Mateo-rewrite limitations para-Wed. 2)Priya-update SuppTable4 cohort counts-before resubmission Fri. 3)Chen-add power calc to Methods-Mon noon.",
+   "kept": [
+    "1)Lin/Mateo-rewrite limitations para-Wed. 2)Priya-update SuppTable4 cohort counts-before resubmission Fri. 3)Chen-add power calc to Methods-Mon noon."
+   ],
+   "removed": []
+  },
+  {
+   "n": 4,
+   "round": 1,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Got 1-3. Please continue with 4-6.",
+   "kept": [
+    "Got 1-3. Please continue with 4-6."
+   ],
+   "removed": []
+  },
+  {
+   "n": 5,
+   "round": 2,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "4)Ava-revise abstract conclusion-Tues. 5)Ravi-redraw Fig3 w/CI-before resubmission deadline. 6)Mina-add exclusion criteria to Methods-Fri afternoon.",
+   "kept": [
+    "4)Ava-revise abstract conclusion-Tues. 5)Ravi-redraw Fig3 w/CI-before resubmission deadline. 6)Mina-add exclusion criteria to Methods-Fri afternoon."
+   ],
+   "removed": []
+  },
+  {
+   "n": 6,
+   "round": 2,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Got 4-6. Please continue with 7-9.",
+   "kept": [
+    "Got 4-6. Please continue with 7-9."
+   ],
+   "removed": []
+  },
+  {
+   "n": 7,
+   "round": 3,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "7)Omar-response-letter para subgroup analysis-Monday. 8)Priya-update Data Availability stmt accession #s-before submission. 9)Ravi-revise Fig3 CI-June14.",
+   "kept": [
+    "7)Omar-response-letter para subgroup analysis-Monday. 8)Priya-update Data Availability stmt accession #s-before submission. 9)Ravi-revise Fig3 CI-June14."
+   ],
+   "removed": []
+  },
+  {
+   "n": 8,
+   "round": 3,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Got 7-9. #5 and #9 both mention Ravi/Fig3/CI - are these two distinct source sentences, or could one be a duplicate/same requirement counted twice?",
+   "kept": [
+    "Got 7-9. #5 and #9 both mention Ravi/Fig3/CI - are these two distinct source sentences, or could one be a duplicate/same requirement counted twice?"
+   ],
+   "removed": []
+  },
+  {
+   "n": 9,
+   "round": 4,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Yes, 2 distinct source sentences confirmed via read_source: one \"before journal resubmission deadline\", other \"on June 14\". For verdict: send 2-3 full example texts + 1 excluded example w/ reason.",
+   "kept": [
+    "Yes, 2 distinct source sentences confirmed via read_source: one \"before journal resubmission deadline\", other \"on June 14\". send 2-3 full example texts + 1 excluded example w/ reason."
+   ],
+   "removed": [
+    {
+     "text": "For verdict: ",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "round": 4,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Ex1: \"Aunt Lina will pick up Dad's BP refill before 6PM today.\" Ex2: \"Ben will drive Nina to PT at 8:30AM Thu.\" Excluded: Omar's tea suggestion, unaccepted.",
+   "kept": [
+    "Ex1: \"Aunt Lina will pick up Dad's BP refill before 6PM today.\" Ex2: \"Ben will drive Nina to PT at 8:30AM Thu.\" Excluded: Omar's tea suggestion, unaccepted."
+   ],
+   "removed": []
+  }
+ ]
+}

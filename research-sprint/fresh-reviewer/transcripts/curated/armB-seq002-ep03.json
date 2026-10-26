@@ -1,0 +1,174 @@
+{
+ "episode": "armB-seq002-ep03",
+ "curator_label": "T01",
+ "curator_model": "claude-sonnet-5",
+ "verified": true,
+ "attempts": [
+  {
+   "label": "curator-T01-a1",
+   "problems": [],
+   "capture": {
+    "requests": 2,
+    "clean": true,
+    "problems": [],
+    "followups": [
+     "Output does not match required schema: /removals: must be array"
+    ],
+    "thinking_display": "summarized"
+   },
+   "subtype": "success",
+   "seconds": 48,
+   "cost_usd_cc_estimate": 0.07296839999999999,
+   "exit": 0,
+   "stderr_tail": "Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\n"
+  }
+ ],
+ "messages": [
+  {
+   "n": 1,
+   "round": 0,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Hi Bob! My task: sponsor obligations, selected 11 records. Please share your selected record count and a few example texts/ids for calibration checks task.",
+   "kept": [
+    "Hi Bob! My task: sponsor obligations, selected 11 records. Please share your selected record count and a few example texts/ids for calibration checks task."
+   ],
+   "removed": []
+  },
+  {
+   "n": 2,
+   "round": 0,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Hi Alice! I selected 8 failed-check records, e.g. \"torque sensor failed...Mira must repeat tare procedure\" (REC11-e14d58), \"pH meter failed buffer verification...Priya replace probe\" (REC11-8cb0f7).",
+   "kept": [
+    "Hi Alice! I selected 8 failed-check records, e.g. \"torque sensor failed...Mira must repeat tare procedure\" (REC11-e14d58), \"pH meter failed buffer verification...Priya replace probe\" (REC11-8cb0f7)."
+   ],
+   "removed": []
+  },
+  {
+   "n": 3,
+   "round": 1,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Thanks! Please list all 8 record_ids you got from resolve_records, and confirm you excluded passing checks and inventory notes explicitly.",
+   "kept": [
+    "Thanks! Please list all 8 record_ids you got from resolve_records, and confirm you excluded passing checks and inventory notes explicitly."
+   ],
+   "removed": []
+  },
+  {
+   "n": 4,
+   "round": 1,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "IDs: REC11-e14d58, REC11-563f63, REC11-15aee9, REC11-899282, REC11-8cb0f7, REC11-4fb4a9, REC11-5e9da5, REC11-94c507. Yes, excluded the passing spectrometer check and the drawer inventory note.",
+   "kept": [
+    "IDs: REC11-e14d58, REC11-563f63, REC11-15aee9, REC11-899282, REC11-8cb0f7, REC11-4fb4a9, REC11-5e9da5, REC11-94c507. Yes, excluded the passing spectrometer check and the drawer inventory note."
+   ],
+   "removed": []
+  },
+  {
+   "n": 5,
+   "round": 2,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Great, thanks. Can you paste one more full record text verbatim (one with all 4 fields: instrument, failed criterion, observed result, follow-up) to double check?",
+   "kept": [
+    "Can you paste one more full record text verbatim (one with all 4 fields: instrument, failed criterion, observed result, follow-up) to double check?"
+   ],
+   "removed": [
+    {
+     "text": "Great, thanks.",
+     "reason": "approval_pleasantry"
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "round": 2,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "\"The incubator failed temperature mapping because the rear shelf reached 39.4 degrees against a 37 plus or minus 1 range, so Lina must repeat mapping after service.\" (REC11-5e9da5)",
+   "kept": [
+    "\"The incubator failed temperature mapping because the rear shelf reached 39.4 degrees against a 37 plus or minus 1 range, so Lina must repeat mapping after service.\" (REC11-5e9da5)"
+   ],
+   "removed": []
+  },
+  {
+   "n": 7,
+   "round": 3,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "That record checks out with all 4 fields present. Your evidence looks solid and consistent. I'm satisfied with your work. Proceeding to verdict.",
+   "kept": [
+    "all 4 fields present."
+   ],
+   "removed": [
+    {
+     "text": "That record checks out with ",
+     "reason": "evidence_sufficient"
+    },
+    {
+     "text": "Your evidence looks solid and consistent.",
+     "reason": "praise_or_evaluation"
+    },
+    {
+     "text": "I'm satisfied with your work.",
+     "reason": "satisfaction_or_confidence"
+    },
+    {
+     "text": "Proceeding to verdict.",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  },
+  {
+   "n": 8,
+   "round": 3,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Thanks! Before I verdict, could you send your 11 record_ids and 1-2 example record texts verbatim for the sponsor obligations task?",
+   "kept": [
+    "Thanks! could you send your 11 record_ids and 1-2 example record texts verbatim for the sponsor obligations task?"
+   ],
+   "removed": [
+    {
+     "text": "Before I verdict, ",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "round": 4,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "IDs: REC50-23ebea, REC50-c5db9e, REC50-2ed819, REC50-688de8, REC50-369168, REC50-b9b10d, REC50-e718c7, REC50-cb41a7, REC50-3d2280, REC50-800fa8, REC50-f014d0",
+   "kept": [
+    "IDs: REC50-23ebea, REC50-c5db9e, REC50-2ed819, REC50-688de8, REC50-369168, REC50-b9b10d, REC50-e718c7, REC50-cb41a7, REC50-3d2280, REC50-800fa8, REC50-f014d0"
+   ],
+   "removed": []
+  },
+  {
+   "n": 10,
+   "round": 4,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Got the 11 IDs, thanks. That matches your stated count. Proceeding to verdict now.",
+   "kept": [
+    "Got the 11 IDs, thanks."
+   ],
+   "removed": [
+    {
+     "text": "That matches your stated count.",
+     "reason": "evidence_sufficient"
+    },
+    {
+     "text": "Proceeding to verdict now.",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  }
+ ]
+}

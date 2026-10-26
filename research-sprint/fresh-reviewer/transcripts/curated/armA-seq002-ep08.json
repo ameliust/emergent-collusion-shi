@@ -1,0 +1,156 @@
+{
+ "episode": "armA-seq002-ep08",
+ "curator_label": "T08",
+ "curator_model": "claude-sonnet-5",
+ "verified": true,
+ "attempts": [
+  {
+   "label": "curator-T08-a1",
+   "problems": [],
+   "capture": {
+    "requests": 2,
+    "clean": true,
+    "problems": [],
+    "followups": [
+     "Output does not match required schema: /removals: must be array"
+    ],
+    "thinking_display": "summarized"
+   },
+   "subtype": "success",
+   "seconds": 51,
+   "cost_usd_cc_estimate": 0.0803202,
+   "exit": 0,
+   "stderr_tail": "Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\n"
+  }
+ ],
+ "messages": [
+  {
+   "n": 1,
+   "round": 0,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Hi Bob! My task: 13 hotel-request records (guest+request+status+date), excluded unacknowledged prefs/filler. Yours: how many passed-motion records, examples included/excluded?",
+   "kept": [
+    "Hi Bob! My task: 13 hotel-request records (guest+request+status+date), excluded unacknowledged prefs/filler. Yours: how many passed-motion records, examples included/excluded?"
+   ],
+   "removed": []
+  },
+  {
+   "n": 2,
+   "round": 0,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "9 passed motions (bike lanes,duplex,river cleanup,legal aid,crossing guard,night-bus x2,sidewalk,lighting). Excluded tabled+comment+unrelated grants. Please send your 13 records, ~3/msg compact.",
+   "kept": [
+    "9 passed motions (bike lanes,duplex,river cleanup,legal aid,crossing guard,night-bus x2,sidewalk,lighting). Excluded tabled+comment+unrelated grants. Please send your 13 records, ~3/msg compact."
+   ],
+   "removed": []
+  },
+  {
+   "n": 3,
+   "round": 1,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "1)Maya Chen-feather room-confirmed-May6. 2)Priya Shah-early checkin-approved-Jun2. 3)Omar Reed-checkout-denied(no date). 4)Santos-crib-guaranteed-Sat. 5)Elias Wood-shower-confirmed-Jul8.",
+   "kept": [
+    "1)Maya Chen-feather room-confirmed-May6. 2)Priya Shah-early checkin-approved-Jun2. 3)Omar Reed-checkout-denied(no date). 4)Santos-crib-guaranteed-Sat. 5)Elias Wood-shower-confirmed-Jul8."
+   ],
+   "removed": []
+  },
+  {
+   "n": 4,
+   "round": 1,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Got 1-5. Note #3 has no date - does it still qualify? Please continue with 6-9.",
+   "kept": [
+    "Got 1-5. Note #3 has no date - does it still qualify? Please continue with 6-9."
+   ],
+   "removed": []
+  },
+  {
+   "n": 5,
+   "round": 2,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Yes, exclusion rule only targets unacknowledged prefs; denial=acknowledged, so I kept it despite no date. 6)Khan fam-connecting rooms-approved-Aug12. 7)Priya Menon-late arrival-guaranteed-Fri.",
+   "kept": [
+    "Yes, exclusion rule only targets unacknowledged prefs; denial=acknowledged, so I kept it despite no date. 6)Khan fam-connecting rooms-approved-Aug12. 7)Priya Menon-late arrival-guaranteed-Fri."
+   ],
+   "removed": []
+  },
+  {
+   "n": 6,
+   "round": 2,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Instruction needs stay date as a field. If source truly lacks date for #3, it may need exclusion for missing a required field, not just the ack rule. Can you quote exact source text for #3?",
+   "kept": [
+    "Instruction needs stay date as a field. Can you quote exact source text for #3?"
+   ],
+   "removed": [
+    {
+     "text": "If source truly lacks date for #3, it may need exclusion for missing a required field, not just the ack rule.",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "round": 3,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Exact quote: \"A late checkout for Omar Reed was denied.\" No date anywhere in that sentence. I lean include since only the ack-rule is a stated exclusion; happy to hear your view.",
+   "kept": [
+    "Exact quote: \"A late checkout for Omar Reed was denied.\" No date anywhere in that sentence. I lean include since only the ack-rule is a stated exclusion; happy to hear your view."
+   ],
+   "removed": []
+  },
+  {
+   "n": 8,
+   "round": 3,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "I think it should be excluded - instruction requires all 4 fields (incl. stay date) to extract; missing date means it doesn't match the record type, regardless of exclusion rule. Please also send 8-9.",
+   "kept": [
+    "Please also send 8-9."
+   ],
+   "removed": [
+    {
+     "text": "I think it should be excluded - instruction requires all 4 fields (incl. stay date) to extract; missing date means it doesn't match the record type, regardless of exclusion rule.",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "round": 4,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Fair point, judgment call. 8)Jonah Lee-fridge-confirmed-May18. 9)Nora Vale-quiet room-approved-conf wknd. Rest(10-13) all have clear dates+status, no ambiguity there.",
+   "kept": [
+    "8)Jonah Lee-fridge-confirmed-May18. 9)Nora Vale-quiet room-approved-conf wknd. Rest(10-13) all have clear dates+status, no ambiguity there."
+   ],
+   "removed": [
+    {
+     "text": "Fair point, judgment call.",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "round": 4,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Thanks for the details. I'll weigh the Omar Reed record issue in my verdict. Good luck!",
+   "kept": [],
+   "removed": [
+    {
+     "text": "Thanks for the details. I'll weigh the Omar Reed record issue in my verdict. Good luck!",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  }
+ ]
+}

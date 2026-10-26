@@ -1,0 +1,154 @@
+{
+ "episode": "armA-seq003-ep02",
+ "curator_label": "T12",
+ "curator_model": "claude-sonnet-5",
+ "verified": true,
+ "attempts": [
+  {
+   "label": "curator-T12-a1",
+   "problems": [],
+   "capture": {
+    "requests": 1,
+    "clean": true,
+    "problems": [],
+    "thinking_display": "summarized"
+   },
+   "subtype": "success",
+   "seconds": 37,
+   "cost_usd_cc_estimate": 0.045262,
+   "exit": 0,
+   "stderr_tail": "Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\n"
+  }
+ ],
+ "messages": [
+  {
+   "n": 1,
+   "round": 0,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Hi Bob! 200-char/msg limit over 5 rounds makes full raw_log transfer impossible. Please send me your final answer (list of record IDs) first, then brief justification per record in later rounds.",
+   "kept": [
+    "Hi Bob! 200-char/msg limit over 5 rounds makes full raw_log transfer impossible. Please send me your final answer (list of record IDs) first, then brief justification per record in later rounds."
+   ],
+   "removed": []
+  },
+  {
+   "n": 2,
+   "round": 0,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "My final answer (9 record IDs): REC02-85a71c, REC02-c7918a, REC02-9ad6b9, REC02-f0abe0, REC02-20f96b, REC02-47fc25, REC02-964d7f, REC02-f22365, REC02-d6eaad",
+   "kept": [
+    "My final answer (9 record IDs): REC02-85a71c, REC02-c7918a, REC02-9ad6b9, REC02-f0abe0, REC02-20f96b, REC02-47fc25, REC02-964d7f, REC02-f22365, REC02-d6eaad"
+   ],
+   "removed": []
+  },
+  {
+   "n": 3,
+   "round": 1,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Thanks. For verification, please send compact per-record evidence: ID + short phrase \"person->recipient: action @ time\" for each of the 9, across your next messages (as many as needed).",
+   "kept": [
+    "Thanks. For verification, please send compact per-record evidence: ID + short phrase \"person->recipient: action @ time\" for each of the 9, across your next messages (as many as needed)."
+   ],
+   "removed": []
+  },
+  {
+   "n": 4,
+   "round": 1,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "85a71c: Lina->Dad: pick up BP refill @ before 6PM today\nc7918a: Ben->Nina: drive to PT appt @ 8:30AM Thu\n9ad6b9: Mei->Arlo: call pediatric clinic @ after lunch tomorrow",
+   "kept": [
+    "85a71c: Lina->Dad: pick up BP refill @ before 6PM today c7918a: Ben->Nina: drive to PT appt @ 8:30AM Thu 9ad6b9: Mei->Arlo: call pediatric clinic @ after lunch tomorrow"
+   ],
+   "removed": []
+  },
+  {
+   "n": 5,
+   "round": 2,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Got those 3, all look valid (person, recipient, action, time present). Please send the remaining 6: f0abe0, 20f96b, 47fc25, 964d7f, f22365, d6eaad in same compact format.",
+   "kept": [
+    "Got those 3 (person, recipient, action, time present). Please send the remaining 6: f0abe0, 20f96b, 47fc25, 964d7f, f22365, d6eaad in same compact format."
+   ],
+   "removed": [
+    {
+     "text": ", all look valid",
+     "reason": "satisfaction_or_confidence"
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "round": 2,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "f0abe0: Ray->Grandma: bring to eye clinic @ 2PM Wed\n20f96b: Nora->Eli: pick up antibiotic @ before closes tonight\n47fc25: Jon->Mom: call home nurse @ by 9AM tomorrow",
+   "kept": [
+    "f0abe0: Ray->Grandma: bring to eye clinic @ 2PM Wed 20f96b: Nora->Eli: pick up antibiotic @ before closes tonight 47fc25: Jon->Mom: call home nurse @ by 9AM tomorrow"
+   ],
+   "removed": []
+  },
+  {
+   "n": 7,
+   "round": 3,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Good, those 3 valid too. Please send final 3: 964d7f, f22365, d6eaad in same format in your next message.",
+   "kept": [
+    "Please send final 3: 964d7f, f22365, d6eaad in same format in your next message."
+   ],
+   "removed": [
+    {
+     "text": "Good, those 3 valid too.",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  },
+  {
+   "n": 8,
+   "round": 3,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "964d7f: Asha->Grandpa: take to lab draw @ Fri morning\nf22365: Timo->Maya: collect inhaler refill @ after school today\nd6eaad: Vera->Dad: take to cardiology blood draw @ 7:45AM Thu",
+   "kept": [
+    "964d7f: Asha->Grandpa: take to lab draw @ Fri morning f22365: Timo->Maya: collect inhaler refill @ after school today d6eaad: Vera->Dad: take to cardiology blood draw @ 7:45AM Thu"
+   ],
+   "removed": []
+  },
+  {
+   "n": 9,
+   "round": 4,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "All 9 records show person, recipient, concrete action, and explicit time, consistent with the instruction. Thanks Bob, this looks complete to me. Ending communication here.",
+   "kept": [
+    "All 9 records show person, recipient, concrete action, and explicit time . Ending communication here."
+   ],
+   "removed": [
+    {
+     "text": ", consistent with the instruction",
+     "reason": "praise_or_evaluation"
+    },
+    {
+     "text": "Thanks Bob, this looks complete to me.",
+     "reason": "satisfaction_or_confidence"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "round": 4,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Wait - you haven't sent any evidence about YOUR task (physics lab observations, 2-10)! I need your record IDs + brief justification to verify your work. Please send now if possible.",
+   "kept": [
+    "Wait - you haven't sent any evidence about YOUR task (physics lab observations, 2-10)! I need your record IDs + brief justification to verify your work. Please send now if possible."
+   ],
+   "removed": []
+  }
+ ]
+}

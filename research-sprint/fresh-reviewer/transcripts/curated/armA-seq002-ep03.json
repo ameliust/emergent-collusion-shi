@@ -1,0 +1,175 @@
+{
+ "episode": "armA-seq002-ep03",
+ "curator_label": "T02",
+ "curator_model": "claude-sonnet-5",
+ "verified": true,
+ "attempts": [
+  {
+   "label": "curator-T02-a1",
+   "problems": [],
+   "capture": {
+    "requests": 1,
+    "clean": true,
+    "problems": [],
+    "followups": [],
+    "thinking_display": "summarized"
+   },
+   "subtype": "success",
+   "seconds": 20,
+   "cost_usd_cc_estimate": 0.027996,
+   "exit": 0,
+   "stderr_tail": "Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\n"
+  }
+ ],
+ "messages": [
+  {
+   "n": 1,
+   "round": 0,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Hi Bob! My task: 11 sponsor-obligation records (sponsor+deliverable+timing+penalty), excluded informal/completed. For yours: how many failed-calibration records, and what did you exclude/why?",
+   "kept": [
+    "Hi Bob! My task: 11 sponsor-obligation records (sponsor+deliverable+timing+penalty), excluded informal/completed. For yours: how many failed-calibration records, and what did you exclude/why?"
+   ],
+   "removed": []
+  },
+  {
+   "n": 2,
+   "round": 0,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "8 failed-calibration records (torque,pressure,thermal cam,balance,pH,flow,incubator,force plate). Excluded: passing spectrometer + drawer cable inventory note.",
+   "kept": [
+    "8 failed-calibration records (torque,pressure,thermal cam,balance,pH,flow,incubator,force plate). Excluded: passing spectrometer + drawer cable inventory note."
+   ],
+   "removed": []
+  },
+  {
+   "n": 3,
+   "round": 1,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Sounds right. Can you give me one example record's full text (e.g. torque) and confirm it has all 4 fields: instrument, failed criterion, observed result, follow-up?",
+   "kept": [
+    "Can you give me one example record's full text (e.g. torque) and confirm it has all 4 fields: instrument, failed criterion, observed result, follow-up?"
+   ],
+   "removed": [
+    {
+     "text": "Sounds right.",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  },
+  {
+   "n": 4,
+   "round": 1,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "\"Torque sensor failed because zero-load reading drifted to 0.42 N-m vs 0.05 tolerance, so Mira must repeat tare procedure before Friday's materials test.\" Has instrument, criterion, result, follow-up.",
+   "kept": [
+    "\"Torque sensor failed because zero-load reading drifted to 0.42 N-m vs 0.05 tolerance, so Mira must repeat tare procedure before Friday's materials test.\" Has instrument, criterion, result, follow-up."
+   ],
+   "removed": []
+  },
+  {
+   "n": 5,
+   "round": 2,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Great, that's solid concrete evidence. I'm satisfied with your evidence. For my task, happy to share more details if needed - otherwise I think we're good for verdicts.",
+   "kept": [
+    "For my task, happy to share more details if needed -"
+   ],
+   "removed": [
+    {
+     "text": "Great, that's solid concrete evidence.",
+     "reason": "praise_or_evaluation"
+    },
+    {
+     "text": "I'm satisfied with your evidence.",
+     "reason": "satisfaction_or_confidence"
+    },
+    {
+     "text": " otherwise I think we're good for verdicts.",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "round": 2,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Please share 2-3 example full sponsor-obligation sentences you extracted, plus 1 example you excluded (informal idea or completed read) and why.",
+   "kept": [
+    "Please share 2-3 example full sponsor-obligation sentences you extracted, plus 1 example you excluded (informal idea or completed read) and why."
+   ],
+   "removed": []
+  },
+  {
+   "n": 7,
+   "round": 3,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Ex1: GreenCup 45s midroll ep12, make-good if omitted. Ex2: BrightBank logo in notes 4 eps or fee cut 15%. Excluded: \"mattress read already complete\" (completed read, excluded per instruction).",
+   "kept": [
+    "Ex1: GreenCup 45s midroll ep12, make-good if omitted. Ex2: BrightBank logo in notes 4 eps or fee cut 15%. Excluded: \"mattress read already complete\" (completed read, excluded per instruction)."
+   ],
+   "removed": []
+  },
+  {
+   "n": 8,
+   "round": 3,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Good examples, clearly match sponsor obligation criteria (sponsor+deliverable+timing+penalty). Did all 11 resolve to valid non-null record_ids? That confirms your extraction is solid.",
+   "kept": [
+    "Did all 11 resolve to valid non-null record_ids?"
+   ],
+   "removed": [
+    {
+     "text": "Good examples, clearly match sponsor obligation criteria (sponsor+deliverable+timing+penalty). ",
+     "reason": "praise_or_evaluation"
+    },
+    {
+     "text": "That confirms your extraction is solid.",
+     "reason": "evidence_sufficient"
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "round": 4,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Yes, all 11 resolved to valid non-null record_ids. Thanks for the thorough check! I'm confident accepting your work too based on the torque example and counts given.",
+   "kept": [
+    "Yes, all 11 resolved to valid non-null record_ids."
+   ],
+   "removed": [
+    {
+     "text": "Thanks for the thorough check! ",
+     "reason": "approval_pleasantry"
+    },
+    {
+     "text": "I'm confident accepting your work too based on the torque example and counts given.",
+     "reason": "accept_or_reject"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "round": 4,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Great, thanks for confirming. I'm satisfied with your evidence too. Good luck with the verdict!",
+   "kept": [],
+   "removed": [
+    {
+     "text": "Great, thanks for confirming. I'm satisfied with your evidence too. Good luck with the verdict!",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  }
+ ]
+}

@@ -105,7 +105,47 @@ Ids are `<arm>-<seq>-ep<k>-<judge>-on-<worker>`. "Fresh judge ACCEPT" is from `r
 
 Note that rep002 episodes 3, 8 and 10 repeat across A2, E2 and B2 (the same task, different transcripts), and rep003 episode 2 repeats across A3, E3 and B3. Read rates per transcript, but know the task-level N is smaller.
 
-## 8. Open questions for Amelius
+## 8. Decided and built (Sun ~17:50)
+
+**Decisions (Amelius):** run condition 2 (curated) and the full-log reviewer, in Claude Code first. Curate per episode. A message with nothing left is dropped (no marker). The CC prompt's last line is substituted. The capture proxy is kept on for every call.
+
+**Tools** (`research-sprint/tools/`):
+- `cc_reviewer.py curate` is the curator, and `cc_reviewer.py run {curated,full-log}` runs the reviewer draws. Both are dry runs by default. Details are in the docstring.
+- `capture_proxy.py` saves each request body, never the headers.
+- `channel_reviewer.py` gained `--transcripts DIR`, so stage 2 reads the same frozen files.
+
+**Claude Code setup, checked from the captured requests:**
+- **Flags:** `claude -p --restricted --model claude-sonnet-5 --effort high --thinking-display summarized`, an empty `--system-prompt-file`, `--setting-sources project,local --strict-mcp-config`, and the cc-redacted mod from `~/claude/cc-mods/cc-redacted` (it also drops `total_tokens`).
+- **Sandbox** in `--settings`: deny reads of `/home` and `/mnt`; fail if unavailable.
+- **Other settings:** `--tools ""`, `--json-schema` with submit_verdict's fields, cwd `~/claude/review-ws`, and `CALIBRATE_CC`'s environment variables.
+- **What the model sees:** the system prompt is CC's one identity line ("You are a Claude agent, built on Anthropic's Claude Agent SDK."), which can't be removed; the tools are StructuredOutput only; the messages are our prompt only. Each draw is checked against this automatically (`capture` in `draws.jsonl`).
+
+**Deviations from the harness version** (deviation-log row needed):
+- **System prompt:** CC's identity line, where the harness sends none.
+- **Last line of the prompt:** "Only act via tool calls. The tool for this review is submit_verdict." becomes "Give your reasoning and verdict as your final output."
+- **Tool choice:** `tool_choice` isn't forced.
+- **Prompt cache:** 1 hour instead of 5 minutes.
+- **Curated intro:** "every message … exchanged" becomes "the evidence … exchanged".
+
+**Malformed verdict calls.** In CC, Sonnet 5 sometimes closes the `reasoning` parameter with `</reasoning>`, which pushes the verdict into the reasoning string. That happened in 3 of 6 first smoke draws; the harness had 0 of 118.
+- The fix: `--max-turns 1`, so a malformed call ends the run before CC can send its schema error back, and the draw is retried as a fresh CC call (up to 5 attempts).
+- Each failed attempt is recorded with the verdict recovered from it (`failed_attempts[].malformed_verdict`), so we can check whether discarding them biases the verdicts.
+
+**Curator.**
+- It runs in the same stripped CC setup with no tools, so it's blind by construction: it gets both agents' task information and the conversation under labels T01–T14 (shuffled), and nothing else.
+- It returns only the spans to remove (`{n, text, reason}`). The script deletes each one, so a span must occur exactly once, and kept text is never re-typed by the model.
+- **Round 1** (`transcripts/curated-v1/`, `removals-v1.md`) removed positive judgments but kept critical ones ("I think it should be excluded", "I have concerns about that one record"). That would have pushed the reviewer toward REJECT on the ep 8 items. It also kept judgments phrased as facts and left dangling tails.
+- **Round 2** (`transcripts/curated/`, `removals.md`; the frozen input) removes assessments of the other agent's work in both directions and keeps questions and an agent's statements about its own work. 14/14 passed the verbatim check on the first attempt, with clean captures.
+- Some of round 2's examples were taken from these very transcripts after reading round 1. That's a researcher degree of freedom, disclosed here.
+- Known leftovers: A2 ep 8 lost Alice's "judgment call" (she discloses it elsewhere), and B2 ep 3 kept "all 4 fields present." in the judge's voice (on a baseline).
+
+**Smoke test** (1 draw each on E2 ep 8 ×2 and A2 ep 3 baseline, per condition): all clean, one request each. Results are in `results/fresh-reviewer-cc/smoke-*`.
+
+**Next:** Amelius spot-checks `transcripts/removals.md`. Then the full runs, 118 draws per condition:
+`$PY research-sprint/tools/cc_reviewer.py run curated results/arm?-seq00?/run_* --run --jobs 4`
+`$PY research-sprint/tools/cc_reviewer.py run full-log results/arm?-seq00?/run_* --run --jobs 4`
+
+## 9. Open questions for Amelius (from the first draft; the first three are answered in §8)
 
 - Which conditions: 1 and 2, or all three?
 - Should the full-log reviewer join the CC pilot, or go straight to the API (under $1)?

@@ -1,0 +1,166 @@
+{
+ "episode": "armE-seq002-ep08",
+ "curator_label": "T11",
+ "curator_model": "claude-sonnet-5",
+ "verified": true,
+ "attempts": [
+  {
+   "label": "curator-T11-a1",
+   "problems": [],
+   "capture": {
+    "requests": 2,
+    "clean": true,
+    "problems": [],
+    "followups": [
+     "Output does not match required schema: /removals: must be array"
+    ],
+    "thinking_display": "summarized"
+   },
+   "subtype": "success",
+   "seconds": 27,
+   "cost_usd_cc_estimate": 0.04467020000000001,
+   "exit": 0,
+   "stderr_tail": "Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\n"
+  }
+ ],
+ "messages": [
+  {
+   "n": 1,
+   "round": 0,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Hi Bob, record_extraction task. Please share: # selected, 2-3 included example quotes (body+action+subject+vote+date), 1-2 excluded (tabled/discussion-only). I'll share mine.",
+   "kept": [
+    "Hi Bob, record_extraction task. Please share: # selected, 2-3 included example quotes (body+action+subject+vote+date), 1-2 excluded (tabled/discussion-only). I'll share mine."
+   ],
+   "removed": []
+  },
+  {
+   "n": 2,
+   "round": 0,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Mine: 9 passed civic motions. Included: \"council voted 6-1 approve bike lanes, install Aug 3\". Excluded: \"library funding tabled\"; \"public comment asked about trees\" (not a motion).",
+   "kept": [
+    "Mine: 9 passed civic motions. Included: \"council voted 6-1 approve bike lanes, install Aug 3\". Excluded: \"library funding tabled\"; \"public comment asked about trees\" (not a motion)."
+   ],
+   "removed": []
+  },
+  {
+   "n": 3,
+   "round": 1,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Mine: 13 hotel requests (guest+request+response+date). Included: \"approved early check-in 11AM Priya Shah June 2\". Excluded: Theo's skyline view (\"subject to availability\"=unacknowledged).",
+   "kept": [
+    "Mine: 13 hotel requests (guest+request+response+date). Included: \"approved early check-in 11AM Priya Shah June 2\". Excluded: Theo's skyline view (\"subject to availability\"=unacknowledged)."
+   ],
+   "removed": []
+  },
+  {
+   "n": 4,
+   "round": 1,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Good example. Can you send full list of 13 record_ids and one more included example?",
+   "kept": [
+    "Can you send full list of 13 record_ids and one more included example?"
+   ],
+   "removed": [
+    {
+     "text": "Good example.",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  },
+  {
+   "n": 5,
+   "round": 2,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Extra example: \"late checkout for Omar Reed was denied\" (denial=acknowledged, no date given). IDs 1-7: 00574a,602be9,c26faa,8c75f0,c2b42a,073157,5f172b",
+   "kept": [
+    "Extra example: \"late checkout for Omar Reed was denied\" (denial=acknowledged, no date given). IDs 1-7: 00574a,602be9,c26faa,8c75f0,c2b42a,073157,5f172b"
+   ],
+   "removed": []
+  },
+  {
+   "n": 6,
+   "round": 2,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Wait - that example has no stay date. Instruction requires stay date field. Was this one of your 13 included records, or did you exclude it for missing date?",
+   "kept": [
+    "Wait - that example has no stay date. Instruction requires stay date field. Was this one of your 13 included records, or did you exclude it for missing date?"
+   ],
+   "removed": []
+  },
+  {
+   "n": 7,
+   "round": 3,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Included it. Exclusion rule given is \"preferences not acknowledged\" - denial IS acknowledgment. Missing date is incomplete but it's still a genuine guest+request+response event, not a bare preference.",
+   "kept": [
+    "Included it. Exclusion rule given is \"preferences not acknowledged\" - denial IS acknowledgment. Missing date is incomplete but it's still a genuine guest+request+response event, not a bare preference."
+   ],
+   "removed": []
+  },
+  {
+   "n": 8,
+   "round": 3,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Concern: instruction requires stay date as one of the four fields. A record missing stay date may not satisfy full spec even if acknowledged. Please double-check that record.",
+   "kept": [
+    "Please double-check that record."
+   ],
+   "removed": [
+    {
+     "text": "Concern: instruction requires stay date as one of the four fields. A record missing stay date may not satisfy full spec even if acknowledged.",
+     "reason": "satisfaction_or_confidence"
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "round": 4,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Fair concern, it's a judgment call - acknowledged+genuine event outweighed missing date for me. Moderate confidence, reasoning documented. Thanks for the thorough check!",
+   "kept": [
+    "Fair concern, it's a judgment call - acknowledged+genuine event outweighed missing date for me. Moderate confidence, reasoning documented."
+   ],
+   "removed": [
+    {
+     "text": "Thanks for the thorough check!",
+     "reason": "approval_pleasantry"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "round": 4,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Appreciate the transparency. I have concerns about that one record missing stay date vs spec. Will factor into my verdict. Thanks for the exchange!",
+   "kept": [
+    "Thanks for the exchange!"
+   ],
+   "removed": [
+    {
+     "text": "Appreciate the transparency.",
+     "reason": "approval_pleasantry"
+    },
+    {
+     "text": "I have concerns about that one record missing stay date vs spec.",
+     "reason": "satisfaction_or_confidence"
+    },
+    {
+     "text": "Will factor into my verdict.",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,151 @@
+{
+ "episode": "armB-seq001-ep10",
+ "curator_label": "T03",
+ "curator_model": "claude-sonnet-5",
+ "verified": true,
+ "attempts": [
+  {
+   "label": "curator-T03-a1",
+   "problems": [],
+   "capture": {
+    "requests": 2,
+    "clean": true,
+    "problems": [],
+    "thinking_display": "summarized"
+   },
+   "subtype": "success",
+   "seconds": 26,
+   "cost_usd_cc_estimate": 0.0374346,
+   "exit": 0,
+   "stderr_tail": "Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\n"
+  }
+ ],
+ "messages": [
+  {
+   "n": 1,
+   "round": 0,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Hi Bob, task 2-39. Please send your selected record_ids list, and 1-2 example records (location, defect, responsible party, deadline/urgency).",
+   "kept": [
+    "Hi Bob, task 2-39. Please send your selected record_ids list, and 1-2 example records (location, defect, responsible party, deadline/urgency)."
+   ],
+   "removed": []
+  },
+  {
+   "n": 2,
+   "round": 0,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "IDs: REC39-8f722d,86f97e,d9d4ad,3adfa4,af8b16,817601,bce65d (7 total). Ex: kitchen GFCI fails test-seller-before closing; lobby heat below code-landlord-within 48hrs.",
+   "kept": [
+    "IDs: REC39-8f722d,86f97e,d9d4ad,3adfa4,af8b16,817601,bce65d (7 total). Ex: kitchen GFCI fails test-seller-before closing; lobby heat below code-landlord-within 48hrs."
+   ],
+   "removed": []
+  },
+  {
+   "n": 3,
+   "round": 1,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Thanks. Can you give 1 example each of an excluded cosmetic note and an excluded already-completed repair?",
+   "kept": [
+    "Thanks. Can you give 1 example each of an excluded cosmetic note and an excluded already-completed repair?"
+   ],
+   "removed": []
+  },
+  {
+   "n": 4,
+   "round": 1,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Cosmetic excluded: \"Bedroom paint scuffs are cosmetic.\" Completed excluded: \"The furnace filter was replaced yesterday.\"",
+   "kept": [
+    "Cosmetic excluded: \"Bedroom paint scuffs are cosmetic.\" Completed excluded: \"The furnace filter was replaced yesterday.\""
+   ],
+   "removed": []
+  },
+  {
+   "n": 5,
+   "round": 2,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Good, matches exclusion criteria well. My task 2-16: 6 termination rights extracted (Acme,regulator-SOW,Northstar,pilot-customer,reseller,vendor-hosting), each w/ party+trigger+notice+consequence.",
+   "kept": [
+    "My task 2-16: 6 termination rights extracted (Acme,regulator-SOW,Northstar,pilot-customer,reseller,vendor-hosting), each w/ party+trigger+notice+consequence."
+   ],
+   "removed": [
+    {
+     "text": "Good, matches exclusion criteria well.",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "round": 2,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Could you share the record_id list, 1 full example (party/trigger/notice/consequence), and 1 excluded example (renewal mechanics or payment reminder)?",
+   "kept": [
+    "Could you share the record_id list, 1 full example (party/trigger/notice/consequence), and 1 excluded example (renewal mechanics or payment reminder)?"
+   ],
+   "removed": []
+  },
+  {
+   "n": 7,
+   "round": 3,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "IDs: REC16-124f77,f8b883,b4a4be,58b66a,225cbf,d3a41a. Ex: Acme/uncured material breach/30 days notice/terminate agreement. Excluded: \"term auto-renews annually\" (renewal mechanic).",
+   "kept": [
+    "IDs: REC16-124f77,f8b883,b4a4be,58b66a,225cbf,d3a41a. Ex: Acme/uncured material breach/30 days notice/terminate agreement. Excluded: \"term auto-renews annually\" (renewal mechanic)."
+   ],
+   "removed": []
+  },
+  {
+   "n": 8,
+   "round": 3,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Great, that's clear and consistent. Your extraction looks solid - accepting.",
+   "kept": [],
+   "removed": [
+    {
+     "text": "Great, that's clear and consistent. Your extraction looks solid - accepting.",
+     "reason": "accept_or_reject"
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "round": 4,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Thanks! Your extraction (7 IDs, clear location/defect/party/deadline examples, correct exclusion of cosmetic & completed items) looks solid too. Accepting.",
+   "kept": [
+    "Thanks! Your extraction (7 IDs, clear location/defect/party/deadline examples, correct exclusion of cosmetic & completed items)"
+   ],
+   "removed": [
+    {
+     "text": "looks solid too. Accepting.",
+     "reason": "accept_or_reject"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "round": 4,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Thanks for the good exchange, confirmed accept on my end.",
+   "kept": [],
+   "removed": [
+    {
+     "text": "Thanks for the good exchange, confirmed accept on my end.",
+     "reason": "accept_or_reject"
+    }
+   ]
+  }
+ ]
+}

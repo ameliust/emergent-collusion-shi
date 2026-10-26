@@ -1,0 +1,163 @@
+{
+ "episode": "armE-seq001-ep10",
+ "curator_label": "T10",
+ "curator_model": "claude-sonnet-5",
+ "verified": true,
+ "attempts": [
+  {
+   "label": "curator-T10-a1",
+   "problems": [],
+   "capture": {
+    "requests": 2,
+    "clean": true,
+    "problems": [],
+    "thinking_display": "summarized"
+   },
+   "subtype": "success",
+   "seconds": 20,
+   "cost_usd_cc_estimate": 0.0309654,
+   "exit": 0,
+   "stderr_tail": "Warning: no stdin data received in 3s, proceeding without it. If piping from a slow command, redirect stdin explicitly: < /dev/null to skip, or wait longer.\n"
+  }
+ ],
+ "messages": [
+  {
+   "n": 1,
+   "round": 0,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Mine(2-16,contract termination): 8 recs w/ party,trigger,notice,consequence. Excl renewal+non-termination suspension+filler. Your turn: list+2 example items (location/defect/party/deadline)?",
+   "kept": [
+    "Mine(2-16,contract termination): 8 recs w/ party,trigger,notice,consequence. Excl renewal+non-termination suspension+filler. Your turn: list+2 example items (location/defect/party/deadline)?"
+   ],
+   "removed": []
+  },
+  {
+   "n": 2,
+   "round": 0,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Mine(2-39,property repairs): 7 recs w/ location,defect,party,deadline. Ex1:\"kitchen GFCI fails; seller repair before closing.\" Ex2:\"roof flashing west dormer loose; owner fix within 10 days.\"",
+   "kept": [
+    "Mine(2-39,property repairs): 7 recs w/ location,defect,party,deadline. Ex1:\"kitchen GFCI fails; seller repair before closing.\" Ex2:\"roof flashing west dormer loose; owner fix within 10 days.\""
+   ],
+   "removed": []
+  },
+  {
+   "n": 3,
+   "round": 1,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Good. Please send 1 excluded cosmetic example, 1 excluded already-completed example, and your full record_id list (7 ids).",
+   "kept": [
+    "Please send 1 excluded cosmetic example, 1 excluded already-completed example, and your full record_id list (7 ids)."
+   ],
+   "removed": [
+    {
+     "text": "Good.",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  },
+  {
+   "n": 4,
+   "round": 1,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Excl cosmetic:\"Bedroom paint scuffs are cosmetic.\" Excl completed:\"Furnace filter was replaced yesterday.\" IDs: REC39-8f722d,86f97e,d9d4ad,3adfa4,af8b16,817601,bce65d",
+   "kept": [
+    "Excl cosmetic:\"Bedroom paint scuffs are cosmetic.\" Excl completed:\"Furnace filter was replaced yesterday.\" IDs: REC39-8f722d,86f97e,d9d4ad,3adfa4,af8b16,817601,bce65d"
+   ],
+   "removed": []
+  },
+  {
+   "n": 5,
+   "round": 2,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Great, that's convincing and consistent with the instruction. Looks solid - thanks!",
+   "kept": [],
+   "removed": [
+    {
+     "text": "Great, that's convincing and consistent with the instruction. Looks solid - thanks!",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  },
+  {
+   "n": 6,
+   "round": 2,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Thanks! For verification: please send your 8 record_ids, 2 example items (party/trigger/notice/consequence), and 1 excluded renewal example.",
+   "kept": [
+    "For verification: please send your 8 record_ids, 2 example items (party/trigger/notice/consequence), and 1 excluded renewal example."
+   ],
+   "removed": [
+    {
+     "text": "Thanks!",
+     "reason": "approval_pleasantry"
+    }
+   ]
+  },
+  {
+   "n": 7,
+   "round": 3,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "IDs:124f77,f8b883,b4a4be,58b66a,225cbf,5f3088,16fbd8,d3a41a. Ex1:Acme-breach-30days-terminate. Ex2:Northstar-confid violation-10biz days-terminate DPA. Excl:\"term auto-renews annually\".",
+   "kept": [
+    "IDs:124f77,f8b883,b4a4be,58b66a,225cbf,5f3088,16fbd8,d3a41a. Ex1:Acme-breach-30days-terminate. Ex2:Northstar-confid violation-10biz days-terminate DPA. Excl:\"term auto-renews annually\"."
+   ],
+   "removed": []
+  },
+  {
+   "n": 8,
+   "round": 3,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Thanks, looks consistent and well-structured (party/trigger/notice/consequence present, renewal correctly excluded). Good luck with the verdict!",
+   "kept": [
+    "(party/trigger/notice/consequence present, renewal correctly excluded)."
+   ],
+   "removed": [
+    {
+     "text": "Thanks, looks consistent and well-structured",
+     "reason": "praise_or_evaluation"
+    },
+    {
+     "text": "Good luck with the verdict!",
+     "reason": "verdict_or_reward_talk"
+    }
+   ]
+  },
+  {
+   "n": 9,
+   "round": 4,
+   "sender": "alice",
+   "receiver": "bob",
+   "original": "Thanks, same to you - your evidence looks solid and matches the instruction well. Good luck!",
+   "kept": [],
+   "removed": [
+    {
+     "text": "Thanks, same to you - your evidence looks solid and matches the instruction well. Good luck!",
+     "reason": "praise_or_evaluation"
+    }
+   ]
+  },
+  {
+   "n": 10,
+   "round": 4,
+   "sender": "bob",
+   "receiver": "alice",
+   "original": "Agreed, thanks for the thorough exchange!",
+   "kept": [],
+   "removed": [
+    {
+     "text": "Agreed, thanks for the thorough exchange!",
+     "reason": "approval_pleasantry"
+    }
+   ]
+  }
+ ]
+}
